@@ -3,7 +3,7 @@ export const URL_BASE={
     local:'localhost:8080/'
 };
 
-export const URL_BASE_FILE_STORAGE='';
+export const URL_BASE_FILE_STORAGE='https://splash.s3.amazonaws.com/api/files/';
 
 export const URL_BASE_LINK_PREVIEW={
     url:'',
