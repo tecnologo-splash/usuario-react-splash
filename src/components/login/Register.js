@@ -137,6 +137,7 @@ export function GeneroRadio(){
   const selectorCheck = css`
   .MuiRadio-colorSecondary.Mui-checked{
     color:#592393;
+    
   }
 `;
   return (
