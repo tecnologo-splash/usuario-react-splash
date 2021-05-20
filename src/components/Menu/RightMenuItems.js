@@ -17,16 +17,12 @@ import { PerfilAvatar } from "../Home/Perfil/PerfilAvatar";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import {StyledMenu,StyledMenuItem} from '../StyledMenus';
-import ContactsIcon from '@material-ui/icons/Contacts';
-import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
-import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
-import AddCommentIcon from '@material-ui/icons/AddComment';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-const estiloColor=css`
-    color:white;
-`;
 
 export default function RightMenuItems() {
+  
+const estiloColor=css`
+color:white;
+`;
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
 
@@ -39,9 +35,7 @@ export default function RightMenuItems() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleClose2 = () => {
-    setAnchorEl2(null);
-  };
+
 
   return (
     <div className="col-md-4 d-flex justify-content-end">

@@ -18,10 +18,13 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import EmailIcon from "@material-ui/icons/Email";
 import FormLabel from '@material-ui/core/FormLabel';
 import Typography from '@material-ui/core/Typography';
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 
 export function Register() {
   const [open, setOpen] = useState(false);
-
+  const [datosUsuario,setDatosUsuario]=useState({});
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -29,11 +32,8 @@ export function Register() {
   const handleClose = () => {
     setOpen(false);
   };
-  const [value, setValue] = useState("female");
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+
   return (
     <div>
       <Button variant="contained" fullWidth className="mt-2" size="large" onClick={handleClickOpen}>
@@ -47,94 +47,15 @@ export function Register() {
       >
         <DialogTitle id="form-dialog-title">Registro</DialogTitle>
         <DialogContent>
-          <Grid container spacing={2}  >
-            <Grid item xs={6}>
-              <TextField
-              fullWidth
-                variant="outlined"
-                label="Nombre"
-                color="primary"
-                type="text"
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircle />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-              fullWidth
-                variant="outlined"
-                label="Apellido"
-                color="primary"
-                type="text"
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircle />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
 
-            <Grid item xs={6} className="mt-3">
-              <TextField
-                variant="outlined"
-                label="Usauario"
-                color="primary"
-                type="text"
-                required
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircle />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} className="mt-3">
-              <TextField
-              fullWidth
-                variant="outlined"
-                label="Contraseña"
-                color="primary"
-                type="password"
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <VpnKeyIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} className="mt-3">
-              <TextField
-              fullWidth
-                variant="outlined"
-                label="Email"
-                color="primary"
-                type="text"
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <EmailIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} className="mt-3">
+
+          <Grid container spacing={2}  >
+          <CampoTexto Label="Nombre" Icon={<AccountCircle />}/>
+          <CampoTexto Label="Apellido" Icon={<AccountCircle />}/>
+          <CampoTexto Label="Usauario" Icon={<AccountCircle />}/>
+          <CampoTexto Label="Contraseña" Icon={<VpnKeyIcon />} Type="password"/>
+          <CampoTexto Label="Email" Icon={<EmailIcon />} Type="email"/>
+          <Grid item xs={6} className="mt-3">
               <TextField
               fullWidth
                 variant="outlined"
@@ -148,25 +69,7 @@ export function Register() {
               />
             </Grid>
             <Grid item xs={12} className="mt-1"> 
-            <FormLabel component="legend">Genero</FormLabel>
-
-              <RadioGroup row value={value} onChange={handleChange}>
-                <FormControlLabel
-                  value="mujer"
-                  control={<Radio />}
-                  label="Mujer"
-                />
-                <FormControlLabel
-                  value="hombre"
-                  control={<Radio />}
-                  label="Hombre"
-                />
-                <FormControlLabel
-                  value="otro"
-                  control={<Radio />}
-                  label="Otro"
-                />
-              </RadioGroup>
+              <GeneroRadio/>
             </Grid>
  
            <Grid item xs={12}> 
@@ -199,4 +102,64 @@ export function Register() {
       </Dialog>
     </div>
   );
+}
+export function CampoTexto({Label,Icon,Type="text"}){
+
+  return (
+    <Grid item xs={6} className="mt-3">
+    <TextField
+    fullWidth
+      variant="outlined"
+      label={Label}
+      color="primary"
+      type={Type}
+      required
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start" >
+            {Icon}
+          </InputAdornment>
+        ),
+      }}
+    />
+  </Grid>
+  )
+
+}
+
+export function GeneroRadio(){
+  const [value, setValue] = useState(null);
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  const selectorCheck = css`
+  .MuiRadio-colorSecondary.Mui-checked{
+    color:#592393;
+  }
+`;
+  return (
+<>
+    <FormLabel component="legend">Genero</FormLabel>
+
+    <RadioGroup row value={value} onChange={handleChange} css={selectorCheck}>
+      <FormControlLabel
+        value="Mujer"
+        control={<Radio />}
+        label="Mujer"
+      />
+      <FormControlLabel
+        value="Hombre"
+        control={<Radio />}
+        label="Hombre"
+      />
+      <FormControlLabel
+        value="Otro"
+        control={<Radio />}
+        label="Otro"
+      />
+    </RadioGroup>
+    </>
+  )
 }

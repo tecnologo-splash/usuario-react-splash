@@ -1,11 +1,11 @@
 export const URL_BASE={
-    prod:'',
-    local:''
+    prod:'https://tecnologo-splash-api.herokuapp.com/',
+    local:'localhost:8080/'
 };
 
-export const URL_FILE_STORAGE='';
+export const URL_BASE_FILE_STORAGE='';
 
-export const LINK_PREVIEW={
+export const URL_BASE_LINK_PREVIEW={
     url:'',
     apiKey:''
 };
