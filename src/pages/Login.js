@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 
 
 import { withStyles } from "@material-ui/core/styles";
-import { LoginForm } from "../components/login/LoginForm";
+import { LoginForm } from "../components/login/Login/LoginForm";
 
 export default function Login() {
 

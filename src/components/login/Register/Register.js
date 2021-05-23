@@ -23,7 +23,16 @@ import { css } from "@emotion/react";
 
 export function Register() {
   const [open, setOpen] = useState(false);
-  const [datosUsuario,setDatosUsuario]=useState({});
+
+  const [datosUsuario,setDatosUsuario]=useState({
+    nombre:null,
+    apellido:null,
+    usuario:null,
+    password:null,
+    email:null,
+    fecha_nacimiento:null,
+    genero:null
+  });
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -137,7 +146,6 @@ export function GeneroRadio(){
   const selectorCheck = css`
   .MuiRadio-colorSecondary.Mui-checked{
     color:#592393;
-    
   }
 `;
   return (

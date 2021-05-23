@@ -1,7 +1,7 @@
 import {URL_BASE} from '../config/api/settings';
 
 async function request({url, method, data}) {
-    const response = await fetch(`${URL_BASE.local}${url}`, {
+    const response= await fetch(`${URL_BASE.prod}${url}`, {
       method,
       headers: {
         Authorization: window.sessionStorage.getItem("token-splash"),
@@ -9,16 +9,12 @@ async function request({url, method, data}) {
         "Content-Type": "application/JSON",
       },
       body: data ? JSON.stringify(data) : undefined,
-    });
-    const jsonResponse = await response.json();
-    if (!response.status === 200) {
-      console.log("Error en la peticion " + response.status);
-    }
-    return jsonResponse;
+    })
+    return response.json();
   }
 
   export function Login({data}) {
-    return request({url:'',method:'POST',data});
+   return request({url:'users/auth',method:'POST',data});
   }
   
   export function ActivateLogin({data}) {
@@ -32,3 +28,4 @@ async function request({url, method, data}) {
   export function ForgotPassword({data}) {
     return request({url:'',method:'POST',data});
   }
+  
