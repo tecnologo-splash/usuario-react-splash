@@ -64,7 +64,7 @@ export function ForgotPassword() {
               </Step>
             ))}
           </Stepper>
-          
+
           <div>
             {activeStep === steps.length ? (
               <div>
@@ -80,7 +80,7 @@ export function ForgotPassword() {
             ) : (
               <div>
                   <SetpComponent stepIndex={activeStep} />
-            
+
                 <div className="col-md-12 d-flex justify-content-center">
                   <Button disabled={activeStep === 0} onClick={handleBack}>
                     Atras
@@ -90,7 +90,7 @@ export function ForgotPassword() {
                     color="primary"
                     onClick={handleNext}
                   >
-                    {activeStep === steps.length - 1 ? "Finalizar" : "Sigueinte"}
+                    {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
                   </Button>
                 </div>
               </div>

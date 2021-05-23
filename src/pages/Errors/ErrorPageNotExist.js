@@ -1,5 +1,5 @@
 export function ErrorPageNotExist(){
     return (
-        "Error pagina no existe"
+        "Lo sentimos, esta página no existe"
     )
 }

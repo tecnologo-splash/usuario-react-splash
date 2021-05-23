@@ -13,7 +13,7 @@ export default function AppRoute({
       path={path}
       render={props =>
         isPrivate  ? (
-          <div>Por favor, inicia sesión</div>
+          <div>Por favor, iniciar sesión</div>
         ) : (
             <Component {...props} />
 

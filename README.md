@@ -1,3 +1,7 @@
+# Netlify Status
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/90623790-6655-44ea-b132-5460c21ee3f1/deploy-status)](https://app.netlify.com/sites/tecnologo-splash/deploys)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
