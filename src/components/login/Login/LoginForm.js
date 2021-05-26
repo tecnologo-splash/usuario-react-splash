@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import TextField from "@material-ui/core/TextField";
@@ -12,35 +12,41 @@ import { Register } from "../Register/Register";
 import { ForgotPassword } from "../ForgotPassword";
 import { withStyles } from "@material-ui/core/styles";
 import {useLoginHook} from './useLoginHook';
+import {ActivarCuentaModal} from './ActivarCuentaModal';
 
 const inputStyles = css`
   background-color: white;
 `;
 
 export function LoginForm (){
-    const loginFormStyles = css`
+
+  const loginFormStyles = css`
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     padding: 25px;
   `;
-
+const mensajeError=css`
+  color:#F44336;
+`;
+/*https://codesandbox.io/s/zealous-cookies-1wbmf?file=/demo.js:948-963*/
   const WhiteTextTypography = withStyles({root: { color: "#FFFFFF"} })(Typography);
 
-const {datosUsuario,mensaje,handleChange,onClickLogin}=useLoginHook();
+const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, setModalActivarCuentan}=useLoginHook();
+
     return (
         <div className="col-md-5">
         <WhiteTextTypography variant="h4" gutterBottom>
           <center>Inicio de Sesión</center>
         </WhiteTextTypography>
         <div css={loginFormStyles}>
-
+      
           <CampoTexto Label="Usuario o Correo"
             Icon={<AccountCircle />}
             Type="text"
             nombre="usuario"
             handleChange={handleChange}
-
+            errorCredeintials={mensaje==='' ? false :true}
             valor={datosUsuario.usuario}
            />
     
@@ -50,11 +56,11 @@ const {datosUsuario,mensaje,handleChange,onClickLogin}=useLoginHook();
             Type="password"
             nombre="passwd"
             handleChange={handleChange}
+            errorCredeintials={mensaje==='' ? false :true}
             valor={datosUsuario.passwd}
-
            />
 
-           <div className="col-md-12" style={{ color:"#e74c3c" }}><center><b>{mensaje}</b></center></div>
+           <div className="col-md-12" css={mensajeError}><center><b>{mensaje}</b></center></div>
           <Button
             variant="contained"
             color="primary"
@@ -75,15 +81,18 @@ const {datosUsuario,mensaje,handleChange,onClickLogin}=useLoginHook();
             <Typography variant="caption">* Campos obligatorios</Typography>
           </div>
         </div>
+        <ActivarCuentaModal setOpen={setModalActivarCuentan} open={openModal}/>
       </div>
     )
 }
 
 
-export function CampoTexto({Label,Icon,Type="text",handleChange,valor,nombre}){
+export function CampoTexto({Label,Icon,Type="text",handleChange,valor,nombre,errorCredeintials}){
   return (
     <div className="mb-3">
     <TextField
+      error={errorCredeintials}
+      /*helperText={errorCredeintials ? "Campos Obligatorios" : ""}*/
       fullWidth
       className="mt-4"
       label={Label}

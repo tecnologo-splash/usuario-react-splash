@@ -9,3 +9,10 @@ export const URL_BASE_LINK_PREVIEW={
     url:'',
     apiKey:''
 };
+
+export const METHOD={
+    GET:'GET',
+    POST:'POST',
+    PUT:'PUT',
+    DELETE:'DELETE'
+}

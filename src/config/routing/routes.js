@@ -1,17 +1,15 @@
-import {LOGIN_PATH,HOME_PATH} from "./path";
 import {pages} from "../../pages/Index";
 
-const LOGIN_ROUTE = {
+export const routes = [
+  {
     component: pages.Login,
-    path: LOGIN_PATH,
+    path: "/",
     isPrivate: false
-  };
-  
-  const HOME_ROUTE = {
+  }, {
     component: pages.Home,
-    path: HOME_PATH,
+    path: "/home",
     isPrivate: true
-  };
+  }
   
-
-  export const routes=[LOGIN_ROUTE, HOME_ROUTE];
+];
+  

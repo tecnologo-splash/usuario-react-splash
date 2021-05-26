@@ -9,5 +9,5 @@ export const getTokenSplash=()=>{
 }
 
 export const logoutSplash=()=>{
-    sessionStorage.removeItem(NOMBRE_TOKEN);
+  sessionStorage.removeItem(NOMBRE_TOKEN);
 }

@@ -1,22 +1,13 @@
-import {URL_BASE} from '../config/api/settings';
-
-async function request({url, method, data}) {
-    const response= await fetch(`${URL_BASE.prod}${url}`, {
-      method,
-      headers: {
-        Authorization: window.sessionStorage.getItem("token-splash"),
-        Accept: "application/JSON",
-        "Content-Type": "application/JSON",
-      },
-      body: data ? JSON.stringify(data) : undefined,
-    })
-    return response.json();
-  }
+import {METHOD} from '../config/api/settings';
+import {API_ROUTES} from '../config/api/routes';
+import {request} from './GeneralApi';
 
   export function Login({data}) {
-   return request({url:'users/auth',method:'POST',data});
+   return request(API_ROUTES.login,METHOD.POST,data);
   }
-  
+  export function UserInfo(){
+    return request(API_ROUTES.userInfo,METHOD.GET);
+  }
   export function ActivateLogin({data}) {
     return request({url:'',method:'POST',data});
   }

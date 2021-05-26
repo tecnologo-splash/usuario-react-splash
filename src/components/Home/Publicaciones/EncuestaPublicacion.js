@@ -27,24 +27,24 @@ export default function EncuestaPublicacion() {
           <Typography paragraph>Hola, que prefieren:</Typography>
           	
 
-<div className="row">
-<div className="col-md-1 align-self-center"></div>
-<div className="col-md-1 align-self-center">60% </div>
-          <div className="col-md-10">
+  <div className="row">
+  <div className="col-md-1 align-self-center"></div>
+  <div className="col-md-1 align-self-center">60% </div>
+    <div className="col-md-10">
 
-    <div className="progress position-relative border mb-1" style={{ height: "35px", backgroundColor:'#FFFFFF'}}>
+      <div className="progress position-relative border mb-1" style={{ height: "35px", backgroundColor:'#FFFFFF'}}>
         
-    <div className="progress-bar" role="progressbar" style={{width: `${value}%`, backgroundColor:'#1DA1F2',   transition:' 1s ease',
+      <div className="progress-bar" role="progressbar" style={{width: `${value}%`, backgroundColor:'#1DA1F2',   transition:' 1s ease',
   transitionDelay: '1s'}} aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-    <div className="pl-3 justify-content-start d-flex position-absolute w-100 align-self-center">Empanadas</div>
-    <div className="pr-1 justify-content-end d-flex position-absolute w-100 align-self-center"></div>
+      <div className="pl-3 justify-content-start d-flex position-absolute w-100 align-self-center">Empanadas</div>
+      <div className="pr-1 justify-content-end d-flex position-absolute w-100 align-self-center"></div>
 
-</div>
-</div>
-<div className="col-md-1 align-self-center"><CheckCircleOutlineIcon/> </div>
-<div className="col-md-1 align-self-center">30% </div>
+    </div>
+  </div>
+  <div className="col-md-1 align-self-center"><CheckCircleOutlineIcon/> </div>
+  <div className="col-md-1 align-self-center">30% </div>
 
-<div className="col-md-10 ">
+  <div className="col-md-10 ">
 
 <div className="progress position-relative border mb-1" style={{ height: "35px", backgroundColor:'#FFFFFF'}}>
     <div className="progress-bar" role="progressbar" style={{width: `${value2}%`, backgroundColor:'#C4CFD6',   transition:' 1s ease',  transitionDelay: '1s'
@@ -70,7 +70,7 @@ export default function EncuestaPublicacion() {
           </div>
 
 
-          </div>
+  </div>
         </CardContent>
 
         <Acciones />
