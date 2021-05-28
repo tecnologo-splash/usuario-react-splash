@@ -2,12 +2,12 @@
 const NOMBRE_TOKEN="splashToken";
 
 export const saveTokenSplash=({token})=>{
-    window.sessionStorage.setItem(NOMBRE_TOKEN, token);
+    window.localStorage.setItem(NOMBRE_TOKEN, token);
 }
 export const getTokenSplash=()=>{
-  return  sessionStorage.getItem(NOMBRE_TOKEN);
+  return  localStorage.getItem(NOMBRE_TOKEN);
 }
 
 export const logoutSplash=()=>{
-  sessionStorage.removeItem(NOMBRE_TOKEN);
+  localStorage.removeItem(NOMBRE_TOKEN);
 }

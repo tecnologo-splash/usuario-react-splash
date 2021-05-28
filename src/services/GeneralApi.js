@@ -5,7 +5,7 @@ export async function request(url, method, data) {
   const response = await fetch(`${URL_BASE.prod}${url}`, {
     method,
     headers: {
-     // Authorization: getTokenSplash() ?'Bearer ' +getTokenSplash() : undefined,
+     Authorization: getTokenSplash() ?'Bearer ' +getTokenSplash() : undefined,
       Accept: "application/JSON",
       "Content-Type": "application/JSON",
     },

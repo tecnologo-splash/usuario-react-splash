@@ -10,6 +10,7 @@ import Badge from "@material-ui/core/Badge";
 import Divider from "@material-ui/core/Divider";
 
 import Typography from "@material-ui/core/Typography";
+import {useLoginHook} from '../../hooks/useLoginHook';
 
 import HomeIcon from "@material-ui/icons/Home";
 import Box from "@material-ui/core/Box";
@@ -19,10 +20,11 @@ import { css } from "@emotion/react";
 import {StyledMenu,StyledMenuItem} from '../StyledMenus';
 
 export default function RightMenuItems() {
-  
-const estiloColor=css`
-color:white;
-`;
+  const estiloColor=css`color:white !important;`;
+
+  const {logOut}=useLoginHook();
+
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
 
@@ -129,102 +131,12 @@ color:white;
           <SettingsIcon fontSize="small" className="mr-2" />
           Configuracion
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem  onClick={logOut}>
           <ExitToAppIcon fontSize="small" className="mr-2" />
           Cerrar Sesion
         </StyledMenuItem>
-      </StyledMenu>
-    
-  
-    
-    
+      </StyledMenu>   
     
     </div>
   );
 }
- {/*
-<StyledMenu
-disableScrollLock
-anchorEl={anchorEl2}
-keepMounted
-open={Boolean(anchorEl2)}
-onClose={handleClose2}
->
-<StyledMenuItem>
-  <ContactsIcon fontSize="small" className="mr-2 flex-wrap" style={{ color:'#6d31bf' }}/>
-  <div className="d-flex flex-column">
-  <Typography variant="subtitle2"  gutterBottom color="textPrimary" className="m-0">
-  <b> Un nuevo Seguidor</b>
-</Typography>
-  <Typography variant="body2" gutterBottom color="textPrimary" >
-Marcelo Tizzi
-</Typography>
-  <Typography variant="body2" gutterBottom color="textSecondary" >
-     <div className="d-flex justify-content-start">@ Mtizzi</div> 
-<div className="d-flex justify-content-end">03/12/2021 15:30</div>
-</Typography>
-</div>
-</StyledMenuItem>
-
-<Divider/>
-
-<StyledMenuItem>
-  <EmojiEmotionsIcon fontSize="small" className="mr-2 flex-wrap" style={{ color:'#6d31bf' }}/>
-  <div className="d-inline-flex flex-column">
-  <Typography variant="subtitle2"  gutterBottom color="textPrimary" className="m-0">
-  <b> Reacciono a tu publicacion</b>
-</Typography>
-  <Typography variant="body2" gutterBottom color="textPrimary" >
-Marcelo Tizzi
-</Typography>
-  <Typography variant="caption" gutterBottom color="textSecondary" className="m-0 p-0">
-<div className="d-flex justify-content-start">@ Mtizzi</div> 
-<div className="d-flex justify-content-end">03/12/2021 15:30</div>
-
-</Typography>
-</div>
-</StyledMenuItem>
-<Divider/>
-
-<StyledMenuItem>
-<AddCommentIcon fontSize="small" className="mr-2 flex-wrap" style={{ color:'#6d31bf' }}/>
-<div className="d-inline-flex flex-column">
-<Typography variant="subtitle2"  gutterBottom color="textPrimary" className="m-0">
-<b> Comento tu publicacion</b>
-</Typography>
-<Typography variant="body2" gutterBottom color="textPrimary" >
-Marcelo Tizzi
-</Typography>
-<Typography variant="caption" gutterBottom color="textSecondary" >
-<div className="d-flex justify-content-start">@ Mtizzi</div> 
-<div className="d-flex justify-content-end">03/12/2021 15:30</div>
-
-</Typography>
-</div>
-</StyledMenuItem>
-<Divider/>
-
-<StyledMenuItem >
-<PersonAddDisabledIcon fontSize="small" className="mr-2 flex-wrap" style={{ color:'#6d31bf' }}/>
-<div className="d-inline-flex flex-column">
-<Typography variant="subtitle2"  gutterBottom color="textPrimary" className="m-0">
-<b> Te dejo de seguir</b>
-</Typography>
-<Typography variant="body2" gutterBottom color="textPrimary" >
-Marcelo Tizzi
-</Typography>
-<Typography variant="caption" gutterBottom color="textSecondary" >
-<div className="d-flex justify-content-start">@ Mtizzi</div> 
-<div className="d-flex justify-content-end">03/12/2021 15:30</div>
-
-</Typography>
-</div>
-</StyledMenuItem>
-<Divider/>
-
-<StyledMenuItem>
-  <VisibilityIcon fontSize="small" className="mr-2" />
-  Ver más
-</StyledMenuItem>
-</StyledMenu>
-*/}

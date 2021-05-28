@@ -11,7 +11,7 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { Register } from "../Register/Register";
 import { ForgotPassword } from "../ForgotPassword";
 import { withStyles } from "@material-ui/core/styles";
-import {useLoginHook} from './useLoginHook';
+import {useLoginHook} from '../../../hooks/useLoginHook';
 import {ActivarCuentaModal} from './ActivarCuentaModal';
 
 const inputStyles = css`
@@ -32,7 +32,7 @@ const mensajeError=css`
 /*https://codesandbox.io/s/zealous-cookies-1wbmf?file=/demo.js:948-963*/
   const WhiteTextTypography = withStyles({root: { color: "#FFFFFF"} })(Typography);
 
-const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, setModalActivarCuentan}=useLoginHook();
+const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, loading,setModalActivarCuentan,handleKeyPress}=useLoginHook();
 
     return (
         <div className="col-md-5">
@@ -47,6 +47,7 @@ const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, setModalActivar
             nombre="usuario"
             handleChange={handleChange}
             errorCredeintials={mensaje==='' ? false :true}
+            activo={loading}
             valor={datosUsuario.usuario}
            />
     
@@ -57,7 +58,9 @@ const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, setModalActivar
             nombre="passwd"
             handleChange={handleChange}
             errorCredeintials={mensaje==='' ? false :true}
+            activo={loading}
             valor={datosUsuario.passwd}
+            handleKeyPress={handleKeyPress}
            />
 
            <div className="col-md-12" css={mensajeError}><center><b>{mensaje}</b></center></div>
@@ -66,6 +69,7 @@ const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, setModalActivar
             color="primary"
             fullWidth
             className="mt-4"
+            disabled={loading}
             size="large"
             onClick={onClickLogin}
           >
@@ -87,7 +91,7 @@ const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, setModalActivar
 }
 
 
-export function CampoTexto({Label,Icon,Type="text",handleChange,valor,nombre,errorCredeintials}){
+export function CampoTexto({Label,Icon,Type="text",handleChange,valor,nombre,errorCredeintials,activo,handleKeyPress}){
   return (
     <div className="mb-3">
     <TextField
@@ -95,6 +99,7 @@ export function CampoTexto({Label,Icon,Type="text",handleChange,valor,nombre,err
       /*helperText={errorCredeintials ? "Campos Obligatorios" : ""}*/
       fullWidth
       className="mt-4"
+      disabled={activo}
       label={Label}
       autoFocus={true}
       variant="outlined"
@@ -104,6 +109,7 @@ export function CampoTexto({Label,Icon,Type="text",handleChange,valor,nombre,err
       type={Type}
       value={valor}
       onChange={handleChange}
+      onKeyDown={handleKeyPress || null}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

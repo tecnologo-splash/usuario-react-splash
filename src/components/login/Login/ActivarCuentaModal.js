@@ -10,11 +10,10 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 export function ActivarCuentaModal({setOpen,open}){
-
-
   const handleClose = () => {
     setOpen(false);
   };
+  
    return( 
    <>
 
