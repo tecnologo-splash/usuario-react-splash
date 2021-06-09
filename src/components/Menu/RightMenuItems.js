@@ -7,10 +7,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import EmailIcon from "@material-ui/icons/Email";
 import Badge from "@material-ui/core/Badge";
-import Divider from "@material-ui/core/Divider";
-
-import Typography from "@material-ui/core/Typography";
-import {useLoginHook} from '../../hooks/useLoginHook';
+import {logoutSplash} from '../../config/api/tokenLogin';
+import { useHistory } from "react-router-dom";
 
 import HomeIcon from "@material-ui/icons/Home";
 import Box from "@material-ui/core/Box";
@@ -22,9 +20,12 @@ import {StyledMenu,StyledMenuItem} from '../StyledMenus';
 export default function RightMenuItems() {
   const estiloColor=css`color:white !important;`;
 
-  const {logOut}=useLoginHook();
+  let history = useHistory();
 
-
+  const logOut=()=>{
+    logoutSplash();
+    history.push("/");         
+   }
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
 

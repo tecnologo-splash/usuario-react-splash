@@ -20,6 +20,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Typography from '@material-ui/core/Typography';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import {useRegisterHook} from '../../../hooks/useRegisterHook';
 
 export function Register() {
   const [open, setOpen] = useState(false);
@@ -33,6 +34,8 @@ export function Register() {
     fecha_nacimiento:null,
     genero:null
   });
+  
+  const {}=useRegisterHook;
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -59,11 +62,12 @@ export function Register() {
 
 
           <Grid container spacing={2}  >
-          <CampoTexto Label="Nombre" Icon={<AccountCircle />}/>
-          <CampoTexto Label="Apellido" Icon={<AccountCircle />}/>
-          <CampoTexto Label="Usauario" Icon={<AccountCircle />}/>
-          <CampoTexto Label="Contraseña" Icon={<VpnKeyIcon />} Type="password"/>
-          <CampoTexto Label="Email" Icon={<EmailIcon />} Type="email"/>
+          <CampoTexto Label="Nombre" Icon={<AccountCircle />}    nombre="nombre"/>
+          <CampoTexto Label="Apellido" Icon={<AccountCircle />}    nombre="apellido"/>
+          <CampoTexto Label="Usauario" Icon={<AccountCircle />}    nombre="usuario"/>
+          <CampoTexto Label="Contraseña" Icon={<VpnKeyIcon />} Type="password"    nombre="passwd"/>
+          <CampoTexto Label="Email" Icon={<EmailIcon />} Type="email"   nombre="email"/>
+          
           <Grid item xs={6} className="mt-3">
               <TextField
               fullWidth
@@ -71,6 +75,7 @@ export function Register() {
                 label="Fecha Nacimiento"
                 color="primary"
                 type="date"
+                name="fecha_nacimiento"
                 required
                 InputLabelProps={{
                   shrink: true,
@@ -81,23 +86,8 @@ export function Register() {
               <GeneroRadio/>
             </Grid>
  
-           <Grid item xs={12}> 
-
-           <Typography variant="caption">
-                  * Campos obligatirios</Typography>
-            </Grid>
-
-            <Grid item xs={12}> 
-            <Typography variant="caption" display="block" gutterBottom>
-           Al hacer clic en Registrarte,
-           
-           <Link href="#">
-    {'   aceptas las Condiciones, la Política de datos '}
-  </Link>
-          del servicio en cuestion
-      </Typography>
-            
-           </Grid>
+                  <TextoDeRegistro/>
+        
           </Grid>
         </DialogContent>
         <DialogActions className="pb-4 mr-4">
@@ -112,7 +102,7 @@ export function Register() {
     </div>
   );
 }
-export function CampoTexto({Label,Icon,Type="text"}){
+export function CampoTexto({Label,Icon,Type="text",nombre}){
 
   return (
     <Grid item xs={6} className="mt-3">
@@ -123,6 +113,7 @@ export function CampoTexto({Label,Icon,Type="text"}){
       color="primary"
       type={Type}
       required
+      name={nombre}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start" >
@@ -169,6 +160,30 @@ export function GeneroRadio(){
         label="Otro"
       />
     </RadioGroup>
+    </>
+  )
+}
+
+export function TextoDeRegistro(){
+  return (
+    <>
+       <Grid item xs={12}> 
+
+<Typography variant="caption">
+       * Campos obligatirios</Typography>
+ </Grid>
+
+ <Grid item xs={12}> 
+ <Typography variant="caption" display="block" gutterBottom>
+Al hacer clic en Registrarte,
+
+<Link href="#">
+    aceptas las Condiciones, la Política de datos 
+ </Link>
+del servicio en cuestion
+</Typography>
+ 
+</Grid>
     </>
   )
 }

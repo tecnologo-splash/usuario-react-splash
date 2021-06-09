@@ -1,53 +1,44 @@
-import {useState} from 'react';
 import {Login as LoginApi,UserInfo} from '../services/LoginApi';
 import {mensajesCustomizados} from '../config/api/mensajesCustomizados';
-import {saveTokenSplash,logoutSplash} from '../config/api/tokenLogin';
+import {saveTokenSplash} from '../config/api/tokenLogin';
 import { useHistory } from "react-router-dom";
+import { useDispatch, useStore } from "../contexts/LoginContext";
+import { ACTIONS} from "../contexts/StoreLoginReducer";
+
 
 export function useLoginHook(){
   let history = useHistory();
-
-  const [datosUsuario,setDatosUsuario]=useState({
-      usuario:"",
-      passwd:"",
-    });
-  const [mensaje,setMensaje]=useState('');
-  const [openModal, setModalActivarCuentan] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-    const handleChange=(e)=>{
-      setDatosUsuario({
-        ...datosUsuario,
-        [e.target.name]: e.target.value
-      });
-    }
+  const data = useStore();
+  const dispatch = useDispatch();
+  const {credenciales}=data;
+    
+  const handleChange=(e)=>{
+    dispatch({ type: ACTIONS.LOGIN, payload: {...data.credenciales,[e.target.name]: e.target.value} });
+  }
 
   const onClickLogin=()=>{
-    if(datosUsuario.usuario==="" || datosUsuario.passwd===""){
-      setMensaje(mensajesCustomizados("CAMPOS_OBLIGATORIOS"));
+    
+    if(credenciales.usuario==="" || credenciales.passwd===""){
+      dispatch({ type: ACTIONS.MENSAJE_ERROR, payload: mensajesCustomizados("CAMPOS_OBLIGATORIOS") });
     }else{
-      setLoading(true);
-      let newObject={clave:datosUsuario.passwd}
-      if(userOrEmail(datosUsuario.usuario)){//si es true entonces es mail
-        newObject["correo"]=datosUsuario.usuario;
-      }else{//es usuario
-        newObject["usuario"]=datosUsuario.usuario;
-      }
-   
-      (async () => {
+      let newObject={clave:credenciales.passwd}
+      //verficamos si nos manda un email o un usuario y creamos un nuevo objeto a partir de esta data
+      userOrEmail(credenciales.usuario) ? newObject["correo"]=credenciales.usuario :newObject["usuario"]=credenciales.usuario;
+      dispatch({ type: ACTIONS.LOADING, payload:true });    
 
+      (async () => {
         const response=await  LoginApi ({data:newObject});
-        console.log(response)
         if(response.status!==200){
           if(response.error_code==="USUARIO_PENDIENTE_ACTIVACION"){
-            setModalActivarCuentan(true);
+            dispatch({ type: ACTIONS.ACTIVAR_CUENTA_MODAL, payload: true });
           }else{
-            setMensaje(mensajesCustomizados(response.error_code));
+            dispatch({ type: ACTIONS.MENSAJE_ERROR, payload: mensajesCustomizados(response.error_code) });
           }
         }else{
           handleValidateLogin(response.token);  
         }
-        setLoading(false);
+        dispatch({ type: ACTIONS.LOADING, payload: false });
+
         })()
     }
 
@@ -57,20 +48,17 @@ export function useLoginHook(){
     (async () => {
       saveTokenSplash({token});
       const dataUserLogin=await UserInfo();
-          console.log(dataUserLogin);
-          if(dataUserLogin.nombre_rol==="ADMINISTRADOR"){//Error no se pueden logear adminsitradores
-            setMensaje(mensajesCustomizados("CREDENCIALES_INVALIDAS"));
-          }else{//Es Usuairo comun
-              setMensaje("");
-              history.push("/home");            
-          }
+        console.log(dataUserLogin);
+        if(dataUserLogin.nombre_rol==="ADMINISTRADOR"){//Error no se pueden logear adminsitradores
+            dispatch({ type: ACTIONS.MENSAJE_ERROR, payload: mensajesCustomizados("CREDENCIALES_INVALIDAS") });
+         }else{//Es Usuairo comun
+            dispatch({ type: ACTIONS.MENSAJE_ERROR, payload: '' });
+            history.push("/home");            
+         }
     })()
    }
 
-   const logOut=()=>{
-    logoutSplash();
-    history.push("/");         
-   }
+ 
 
    const handleKeyPress=(e)=> {
     if (e.key === 'Enter') {
@@ -82,6 +70,15 @@ export function useLoginHook(){
       return re.test(data);
     
   }
-    return {datosUsuario,handleChange,onClickLogin,mensaje,openModal,loading, setModalActivarCuentan,logOut,handleKeyPress}
+    return {
+      usuario:credenciales.usuario,
+      passwd:credenciales.passwd,
+      handleChange,
+      onClickLogin,
+      modalActivarCuenta:data.modalActivarCuenta,
+      mensaje:data.mensaje,
+      loading:data.loading, 
+      handleKeyPress
+    }
 
 }

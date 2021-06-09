@@ -17,7 +17,6 @@ import {ActivarCuentaModal} from './ActivarCuentaModal';
 const inputStyles = css`
   background-color: white;
 `;
-
 export function LoginForm (){
 
   const loginFormStyles = css`
@@ -29,12 +28,11 @@ export function LoginForm (){
 const mensajeError=css`
   color:#F44336;
 `;
-/*https://codesandbox.io/s/zealous-cookies-1wbmf?file=/demo.js:948-963*/
   const WhiteTextTypography = withStyles({root: { color: "#FFFFFF"} })(Typography);
 
-const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, loading,setModalActivarCuentan,handleKeyPress}=useLoginHook();
+const {usuario,passwd,mensaje,handleChange,onClickLogin,modalActivarCuenta, loading,handleKeyPress}=useLoginHook();
 
-    return (
+  return (
         <div className="col-md-5">
         <WhiteTextTypography variant="h4" gutterBottom>
           <center>Inicio de Sesión</center>
@@ -48,7 +46,7 @@ const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, loading,setModa
             handleChange={handleChange}
             errorCredeintials={mensaje==='' ? false :true}
             activo={loading}
-            valor={datosUsuario.usuario}
+            valor={usuario}
            />
     
 
@@ -59,7 +57,7 @@ const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, loading,setModa
             handleChange={handleChange}
             errorCredeintials={mensaje==='' ? false :true}
             activo={loading}
-            valor={datosUsuario.passwd}
+            valor={passwd}
             handleKeyPress={handleKeyPress}
            />
 
@@ -85,7 +83,7 @@ const {datosUsuario,mensaje,handleChange,onClickLogin,openModal, loading,setModa
             <Typography variant="caption">* Campos obligatorios</Typography>
           </div>
         </div>
-        <ActivarCuentaModal setOpen={setModalActivarCuentan} open={openModal}/>
+        {modalActivarCuenta ?<ActivarCuentaModal/> : ""}
       </div>
     )
 }
