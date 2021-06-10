@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import "emoji-mart/css/emoji-mart.css";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -7,6 +7,8 @@ import Link from "@material-ui/core/Link";
 import {PerfilAvatar} from '../Perfil/PerfilAvatar';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import {useAmigosSugeridosHook} from '../../../hooks/useAmigosSugeridosHook';
+import {SIZE_SUGERENCIAS_AMIGOS_MURO} from '../../../config/api/settings';
 
 export function ListAmigosSugeridos() {
 const divStyle=css`
@@ -18,7 +20,10 @@ border-radius: 20px;
   transition: transform .1s;
 }
 `;
-
+  const {datos,obtenerAmigosSugeridos,seguirUsuario}=useAmigosSugeridosHook();
+  useState(()=>{
+ obtenerAmigosSugeridos();
+  },[])
 
  return (
 
@@ -29,16 +34,19 @@ border-radius: 20px;
     Amigos Sugeridos
   </Typography>
 
-    {[...new Array(5)].map((item, index) => (
+    {datos.data.map((item, index) => (
       <div
         key={index}
         className="col-md-8 mb-4 border shadow-sm d-inline-flex p-2 offset-md-1 nav"
         css={divStyle}
       >
-       <CardAmigos/>
+       <CardAmigos userData={item} seguirUsuario={seguirUsuario}/>
       </div>
     ))}
-  
+
+        {                         
+            datos.cantidad >SIZE_SUGERENCIAS_AMIGOS_MURO
+            ?
     <div
       className="col-md-8 mb-4 border shadow-sm d-flex justify-content-center offset-md-1"
       css={divStyle}
@@ -46,23 +54,27 @@ border-radius: 20px;
       <Link component="button" variant="body2">
         Ver Más
       </Link>
-  </div>
+      </div>
+      : ""
+      }
+  
+
 
   </div>
   </div>
   );
 }
 
-export function CardAmigos(){
+export function CardAmigos({userData,seguirUsuario}){
 
   return(
     <>
     <PerfilAvatar img="https://media.vanityfair.com/photos/5d56eac902bf930008778de7/3:2/w_1998,h_1332,c_limit/obi-wan-ewan-series.jpg"/>
 
     <div className="col flex-nowrap">
-    <Typography variant="body1">Pepe Rommpe</Typography>
+    <Typography variant="body1">{userData.nombre} {userData.apellido}</Typography>
     <Typography variant="body2" color="textSecondary">
-      @Username
+    @{userData.usuario}
     </Typography>
   </div>
   <div className="col-md-12">
@@ -73,6 +85,7 @@ export function CardAmigos(){
       size="small"
       className="mt-1"
       fullWidth
+      onClick={()=>seguirUsuario(userData.usuario_id)}
     >
       <PersonAddIcon className="mr-2" />{" "}
       <Typography> Seguir</Typography>

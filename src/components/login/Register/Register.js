@@ -8,6 +8,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Link from '@material-ui/core/Link';
 
 import Grid from "@material-ui/core/Grid";
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -23,38 +25,30 @@ import { css } from "@emotion/react";
 import {useRegisterHook} from '../../../hooks/useRegisterHook';
 
 export function Register() {
-  const [open, setOpen] = useState(false);
+  const mensajeError=css`
+  color:#F44336;
+`;
 
-  const [datosUsuario,setDatosUsuario]=useState({
-    nombre:null,
-    apellido:null,
-    usuario:null,
-    password:null,
-    email:null,
-    fecha_nacimiento:null,
-    genero:null
-  });
-  
-  const {}=useRegisterHook;
-  
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+  const {
+    openAlert, 
+     mensaje,
+     handleChangeRegister,
+     onClickRegister,
+     valueCombo,
+     handleModalRegister,
+     handleCloseAlertExito,
+     disabledButton,
+      openModalRegister}=useRegisterHook();
 
   return (
     <div>
-      <Button variant="contained" fullWidth className="mt-2" size="large" onClick={handleClickOpen}>
+      <Button variant="contained" fullWidth className="mt-2" size="large" onClick={handleModalRegister}>
        Crear Cuenta
       </Button>
 
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={openModalRegister}
+        onClose={handleModalRegister}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Registro</DialogTitle>
@@ -62,11 +56,11 @@ export function Register() {
 
 
           <Grid container spacing={2}  >
-          <CampoTexto Label="Nombre" Icon={<AccountCircle />}    nombre="nombre"/>
-          <CampoTexto Label="Apellido" Icon={<AccountCircle />}    nombre="apellido"/>
-          <CampoTexto Label="Usauario" Icon={<AccountCircle />}    nombre="usuario"/>
-          <CampoTexto Label="Contraseña" Icon={<VpnKeyIcon />} Type="password"    nombre="passwd"/>
-          <CampoTexto Label="Email" Icon={<EmailIcon />} Type="email"   nombre="email"/>
+          <CampoTexto Label="Nombre" Icon={<AccountCircle />}  nombre="nombre" handleChangeRegister={handleChangeRegister}/>
+          <CampoTexto Label="Apellido" Icon={<AccountCircle />} nombre="apellido" handleChangeRegister={handleChangeRegister} />
+          <CampoTexto Label="Usauario" Icon={<AccountCircle />} nombre="usuario" handleChangeRegister={handleChangeRegister}/>
+          <CampoTexto Label="Contraseña" Icon={<VpnKeyIcon />} Type="password" nombre="clave" handleChangeRegister={handleChangeRegister}/>
+          <CampoTexto Label="Email" Icon={<EmailIcon />} Type="email" nombre="correo" handleChangeRegister={handleChangeRegister}/>
           
           <Grid item xs={6} className="mt-3">
               <TextField
@@ -75,6 +69,7 @@ export function Register() {
                 label="Fecha Nacimiento"
                 color="primary"
                 type="date"
+                onChange={handleChangeRegister}
                 name="fecha_nacimiento"
                 required
                 InputLabelProps={{
@@ -83,26 +78,37 @@ export function Register() {
               />
             </Grid>
             <Grid item xs={12} className="mt-1"> 
-              <GeneroRadio/>
+              <GeneroRadio value={valueCombo} handleChangeRegister={handleChangeRegister}/>
             </Grid>
- 
+            <div className="col-md-12" css={mensajeError}><center><b>{mensaje}</b></center></div>
+
                   <TextoDeRegistro/>
         
           </Grid>
         </DialogContent>
+
         <DialogActions className="pb-4 mr-4">
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleModalRegister} color="primary">
             Calcelar
           </Button>
-          <Button onClick={handleClose} color="primary" variant="contained">
+          <Button onClick={onClickRegister} color="primary" variant="contained" disabled={disabledButton}>
             Registrarme
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlertExito}>
+        <Alert onClose={handleCloseAlertExito} variant="outlined" style={{color:'black', backgroundColor:'white' }}>
+         ¡Registrado con exito!<br/>
+         Para activar su cuenta dirigiase a su email
+        </Alert>
+      </Snackbar>
+
     </div>
   );
 }
-export function CampoTexto({Label,Icon,Type="text",nombre}){
+
+export function CampoTexto({Label,Icon,Type="text",nombre,handleChangeRegister}){
 
   return (
     <Grid item xs={6} className="mt-3">
@@ -112,6 +118,7 @@ export function CampoTexto({Label,Icon,Type="text",nombre}){
       label={Label}
       color="primary"
       type={Type}
+      onChange={handleChangeRegister}
       required
       name={nombre}
       InputProps={{
@@ -127,12 +134,7 @@ export function CampoTexto({Label,Icon,Type="text",nombre}){
 
 }
 
-export function GeneroRadio(){
-  const [value, setValue] = useState(null);
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+export function GeneroRadio({valueCombo,handleChangeRegister}){
 
   const selectorCheck = css`
   .MuiRadio-colorSecondary.Mui-checked{
@@ -143,20 +145,23 @@ export function GeneroRadio(){
 <>
     <FormLabel component="legend">Genero</FormLabel>
 
-    <RadioGroup row value={value} onChange={handleChange} css={selectorCheck}>
+    <RadioGroup row value={valueCombo} css={selectorCheck} onChange={handleChangeRegister}>
       <FormControlLabel
-        value="Mujer"
+        value="MUJER"
         control={<Radio />}
+        name="genero"
         label="Mujer"
       />
       <FormControlLabel
-        value="Hombre"
+        value="HOMBRE"
         control={<Radio />}
+        name="genero"
         label="Hombre"
       />
       <FormControlLabel
-        value="Otro"
+        value="OTRO"
         control={<Radio />}
+        name="genero"
         label="Otro"
       />
     </RadioGroup>
@@ -178,9 +183,9 @@ export function TextoDeRegistro(){
 Al hacer clic en Registrarte,
 
 <Link href="#">
-    aceptas las Condiciones, la Política de datos 
+    aceptas las Condiciones, la Política de datos  
  </Link>
-del servicio en cuestion
+ del servicio en cuestion
 </Typography>
  
 </Grid>

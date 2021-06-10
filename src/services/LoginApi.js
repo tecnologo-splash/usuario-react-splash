@@ -7,11 +7,11 @@ import {request} from './GeneralApi';
   export function UserInfo(){
     return request('users/info',METHOD.GET);
   }
-  export function ActivateLogin({data}) {
+  export function ActivateCuenta({data}) {
     return request('users/activation',METHOD.POST,data);
   }
   export function Register({data}) {
-    return request('/users/sign-up',METHOD.POST,data);
+    return request('users/sign-up',METHOD.POST,data);
   }
 
   export function ForgotPassword({data}) {

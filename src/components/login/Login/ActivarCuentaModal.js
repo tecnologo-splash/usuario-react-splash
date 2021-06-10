@@ -49,6 +49,7 @@ export function ActivarCuentaModal({open}){
       </DialogContentText>
       <TextField
     fullWidth
+    autoFocus 
       variant="outlined"
       label="Clave de Activación"
       color="primary"

@@ -44,7 +44,6 @@ const {usuario,passwd,mensaje,handleChange,onClickLogin,modalActivarCuenta, load
             Type="text"
             nombre="usuario"
             handleChange={handleChange}
-            errorCredeintials={mensaje==='' ? false :true}
             activo={loading}
             valor={usuario}
            />
@@ -55,7 +54,6 @@ const {usuario,passwd,mensaje,handleChange,onClickLogin,modalActivarCuenta, load
             Type="password"
             nombre="passwd"
             handleChange={handleChange}
-            errorCredeintials={mensaje==='' ? false :true}
             activo={loading}
             valor={passwd}
             handleKeyPress={handleKeyPress}

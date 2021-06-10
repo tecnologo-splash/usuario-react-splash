@@ -4,7 +4,7 @@ import {saveTokenSplash} from '../config/api/tokenLogin';
 import { useHistory } from "react-router-dom";
 import { useDispatch, useStore } from "../contexts/LoginContext";
 import { ACTIONS} from "../contexts/StoreLoginReducer";
-
+import {userOrEmail} from '../util/validarCorreo';
 
 export function useLoginHook(){
   let history = useHistory();
@@ -65,11 +65,7 @@ export function useLoginHook(){
       onClickLogin();
     }
   }
-  const userOrEmail=(data)=>{
-      const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(data);
-    
-  }
+
     return {
       usuario:credenciales.usuario,
       passwd:credenciales.passwd,

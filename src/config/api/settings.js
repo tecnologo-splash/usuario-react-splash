@@ -1,3 +1,5 @@
+export const SIZE_SUGERENCIAS_AMIGOS_MURO=5;
+
 export const URL_BASE={
     prod:'https://tecnologo-splash-api.herokuapp.com/',
     local:'localhost:8080/'
