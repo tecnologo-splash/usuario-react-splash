@@ -1,6 +1,7 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export function PageLoading(){
 
@@ -8,7 +9,9 @@ export function PageLoading(){
         <div >
         <div className="container">
         <div className="row align-items-center justify-content-center vh-100"> 
-        Cargando t**los..
+        <CircularProgress />
+        Cargando Splash...
+   
       </div>
       </div>
       </div>

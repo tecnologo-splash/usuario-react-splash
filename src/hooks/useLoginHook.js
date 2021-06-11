@@ -2,14 +2,17 @@ import {Login as LoginApi,UserInfo} from '../services/LoginApi';
 import {mensajesCustomizados} from '../config/api/mensajesCustomizados';
 import {saveTokenSplash} from '../config/api/tokenLogin';
 import { useHistory } from "react-router-dom";
-import { useDispatch, useStore } from "../contexts/LoginContext";
+import { useDispatch, useStore,useDispatchCuenta } from "../contexts/LoginContext";
 import { ACTIONS} from "../contexts/StoreLoginReducer";
+import { ACTIONS as ACTIONS_CUENTA} from "../contexts/StoreCuentaReducer";
+
 import {userOrEmail} from '../util/validarCorreo';
 
 export function useLoginHook(){
   let history = useHistory();
   const data = useStore();
   const dispatch = useDispatch();
+  const dispatchCuenta=useDispatchCuenta();
   const {credenciales}=data;
     
   const handleChange=(e)=>{
@@ -53,6 +56,7 @@ export function useLoginHook(){
             dispatch({ type: ACTIONS.MENSAJE_ERROR, payload: mensajesCustomizados("CREDENCIALES_INVALIDAS") });
          }else{//Es Usuairo comun
             dispatch({ type: ACTIONS.MENSAJE_ERROR, payload: '' });
+            dispatchCuenta({type:ACTIONS_CUENTA.SET_DATA,payload:dataUserLogin});
             history.push("/home");            
          }
     })()

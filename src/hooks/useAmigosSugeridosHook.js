@@ -20,7 +20,8 @@ export function useAmigosSugeridosHook(){
         (async () => {
             const response=await ComenzarASeguir({usuario_id});
             if(response.status >=200 && response.status <227){
-                setDatos({data:datos.data.filter(prop => prop.usuario_id !== usuario_id)})
+                obtenerAmigosSugeridos();
+                //setDatos({data:datos.data.filter(prop => prop.usuario_id !== usuario_id)})
             }else{
                 console.log("Error de algun tipo");
             }

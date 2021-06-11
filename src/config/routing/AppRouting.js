@@ -1,5 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import { NotLogin } from "../../pages/Errors/NotLoged";
 import { getTokenSplash } from "../api/tokenLogin";
 
 export default function AppRoute({
@@ -9,15 +10,22 @@ export default function AppRoute({
   ...props
 }) {
   const token = getTokenSplash() || '';
+  
+  
   return (
     <Route
       path={path}
       render={props =>
         isPrivate &&  token==='' ?  (
-          <div>Por favor, iniciar sesión</div>
-        ) : (
-            <Component {...props} />
+          
+          <NotLogin/>
 
+        ) : (
+        <>     
+       
+           <Component {...props} />
+
+          </>
         )
       }
       {...props}

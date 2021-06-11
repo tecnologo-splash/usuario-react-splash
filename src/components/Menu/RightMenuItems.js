@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -16,11 +16,13 @@ import { PerfilAvatar } from "../Home/Perfil/PerfilAvatar";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import {StyledMenu,StyledMenuItem} from '../StyledMenus';
+import { useInfoUserHook } from "../../hooks/useInfoUserHook";
 
 export default function RightMenuItems() {
   const estiloColor=css`color:white !important;`;
-
+  const img_perfil_sin_imagen=process.env.PUBLIC_URL + '/recursos/perfil_sin_imagen.svg';
   let history = useHistory();
+  const {userInfo,getDatos}=useInfoUserHook();
 
   const logOut=()=>{
     logoutSplash();
@@ -39,6 +41,9 @@ export default function RightMenuItems() {
     setAnchorEl(null);
   };
 
+useEffect(()=>{
+  getDatos();
+})
 
   return (
     <div className="col-md-4 d-flex justify-content-end">
@@ -100,9 +105,9 @@ export default function RightMenuItems() {
           css={estiloColor}
         >
           <Box boxShadow={1} borderRadius={16} className="row">
-            <PerfilAvatar img="https://i.pinimg.com/originals/11/7e/93/117e9371c1a30a8de6fe51ac861cf247.jpg" />
-
-            <div className="align-self-center">Pepe Rommpe</div>
+            <PerfilAvatar img={userInfo.url_perfil || img_perfil_sin_imagen } />
+            {/*https://i.pinimg.com/originals/11/7e/93/117e9371c1a30a8de6fe51ac861cf247.jpg*/}
+            <div className="align-self-center">{userInfo.nombre} {userInfo.apellido}</div>
           </Box>
         </IconButton>
       </Tooltip>

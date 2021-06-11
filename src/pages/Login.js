@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import Typography from "@material-ui/core/Typography";
-import {StoreLoginProvider} from '../contexts/LoginContext';
+//import {StoreLoginProvider} from '../contexts/LoginContext';
 
 import { withStyles } from "@material-ui/core/styles";
 import { LoginForm } from "../components/login/Login/LoginForm";
@@ -46,9 +46,8 @@ export default function Login() {
             </WhiteTextTypography>
           </div>
 
-          <StoreLoginProvider>
             <LoginForm/>
-            </StoreLoginProvider>
+       
         </div>
       </div>
     </div>
