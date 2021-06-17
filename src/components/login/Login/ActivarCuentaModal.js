@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -8,37 +8,32 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { useStore,useDispatch } from "../../../contexts/LoginContext";
-import { ACTIONS} from "../../../contexts/StoreLoginReducer";
+import {useActivarCuentaHook} from './useActivarCuentaHook';
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 
 export function ActivarCuentaModal({open}){
   
-  const dispatch=useDispatch();
-  const {credenciales}=useStore();
-  const [codigoActivacion,setCodigoActivacion]=useState('');
+  const { 
+    codigo_activacion,
+    handleClicReEnviarCodigo,
+    handleChangeCodigoActivacion,
+    reEnviarButton,
+    handleCloseActivarCuenta,
+    handleActivarCuenta,
+    mensajeActivacion}=useActivarCuentaHook();
 
-  const handleChangeCodigoActivacion=(e)=>{
-    setCodigoActivacion(e.target.value);
-  }
-  const handleClose = () => {
-    dispatch({ type: ACTIONS.ACTIVAR_CUENTA_MODAL, payload: false });
-  };
-  
-  const handleClickActivarCuenta=()=>{
+  const {mensaje,tipo_mensaje}=mensajeActivacion;
 
-    console.log(credenciales.usuario);
-  }
-
-  const handleClicReEnviarCodigo=()=>{
-    
-  }
-
+  const mensajeColor=css`
+    color:${tipo_mensaje==='ERROR' ? '#F44336' :'#6D31BF'}
+  `
    return( 
    <>
 
   <Dialog
     open={true}
-    onClose={handleClose}
+    onClose={handleCloseActivarCuenta}
     aria-labelledby="form-dialog-title"
   >
     <DialogTitle id="form-dialog-title">Activar Cuenta</DialogTitle>
@@ -64,24 +59,30 @@ export function ActivarCuentaModal({open}){
         ),
       }}
     />
+       <center><div className="mt-1" css={mensajeColor}>
+        {mensaje}
+        </div></center>
     </DialogContent>
+ 
     <DialogActions className="d-flex justify-content-between mt-2 mb-3 ml-3 mr-3" >
     <div>
-    <Button onClick={handleClicReEnviarCodigo} color="primary" variant="outlined">
+    <Button onClick={handleClicReEnviarCodigo} color="primary" variant="outlined" disabled={reEnviarButton}>
         Reenviar Código
       </Button>
       </div>
+
       <div>
-      <Button onClick={handleClose} color="primary" variant="outlined">
+      <Button onClick={handleCloseActivarCuenta} color="primary" variant="outlined">
         Candelar
       </Button>
       {" "}
-      <Button onClick={handleClickActivarCuenta} color="primary" variant="contained" disabled={codigoActivacion===''? true : false}>
+      <Button onClick={handleActivarCuenta} color="primary" variant="contained" disabled={codigo_activacion===''? true : false}>
         Aceptar
       </Button>
       </div>
     </DialogActions>
   </Dialog>
+
    </>
    
   

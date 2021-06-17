@@ -1,11 +1,11 @@
 const ACTIONS = {
     LOGIN: 'login',
     MENSAJE_ERROR: 'mensaje_error',
-    ACTIVAR_CUENTA_MODAL: 'activar_cuenta_modal',
     LOADING: 'cargando',
     REGISTRO: 'registro',
     MENSAJE_ERROR_REGISTRO: 'mensaje_error_registro',
-    REGISTRO_EXITOSO: 'registro_exitoso'
+    REGISTRO_EXITOSO: 'registro_exitoso',
+    LOGIN_EXITOSO:'login-exitoso',
 }
 const initialState = {
     credenciales: {
@@ -23,7 +23,6 @@ const initialState = {
     },
     loading: false,
     mensaje: '',
-    modalActivarCuenta: false,
     mensajeErrorRegistro: ''
 };
 const storeReducer = (state, action) => {
@@ -44,13 +43,7 @@ const storeReducer = (state, action) => {
                 ...state,
                 mensajeErrorRegistro: action.payload,
             }
-        case ACTIONS.ACTIVAR_CUENTA_MODAL:
-            return {
-                ...state,
-                modalActivarCuenta: action.payload,
-                mensaje:''
-            }
-        case ACTIONS.LOGIN:
+     case ACTIONS.LOGIN:
             return {
                 ...state,
                 credenciales: action.payload,
@@ -66,7 +59,13 @@ const storeReducer = (state, action) => {
                 registro: [],
                 mensajeErrorRegistro: '',
             }
-
+            case ACTIONS.LOGIN_EXITOSO:
+                return {
+                    ...state,
+                    mensaje: '',
+                    credenciales:[]
+                }
+    
         default:
             return new Error(`Accion ${action.type} no definida`);
     }

@@ -11,9 +11,17 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
-import { SetpComponent } from "./StepForgotPassword/Step";
+import { SetpComponent } from "./SetpComponent";
+import { useForgotPasswdHook } from "./useForgotPasswdHook";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 
 export function ForgotPassword() {
+  const {correo,codigo,new_passwd,handleChange,activeStep,mensajeForgotPasswd,
+    handleNext,
+    handleReset,
+    handleBack} =useForgotPasswdHook();
+  
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -21,6 +29,7 @@ export function ForgotPassword() {
   };
 
   const handleClose = () => {
+    handleReset();
     setOpen(false);
   };
 
@@ -28,20 +37,12 @@ export function ForgotPassword() {
     return ["Ingresar email", "Codigo de verificacion", "Nueva contraseña"];
   }
 
-  const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+ const mensajeColor=css`
+    color:${mensajeForgotPasswd.tipo_mensaje==='ERROR' ? '#F44336' :'#6D31BF'}
+  `
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
   return (
     <div>
@@ -75,23 +76,35 @@ export function ForgotPassword() {
                   />
                   Proceso finalizado con exito
                 </Typography>
-                <Button onClick={handleReset}>Reset</Button>
+                {/*<Button onClick={handleReset}>Reset</Button>*/}
               </div>
             ) : (
               <div>
-                  <SetpComponent stepIndex={activeStep} />
+                  <SetpComponent stepIndex={activeStep}  
+                  correo={correo}
+                  codigo={codigo}
+                  new_passwd={new_passwd}
+                  handleChange={handleChange}
+                  />
+      <center><div css={mensajeColor} className="mb-1">{mensajeForgotPasswd.mensaje}</div></center>
 
-                <div className="col-md-12 d-flex justify-content-center">
+                <div className="col-md-12 d-flex justify-content-between ">
+                  <div>
                   <Button disabled={activeStep === 0} onClick={handleBack}>
                     Atras
                   </Button>
+                  </div>
+              
+                  <div>
                   <Button
                     variant="contained"
                     color="primary"
                     onClick={handleNext}
+                    disabled={correo===''? true : false}
                   >
                     {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
                   </Button>
+                  </div>
                 </div>
               </div>
             )}

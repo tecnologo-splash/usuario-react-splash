@@ -9,7 +9,7 @@ export function PageLoading(){
         <div >
         <div className="container">
         <div className="row align-items-center justify-content-center vh-100"> 
-        <CircularProgress />
+        <CircularProgress /> {"  "}
         Cargando Splash...
    
       </div>

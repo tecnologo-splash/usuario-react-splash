@@ -22,6 +22,7 @@ import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
 
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import AddIcon from '@material-ui/icons/Add';
+import { useInfoUserHook } from "../../../../hooks/useInfoUserHook";
 
 const useStyles = makeStyles((theme) => ({
   inputPublicacion: {
@@ -71,6 +72,7 @@ export default function CrearPublicacion() {
   const [visible, setVisible] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [expanded, setExpanded] = useState(false);
+  const {userInfo,getDatos}=useInfoUserHook();
 
   const pepe = (emoji, e) => {
     console.log(emoji, e);
@@ -95,7 +97,7 @@ export default function CrearPublicacion() {
 
         <div className="d-flex flex-row mt-3">
           <div className="align-self-center col-md-1">
-            <PerfilAvatar img="https://i.pinimg.com/originals/11/7e/93/117e9371c1a30a8de6fe51ac861cf247.jpg" />
+          <PerfilAvatar img={userInfo.imgUrl} />
           </div>
           <div className={"col-md-11 align-self-center pl-0 "+classes.divZoom}>
             <div className={classes.inputPublicacion} >

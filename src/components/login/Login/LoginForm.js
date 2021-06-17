@@ -9,10 +9,12 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { Register } from "../Register/Register";
-import { ForgotPassword } from "../ForgotPassword";
+import { ForgotPassword } from "../ForgotPassword/ForgotPassword";
 import { withStyles } from "@material-ui/core/styles";
 import {useLoginHook} from '../../../hooks/useLoginHook';
 import {ActivarCuentaModal} from './ActivarCuentaModal';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
 
 const inputStyles = css`
   background-color: white;
@@ -28,11 +30,11 @@ export function LoginForm (){
 const mensajeError=css`
   color:#F44336;
 `;
-  const WhiteTextTypography = withStyles({root: { color: "#FFFFFF"} })(Typography);
+const WhiteTextTypography = withStyles({root: { color: "#FFFFFF"} })(Typography);
 
 const {usuario,passwd,mensaje,handleChange,onClickLogin,modalActivarCuenta, loading,handleKeyPress}=useLoginHook();
 
-  return (
+return (
         <div className="col-md-5">
         <WhiteTextTypography variant="h4" gutterBottom>
           <center>Inicio de Sesión</center>
@@ -41,6 +43,7 @@ const {usuario,passwd,mensaje,handleChange,onClickLogin,modalActivarCuenta, load
       
           <CampoTexto Label="Usuario o Correo"
             Icon={<AccountCircle />}
+            foco={true}
             Type="text"
             nombre="usuario"
             handleChange={handleChange}
@@ -76,28 +79,31 @@ const {usuario,passwd,mensaje,handleChange,onClickLogin,modalActivarCuenta, load
             <hr />
 
             <Register />
+ 
           </div>
           <div className="text-center pt-2">
             <Typography variant="caption">* Campos obligatorios</Typography>
           </div>
         </div>
         {modalActivarCuenta ?<ActivarCuentaModal/> : ""}
+
       </div>
     )
 }
 
 
-export function CampoTexto({Label,Icon,Type="text",handleChange,valor,nombre,errorCredeintials,activo,handleKeyPress}){
+
+export function CampoTexto({Label,Icon,Type="text",handleChange,valor,nombre,errorCredeintials,activo,handleKeyPress,foco=false}){
   return (
     <div className="mb-3">
     <TextField
       error={errorCredeintials}
+      autoFocus={foco}
       /*helperText={errorCredeintials ? "Campos Obligatorios" : ""}*/
       fullWidth
       className="mt-4"
       disabled={activo}
       label={Label}
-      autoFocus={true}
       variant="outlined"
       required
       name={nombre}

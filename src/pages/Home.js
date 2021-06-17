@@ -9,9 +9,7 @@ import CrearPublicacion from '../components/Home/Publicaciones/Creacion/Creacion
 import {ListAmigosSugeridos} from '../components/Home/AmigosSugeridos/ListAmigosSugeridos';
 import {FiltroPublicacion} from '../components/Home/Publicaciones/FiltroPublicaciones';
 
-
 export default function Home() {
-  
 const useStyles = makeStyles(theme => ({
     content: {
         padding: theme.spacing(3),
@@ -20,11 +18,12 @@ const useStyles = makeStyles(theme => ({
  }));
 
   const classes = useStyles();
+
+
   
   return (
       <>
       <MenuHeader/>
-
     <main className={classes.content}>
           
           <div className="row">
