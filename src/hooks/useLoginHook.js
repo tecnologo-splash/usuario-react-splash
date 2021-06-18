@@ -57,7 +57,7 @@ export function useLoginHook(){
         if(dataUserLogin.nombre_rol==="ADMINISTRADOR"){//Error no se pueden logear adminsitradores
             dispatch({ type: ACTIONS.MENSAJE_ERROR, payload: mensajesCustomizados("CREDENCIALES_INVALIDAS") });
          }else{//Es Usuairo comun
-            dispatch({ type: ACTIONS.LOGIN_EXITOSO,payload:'' });
+           // dispatch({ type: ACTIONS.LOGIN_EXITOSO,payload:'' });
             dispatchCuenta({type:ACTIONS_CUENTA.SET_DATA,payload:dataUserLogin});
             history.push("/home");            
          }

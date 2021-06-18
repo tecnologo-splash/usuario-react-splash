@@ -5,45 +5,54 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import {Acciones} from './Acciones';
 import {PublicacionHeader} from './PublicacionHeader';
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 
-const estiloMedia=css`
-height: 0;
-padding-top: 56.25%; /* 16:9*/
-`;
+import {URL_BASE_FILE_STORAGE} from '../../../config/api/settings';
+import {PublicacionReaccionada} from './PublicacioReaccionada';
 
-export default function SimplePublicacion() {
+
+export default function SimplePublicacion({publicacionData}) {
+  const{usuario_comun}=publicacionData;
+  const {multimedia}=publicacionData;
+  const {resumen_reaccion}=publicacionData;
 
   return (
     <div className="col-md-8 offset-md-2 mb-4">
 
     <Card>
-      <PublicacionHeader/>
-  
-  
+    <PublicacionHeader
+         nombre={usuario_comun.nombre}  
+         apellido={usuario_comun.apellido}
+        url_perfil={usuario_comun.url_perfil}
+        usuario={"@"+usuario_comun.usuario}
+        id={usuario_comun.id}
+        fecha_publicacion={publicacionData.fecha_creado}
+        />
+     
+     <div className="container">
+        <Typography paragraph>
+          {publicacionData.texto}
+        </Typography>
+      </div>
+            
       <CardMedia
-        css={estiloMedia}
-        image={"https://i.blogs.es/2cc78a/ordenstarwars/1366_2000.jpg"}
-      />
-      
+      component="video"
+      src={URL_BASE_FILE_STORAGE+multimedia[0].url}
+      title='title'
+      controls
+      />    
       <CardContent>
-      <Typography paragraph>
-       Hola me llamo Pepe de Pepe Rompe de videomatch
+      <PublicacionReaccionada resumen_reaccion={resumen_reaccion}/>
 
-          </Typography>
-          
-      </CardContent>
-  
-      { /*   <img  src={process.env.PUBLIC_URL + '/recursos/reaciones/32px/thumbs-up.png'} alt="" width="20"/>
-          <img  src={process.env.PUBLIC_URL + '/recursos/reaciones/32px/thumbs-down.png'} alt="" width="20"/>
-          <img  src={process.env.PUBLIC_URL + '/recursos/reaciones/32px/grinning-face-with-smiling-eyes.png'} alt="" width="20"/>
-          <img  src={process.env.PUBLIC_URL + '/recursos/reaciones/32px/middle-finger.png'} alt="" width="20"/>
+  </CardContent>
 
-          <img  src={process.env.PUBLIC_URL + '/recursos/reaciones/32px/woman-shrugging.png'} alt="" width="20"/>
-          117
-      */  }   
-      <Acciones/>
+  {/*
+resumen_reaccion.cantidad_me_enoja: 
+resumen_reaccion.cantidad_me_gusta: 
+resumen_reaccion.cantidad_no_me_gusta: 
+resumen_reaccion.cantidad_no_me_interesa: 
+mi_reaccion: null
+  */}
+      <Acciones resumen_reaccion={resumen_reaccion}/>
 
     </Card>
 

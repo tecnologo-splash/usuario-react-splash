@@ -69,7 +69,7 @@ export function CardAmigos({userData,seguirUsuario}){
 
   return(
     <>
-    <PerfilAvatar img="https://media.vanityfair.com/photos/5d56eac902bf930008778de7/3:2/w_1998,h_1332,c_limit/obi-wan-ewan-series.jpg"/>
+    <PerfilAvatar img={userData.url_perfil}/>
 
     <div className="col flex-nowrap">
     <Typography variant="body1">{userData.nombre} {userData.apellido}</Typography>

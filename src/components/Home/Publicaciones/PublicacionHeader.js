@@ -8,17 +8,16 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {StyledMenu,StyledMenuItem} from '../../StyledMenus';
 
-export function PublicacionHeader(props){
- 
+export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,fecha_publicacion}){
   const [anchorEl, setAnchorEl] = useState(null);
 
   return (
     <CardHeader
     avatar={
-      <PerfilAvatar img="https://pbs.twimg.com/profile_images/1012362101510160384/EjayQ10E.jpg"/>
+      <PerfilAvatar img={url_perfil}/>
     }
-    title="Pepe Rompe"
-    subheader="@pepesw - Abril 21, 2021 -  Hace 3s"
+    title={nombre +" "+apellido}
+    subheader={usuario+"- "+fecha_publicacion}
     action={
       <>
       <Tooltip title="Ver Más">
@@ -32,7 +31,7 @@ export function PublicacionHeader(props){
          <MoreVertIcon />
       </IconButton>
     </Tooltip>
-  
+
     <StyledMenu
       disableScrollLock 
       id="customized-menu"

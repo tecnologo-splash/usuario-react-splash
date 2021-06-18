@@ -1,15 +1,27 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
 import RightMenuItems from './RightMenuItems';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import {BuscadorAmigos} from '../../services/SearchAmigos';
+import Avatar from '@material-ui/core/Avatar';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+
 
 export function MenuHeader(){
 
 const useStyles = makeStyles(theme => ({
-
+  cssLabel:{
+    backgroundColor: "white",
+    border:'1px solid black',
+    borderRadius: "25px",
+  },
     root: {
         backgroundColor: "#6F32C1" ,
     },
@@ -48,36 +60,97 @@ const useStyles = makeStyles(theme => ({
         },
     }));
     const classes = useStyles();
+    
+        const top100Films = [
+      { title: 'The Shawshank Redemption', year: 1994 },
+      { title: 'The Godfather', year: 1972 },
+      { title: 'The Godfather: Part II', year: 1974 },
+    ];
+ const [data,setData]=useState([""]);
 
+ useEffect(()=>{
+   /*(async()=>{
+    const response=await BuscadorAmigos();
+    const {content}=response;
+    setData(content);
+  
+   })()
+  */ 
+ },[])
 
+const countries = [
+  { code: 'AD', label: 'Andorra', phone: '376' },
+  { code: 'AE', label: 'United Arab Emirates', phone: '971' },
+  { code: 'AF', label: 'Afghanistan', phone: '93' },
+];
     return(  
         <>
       <AppBar  className={classes.root}>
     <Toolbar style={{ height:'65px' }} >
 
-   <div className="col-md-4 d-flex justify-content-start">
-    <img  src={process.env.PUBLIC_URL + '/recursos/icon_light.png'} alt="" width="50" />
-    </div>
+   <div className="col-md-8 d-flex justify-content-start">
+    <img  src={process.env.PUBLIC_URL + '/recursos/icon_light.png'} alt="Logo Splash" width="50" />
+    
+    <div className="d-flex align-items-center">
 
+        {/*<div className={classes.search} >
 
-    <div className="col-md-4 d-flex justify-content-center">
-
-        <div className={classes.search} >
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
             <InputBase className="col-md-12"
-            
+               startAdornment={
+                <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              }
               placeholder="Buscar en Splash"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
+                focused:classes.cssLabel,
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-  
+            */}
+        <div className={classes.search} >
+   <Autocomplete
+   id="country-select-demo"
+   style={{ width: 300 }}
+   options={data}
+   freeSolo={true}
+
+   autoHighlight
+   loading={true}
+   loadingText="cargando"
+   noOptionsText="sin datos"
+   renderOption={(option) => (
+     <>
+       <span>
+      <Avatar alt="Remy Sharp" src={option.url_perfil===null ? option.url_perfil :process.env.PUBLIC_URL + '/recursos/icon_light.png' } />{"  "}</span>
+       {option.nombre} {option.apellido}
+     </>
+   )}
+   renderInput={(params) => (
+     
+     <TextField
+       {...params}
+       placeholder=" Buscar en Splash"
+       inputProps={{       
+       ...params.inputProps,
+       autoComplete: 'new-password',
+      }}
+     />
+   )}
+ /> 
+
+        </div>
+
           </div>
+    </div>
+
+
+
+
+ 
 
 
 

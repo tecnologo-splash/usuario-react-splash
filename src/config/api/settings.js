@@ -1,4 +1,6 @@
 export const SIZE_SUGERENCIAS_AMIGOS_MURO=5;
+export const SIZE_SEARCH_AMIGOS=8; 
+export const SIZE_MURO=15; 
 
 export const URL_BASE={
     prod:'https://tecnologo-splash-api.herokuapp.com/',

@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
     {img:'/recursos/reaciones/64px/woman_shrugging.gif', nameEmoji:'No Me Interesa'}
 ];
 
-export function Acciones() {
+export function Acciones({resumen_reaccion=[]}) {
+  console.log(resumen_reaccion);
     const [expanded, setExpanded] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -58,8 +59,8 @@ export function Acciones() {
 <div className="col-md-12"><Divider/></div>
     <CardActions className="d-flex bd-highlight">
 
-      <Button style={{textTransform: 'none', color:'grey'}} className="flex-fill bd-highlight" 
-     /* onMouseEnter={handlePopoverOpen}*/
+      <Button style={{textTransform: 'none', color:resumen_reaccion.mi_reaccion ===null ?'grey' :'#6F32C1'}} className="flex-fill bd-highlight" 
+     /* onMouseEnter={handlePopoverOpen}  */
      onClick={(event)=>{setAnchorEl(event.currentTarget)}}
       >
       <EmojiEmotionsIcon className="mr-2" />  <Typography> Reacionar</Typography>

@@ -25,14 +25,15 @@ import AddIcon from '@material-ui/icons/Add';
 import { useInfoUserHook } from "../../../../hooks/useInfoUserHook";
 
 const useStyles = makeStyles((theme) => ({
+  cssLabel:{
+    backgroundColor: "white",
+    border:'1px solid black',
+    borderRadius: "25px",
+  },
   inputPublicacion: {
     position: "relative",
     borderRadius: "25px",
     backgroundColor: "#f1f2f6",
-    "&:hover": {
-      backgroundColor: "white",/*#ecf0f1*/
-      border:'1px solid black'
-    },
     color: "#747d8c",
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -58,11 +59,6 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
 
-  },
-  divZoom:{
-    "&:hover": {
-      transform: 'scale(1.01)',
-    },
   }
 }));
 
@@ -87,9 +83,6 @@ export default function CrearPublicacion() {
 
   const open = Boolean(anchorEl);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   return (
     <div className="col-md-8 offset-md-2 mb-4 ">
@@ -99,18 +92,23 @@ export default function CrearPublicacion() {
           <div className="align-self-center col-md-1">
           <PerfilAvatar img={userInfo.imgUrl} />
           </div>
-          <div className={"col-md-11 align-self-center pl-0 "+classes.divZoom}>
+          <div className="col-md-11 align-self-center pl-0 ">
             <div className={classes.inputPublicacion} >
-              <div className={classes.icon}>
-                <AnnouncementIcon />
-              </div>
+        
 
               <InputBase
+                   startAdornment={
+                    <div className={classes.icon}>
+                    <AnnouncementIcon />
+                  </div>
+                  }
                 className="col-md-12"
                 multiline
                 placeholder="¿Alguna idea interesante que publicar?"
                 classes={{
                   input: classes.inputInput,
+                  focused: classes.cssLabel,
+
                 }}
                 rowsMax="7"
                 endAdornment={
