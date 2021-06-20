@@ -12,5 +12,4 @@ export async function request(url, method, data) {
     body: data ? JSON.stringify(data) : undefined,
   });
  return  response.json();
-
 }

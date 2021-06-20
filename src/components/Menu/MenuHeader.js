@@ -11,10 +11,10 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import {BuscadorAmigos} from '../../services/SearchAmigos';
 import Avatar from '@material-ui/core/Avatar';
 import InputAdornment from '@material-ui/core/InputAdornment';
-
-
+import { useHistory } from "react-router-dom";
 
 export function MenuHeader(){
+  let history = useHistory();
 
 const useStyles = makeStyles(theme => ({
   cssLabel:{
@@ -83,13 +83,16 @@ const countries = [
   { code: 'AE', label: 'United Arab Emirates', phone: '971' },
   { code: 'AF', label: 'Afghanistan', phone: '93' },
 ];
+const goToHome=()=>{
+  history.push("/home");
+}
     return(  
         <>
       <AppBar  className={classes.root}>
     <Toolbar style={{ height:'65px' }} >
 
    <div className="col-md-8 d-flex justify-content-start">
-    <img  src={process.env.PUBLIC_URL + '/recursos/icon_light.png'} alt="Logo Splash" width="50" />
+    <img  src={process.env.PUBLIC_URL + '/recursos/icon_light.png'} alt="Logo Splash" width="50" onClick={goToHome} />
     
     <div className="d-flex align-items-center">
 

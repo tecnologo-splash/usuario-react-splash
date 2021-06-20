@@ -4,6 +4,7 @@ import {mensajesCustomizados} from '../config/api/mensajesCustomizados';
 import { useDispatch, useStore } from "../contexts/LoginContext";
 import { ACTIONS} from "../contexts/StoreLoginReducer";
 import {userOrEmail} from '../util/validarCorreo';
+import {isEmptyInputs} from '../util/validarCamposVacios';
 
 
 export function useRegisterHook(){
@@ -20,7 +21,7 @@ export function useRegisterHook(){
 
   const onClickRegister=()=>{
     console.log(registro);
-    if(isEmptyInputs()){
+    if(isEmptyInputs(registro)){
       dispatch({ type: ACTIONS.MENSAJE_ERROR_REGISTRO, payload: "Debe Ingresar los Campos Obligatorios" });
     }else if(!userOrEmail(registro.correo)){
       dispatch({ type: ACTIONS.MENSAJE_ERROR_REGISTRO, payload: "Error, correo invalido" });
@@ -42,14 +43,6 @@ export function useRegisterHook(){
     }
    }
 
-   const isEmptyInputs=()=>{
-    for (var key in registro) {
-      if (registro[key] === ""){
-          return true;
-      }
-    }
-    return false;
-  }
 
   const handleModalRegister=()=>{
     setOpenModalRegister(!openModalRegister);

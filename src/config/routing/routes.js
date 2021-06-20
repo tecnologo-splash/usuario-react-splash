@@ -13,11 +13,19 @@ export const routes = [
     component: pages.MiPerfil,
     path: "/home/mi-perfil/",
     isPrivate: true
-  },{
-    component: pages.Perfil,
+  }
+  ,{
+    component: pages.MiPerfil,
     path: "/home/perfil/:id",
     isPrivate: true
+  },,{
+    component: pages.Perfil,
+    path: "/home/mi-perfil/amigos",
+    isPrivate: true
+  },{
+    component: pages.Perfil,
+    path: "/home/mi-perfil/yo-sigo",
+    isPrivate: true
   }
-  
 ];
   

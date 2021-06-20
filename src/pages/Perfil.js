@@ -17,10 +17,16 @@ import Avatar from "@material-ui/core/Avatar";
 import CreateIcon from '@material-ui/icons/Create';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
-
+import {Amigos} from '../components/Home/Perfil/Amigos';
 import Card from "@material-ui/core/Card";
 import {VisualizarPerfil} from '../components/Home/Perfil/VisualizarPerfil';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom'
+
 export default function Perfil() {
+  const data = useParams();
+console.log(data);
+
 const useStyles = makeStyles(theme => ({
     content: {
         padding: theme.spacing(3),
@@ -30,7 +36,8 @@ const useStyles = makeStyles(theme => ({
 
   const classes = useStyles();
 const [datos,setDatos]=useState([]);
-
+const location = useLocation();
+console.log(location.pathname);
   return (
       <>
       <MenuHeader/>
@@ -39,8 +46,17 @@ const [datos,setDatos]=useState([]);
           <div className="row">
           <VisualizarPerfil/>
           <div className="col-md-9">
-          <CrearPublicacion/>
+            {
+              location.pathname==="/home/mi-perfil/amigos"
+              ?
+              <Amigos/>
+              :
+              <>
+                  <CrearPublicacion/>
           <FiltroPublicacion/>
+              </>
+            }
+      
           </div>
  
       </div>

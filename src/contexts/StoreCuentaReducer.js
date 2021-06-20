@@ -8,6 +8,9 @@ const ACTIONS = {
     ACTIVAR_CUENTA_MODAL: 'activar_cuenta_modal',
     SET_FORGOT_PASSWD:'set-forgot-passwd',
     ATUALIZACION_PASSWD_EXITO:'actualizacion-passwd-exito',
+    MENSAJE_ACTUALIZAR_DATOS:'mensaje-actualizar-datos',
+    SET_DATA_OTRO_USUARIO:'set-data-otro-usuario',
+
 }
 const initialStateCuenta = {
     modalActivarCuenta: false,
@@ -36,7 +39,17 @@ const initialStateCuenta = {
         url_perfil: "",
         usuario: "",
         id: "",
-    }
+    },
+    otroUsuarioInfo: {
+        apellido: "",
+        biografia: "",
+        genero: "",
+        nombre: "",
+        url_perfil: "",
+        usuario: "",
+        id: "",
+    },
+    mensajeActualizarDatos:''
 };
 const storeReducerCuenta = (state, action) => {
 
@@ -87,8 +100,17 @@ const storeReducerCuenta = (state, action) => {
                 ...state,
                 userInfo: action.payload,
             }
-
-
+        case ACTIONS.MENSAJE_ACTUALIZAR_DATOS:
+            return {
+                ...state,
+                mensajeActualizarDatos: action.payload,
+            }
+        case ACTIONS.SET_DATA_OTRO_USUARIO:
+            return {
+                ...state,
+                otroUsuarioInfo: action.payload,
+            }
+                
         default:
             return new Error(`Accion ${action.type} no definida`);
     }

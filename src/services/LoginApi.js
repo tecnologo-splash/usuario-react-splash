@@ -1,11 +1,14 @@
 import {METHOD} from '../config/api/settings';
-import {request} from './GeneralApi';
+import {request,requestFormData} from './GeneralApi';
 
   export function Login({data}) {
    return request('users/auth',METHOD.POST,data);
   }
   export function UserInfo(){
     return request('users/info',METHOD.GET);
+  }
+  export function UserInfoOtroUsuario(id){
+    return request('users/info/'+id,METHOD.GET);
   }
   export function ActivateCuenta({data}) {
     return request('users/activation',METHOD.POST,data);
@@ -25,7 +28,6 @@ import {request} from './GeneralApi';
     return request('users/recovery-password',METHOD.POST,data);
   }
 
-  export function ForgotPassword({data}) {
-    return request({url:'',method:'POST',data});
+  export function ActualizarDatosPerfilUsuario({data}){
+    return request('users/'+data.id,METHOD.PUT,data);
   }
-  

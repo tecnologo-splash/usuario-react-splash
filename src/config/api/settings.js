@@ -4,7 +4,7 @@ export const SIZE_MURO=15;
 
 export const URL_BASE={
     prod:'https://tecnologo-splash-api.herokuapp.com/',
-    local:'localhost:8080/'
+    local:'http://localhost:8080/'
 };
 
 export const URL_BASE_FILE_STORAGE='https://splash.s3.amazonaws.com/api/files/';
