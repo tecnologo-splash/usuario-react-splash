@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
@@ -14,118 +14,155 @@ import { Divider } from "@material-ui/core";
 import { Comentarios } from "./Comentarios";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-
+import { ReaccionarAPublicacion,BorrarReaccionarAPublicacion,Publicacion } from '../../../services/MuroApi';
+import { PublicacionReaccionada } from './PublicacioReaccionada';
 const useStyles = makeStyles((theme) => ({
-    elementsHover:{
-      "&:hover": {
-          transform: 'scale(1.4)',
-          transition: 'transform .2s' 
-        }
-    },
-
-  }));
-
-  const tilo=css`
-    .MuiPaper-root{
-      border-radius:50px;
+  elementsHover: {
+    "&:hover": {
+      transform: 'scale(1.4)',
+      transition: 'transform .2s'
     }
-  `;
+  },
+}));
 
-  const emjis=[
-    {img:'/recursos/reaciones/64px/thumbs_up.gif', nameEmoji:'Me Gusta'},
-    {img:'/recursos/reaciones/64px/thumbs_down.gif', nameEmoji:'No Me Gusta'},
-    {img:'/recursos/reaciones/64px/grinning_face_with_smiling_eyes.gif',nameEmoji:'Me Divierte'},
-    {img:'/recursos/reaciones/64px/middle_finger.gif',nameEmoji:'Me Enoja'},
-    {img:'/recursos/reaciones/64px/woman_shrugging.gif', nameEmoji:'No Me Interesa'}
+const tilo = css`.MuiPaper-root{border-radius:50px;}`;
+
+const emjis = [
+  { img: '/recursos/reaciones/64px/thumbs_up.gif', nameEmoji: 'Me Gusta', enumEmoji: 'ME_GUSTA' },
+  { img: '/recursos/reaciones/64px/thumbs_down.gif', nameEmoji: 'No Me Gusta', enumEmoji: 'NO_ME_GUSTA' },
+  { img: '/recursos/reaciones/64px/grinning_face_with_smiling_eyes.gif', nameEmoji: 'Me Divierte', enumEmoji: 'ME_DIVIERTE' },
+  { img: '/recursos/reaciones/64px/middle_finger.gif', nameEmoji: 'Me Enoja', enumEmoji: 'ME_ENOJA' },
+  { img: '/recursos/reaciones/64px/woman_shrugging.gif', nameEmoji: 'No Me Interesa', enumEmoji: 'NO_ME_INTERESA' }
 ];
 
-export function Acciones({resumen_reaccion=[]}) {
-  console.log(resumen_reaccion);
-    const [expanded, setExpanded] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null);
+export function Acciones({ resumen_reaccion = [], publicacionId }) {
 
-      const handlePopoverClose = () => {
-        setAnchorEl(null);
-      };
-    
-      const open = Boolean(anchorEl);
-    
-      const handleExpandClick = () => {
-        setExpanded(!expanded);
-      };
-        
-      return (
-<>
-<div className="col-md-12"><Divider/></div>
-    <CardActions className="d-flex bd-highlight">
+  const [expanded, setExpanded] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [reacciones, setReacciones] = useState(resumen_reaccion);
 
-      <Button style={{textTransform: 'none', color:resumen_reaccion.mi_reaccion ===null ?'grey' :'#6F32C1'}} className="flex-fill bd-highlight" 
-     /* onMouseEnter={handlePopoverOpen}  */
-     onClick={(event)=>{setAnchorEl(event.currentTarget)}}
-      >
-      <EmojiEmotionsIcon className="mr-2" />  <Typography> Reacionar</Typography>
-      </Button>
-      
-      <Popover
-css={tilo}
-        open={open}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "left"
-        }}
-        transformOrigin={{
-          vertical: "bottom",
-          horizontal: "left"
-        }}
-        onClose={handlePopoverClose}
-      >
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
 
-        {
-      [...new Array(5)].map((item,index)=>(
-        <EmojiAction key={index} url={emjis[index].img} titulo={emjis[index].nameEmoji} handlePopoverClose={handlePopoverClose}/>
-      ))
-      }
-       </Popover>
+  const open = Boolean(anchorEl);
 
-        <Button 
-        style={{textTransform: 'none', color:'grey'}}
-        className="flex-fill bd-highlight"
+  const handleExpandClick = () => {
+      setExpanded(!expanded);
+  };
+
+  const openReaccion=(e)=>{
+    if(reacciones.mi_reaccion!=null){
+      (async () => {
+      const response=await BorrarReaccionarAPublicacion({ publicacionId });
+      console.log(response);
+      })();
+      (async () => {
+          const response=await Publicacion({publicacionId});
+          console.log(response);
+          const {resumen_reaccion}=response;
+          setReacciones(resumen_reaccion);
+        })()
+    }else{
+      setAnchorEl(e.currentTarget) 
+    }
+  }
+  return (
+    <>
+
+<div className="col-md-12 mb-1">     <PublicacionReaccionada resumen_reaccion={reacciones} />
+
+</div>
+      <div className="col-md-12"><Divider /></div>
+
+      <CardActions className="d-flex bd-highlight">
+
+        <Button style={{ textTransform: 'none', color: reacciones.mi_reaccion === null ? 'grey' : '#6F32C1' }} className="flex-fill bd-highlight"
+          /* onMouseEnter={handlePopoverOpen}  */
+          onClick={openReaccion}
+        >
+          <EmojiEmotionsIcon className="mr-2" />  <Typography> Reacionar</Typography>
+        </Button>
+
+        <Popover
+          css={tilo}
+          open={open}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left"
+          }}
+          transformOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          onClose={handlePopoverClose}
+        >
+
+          {
+            [...new Array(5)].map((item, index) => (
+              <EmojiAction key={index}
+                url={emjis[index].img}
+                titulo={emjis[index].nameEmoji}
+                enumEmoji={emjis[index].enumEmoji}
+                publicacionId={publicacionId}
+                setAnchorEl={setAnchorEl}
+                setReacciones={setReacciones}
+              />
+            ))
+          }
+        </Popover>
+
+        <Button
+          style={{ textTransform: 'none', color: 'grey' }}
+          className="flex-fill bd-highlight"
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
-          {expanded ?<MenuBookIcon className="mr-2"/>: <CommentIcon className="mr-2"/>}
-         <Typography> Comentarios</Typography>
+          {expanded ? <MenuBookIcon className="mr-2" /> : <CommentIcon className="mr-2" />}
+          <Typography> Comentarios</Typography>
         </Button>
 
-        <Button 
-         className="flex-fill bd-highlight"
-         style={{textTransform: 'none', color:'grey'}}
-         >
+        <Button
+          className="flex-fill bd-highlight"
+          style={{ textTransform: 'none', color: 'grey' }}
+        >
           <ShareIcon className="mr-2" />  <Typography> Compartir</Typography>
         </Button>
 
       </CardActions>
-      <div className="col-md-12"><Divider/></div>
 
 
-      <Comentarios expanded={expanded}/>
+      <div className="col-md-12"><Divider /></div>
 
-      </>
-)
+      <Comentarios expanded={expanded} />
+
+    </>
+  )
 
 }
 
-export function EmojiAction ({url, titulo,handlePopoverClose,index}){
+export function EmojiAction({ url, titulo, setAnchorEl, index, enumEmoji, publicacionId,setReacciones }) {
   const classes = useStyles();
-return (
-  <Tooltip title={titulo} key={index}>
-      <IconButton variant="contained" onClick={handlePopoverClose} className="mr-2">
-        <img  src={process.env.PUBLIC_URL + url} alt="" width="45"  className={classes.elementsHover}/>
-        </IconButton>
-      </Tooltip>
+  const handleClick = () => {
+    console.log("reaccionar " + enumEmoji);
+    (async () => {
+      const data = { emoji: enumEmoji };
+    const response=  await ReaccionarAPublicacion({ publicacionId, data })
+      console.log(response);
+      setReacciones(response.resumen_reaccion);
+    })()
 
-)
+    setAnchorEl(null);
+  }
+  return (
+    <Tooltip title={titulo} key={index}>
+      <IconButton variant="contained" className="mr-2" onClick={handleClick}>
+        <img src={process.env.PUBLIC_URL + url} alt="" width="45" className={classes.elementsHover} />
+      </IconButton>
+    </Tooltip>
+
+  )
 
 }

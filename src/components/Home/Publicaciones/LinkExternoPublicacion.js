@@ -7,7 +7,6 @@ import LinkIcon from '@material-ui/icons/Link';
 import { PublicacionHeader } from './PublicacionHeader';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import {PublicacionReaccionada} from './PublicacioReaccionada';
 export default function LinkExternoPublicacion({ publicacionData }) {
 
   const hoverLink = css`
@@ -17,8 +16,6 @@ export default function LinkExternoPublicacion({ publicacionData }) {
       }
     `;
   const {enlace_externo}=publicacionData;
-  const {usuario_comun}=publicacionData;
-  const {resumen_reaccion}=publicacionData;
 
   const limitStrLength = (text, max_length) => {
     if (text.length > max_length - 3) {
@@ -40,18 +37,8 @@ export default function LinkExternoPublicacion({ publicacionData }) {
   })
   */
   return (
-    <div className="col-md-8 offset-md-2 mb-4">
 
-      <Card>
-        <PublicacionHeader
-         nombre={usuario_comun.nombre}  
-         apellido={usuario_comun.apellido}
-        url_perfil={usuario_comun.url_perfil}
-        usuario={"@"+usuario_comun.usuario}
-        id={usuario_comun.id}
-        fecha_publicacion={publicacionData.fecha_creado}
-        />
-        <CardContent>
+           <CardContent>
           <Typography paragraph>
 
             {publicacionData.texto}
@@ -67,17 +54,9 @@ export default function LinkExternoPublicacion({ publicacionData }) {
                 </Typography>
 
               </div>
-
-
-            </div></div>
-            <PublicacionReaccionada resumen_reaccion={resumen_reaccion}/>
+            </div>
+            </div>
         </CardContent>
-        
-
-        <Acciones resumen_reaccion={resumen_reaccion} />
-
-      </Card>
-
-    </div>
+  
   );
 }

@@ -1,32 +1,24 @@
 import React from "react";
+import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import {Acciones} from './Acciones';
+import {PublicacionHeader} from './PublicacionHeader';
 
 import {URL_BASE_FILE_STORAGE} from '../../../config/api/settings';
 import {PublicacionReaccionada} from './PublicacioReaccionada';
 
 
-export default function SimplePublicacion({publicacionData}) {
-  const{usuario_comun}=publicacionData;
-  const {multimedia}=publicacionData;
-  const valor=multimedia[0].tipo.toLowerCase()==='foto'? "img" : "video";
-  
+export  function SoloTextoPublicacion({publicacionData}) {
   return (
-     <>
+    <>
      <div className="container">
         <Typography paragraph>
           {publicacionData.texto}
         </Typography>
       </div>
-            
-      <CardMedia
-      component={valor}
-     src={URL_BASE_FILE_STORAGE+multimedia[0].url}
-      title='title'
-      controls
-      />    
-    
-
-</>
+ 
+ </>
   );
 }

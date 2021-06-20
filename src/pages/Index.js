@@ -4,6 +4,9 @@ const Login = lazy(() => import("./Login"));
 
 const Home = lazy(() => import("./Home"));
 
-//const Perfil = lazy(() => import("./Profile"));
+const MiPerfil = lazy(() => import("./Perfil"));
 
-export const pages={Login,Home};
+const Perfil = lazy(() => import("./Perfil"));
+
+
+export const pages={Login,Home,MiPerfil,Perfil};

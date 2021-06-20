@@ -5,6 +5,8 @@ import CardContent from "@material-ui/core/CardContent";
 import { css } from "@emotion/react";
 import Typography from "@material-ui/core/Typography";
 import {Acciones} from './Acciones';
+import CardMedia from "@material-ui/core/CardMedia";
+import {URL_BASE_FILE_STORAGE} from '../../../config/api/settings';
 
 import {Carousel} from 'react-bootstrap';
 import {PublicacionHeader} from './PublicacionHeader';
@@ -17,52 +19,31 @@ const estilo=css`
  border-radius: 100%;
 }
 `;
-export default function CarrouselPublicacion() {
-
+export default function CarrouselPublicacion({publicacionData}) {
+  const {multimedia}=publicacionData;
   return (
-    <div className="col-md-8 offset-md-2 mb-4">
-    <Card>
-    <PublicacionHeader/>
+    <>
+         <div className="container">
+        <Typography paragraph>
+          {publicacionData.texto}
+        </Typography>
+      </div>
      <Carousel css={estilo}   interval={null}>
-  <Carousel.Item>
-    <img
-      className={"d-block w-100"}
-      src="https://i.pinimg.com/originals/11/7e/93/117e9371c1a30a8de6fe51ac861cf247.jpg"
-      alt="First slide"
-    />
-  </Carousel.Item>
-  <Carousel.Item>
-    <img
-        className={"d-block w-100"}
-      src="http://2.bp.blogspot.com/_3sU0MnRawMI/TQ9LYi6iUPI/AAAAAAAACb8/sSCMmMla1UM/s1600/kakashi%2Bhatake%2B.jpg"
-      alt="Second slide"
-    />
 
-  </Carousel.Item>
-  <Carousel.Item>
-    <img
-     className={"d-block w-100"}
-      src="https://i.pinimg.com/736x/01/be/24/01be24e24eccf8e9e70278df34a08e6e.jpg"
-      alt="Third slide"
-    />
+    {multimedia.map((item,index)=>(
+        <Carousel.Item key={index}>
+          <CardMedia
+          component={item.tipo.toLowerCase()==='foto'? "img" : "video"}
+        src={URL_BASE_FILE_STORAGE+item.url}
+          title='title'
+          controls
+          />  
+    </Carousel.Item>
+    ))}
 
-  </Carousel.Item>
 </Carousel>
       
-      <CardContent>
-      <Typography paragraph>
-       Hola me llamo Pepe de Pepe Rompe de videomatch
 
-          </Typography>
-          
-      </CardContent>
-
-      <Acciones/>
-
- 
-
-    </Card>
-
-    </div>
+ </>
   );
 }

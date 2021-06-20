@@ -7,7 +7,7 @@ export function useInfoUserHook(){
 
     const {userInfo} = useStoreCuenta();
     const dispatch=useDispatchCuenta();
-
+    
     const getDatos=()=>{
         if(userInfo.usuario===""){
             (async () => {

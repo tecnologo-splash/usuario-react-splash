@@ -41,6 +41,14 @@ export default function RightMenuItems() {
     setAnchorEl(null);
   };
 
+const irMiPerfil=()=>{
+  history.push("/home/mi-perfil");
+}
+
+const irAlInicio=()=>{
+  history.push("/home");
+}
+
 useEffect(()=>{
   getDatos();
 })
@@ -55,6 +63,7 @@ useEffect(()=>{
           aria-haspopup="true"
           size="small"
           css={estiloColor}
+          onClick={irAlInicio}
         >
           <Box boxShadow={1} borderRadius={16}>
             <HomeIcon fontSize="large" />
@@ -103,10 +112,11 @@ useEffect(()=>{
           aria-haspopup="true"
           size="small"
           css={estiloColor}
+          onClick={irMiPerfil}
         >
           <Box boxShadow={1} borderRadius={16} className="row">
-            <PerfilAvatar img={userInfo.imgUrl} />
-            {/*https://i.pinimg.com/originals/11/7e/93/117e9371c1a30a8de6fe51ac861cf247.jpg*/}
+            <PerfilAvatar img={userInfo.url_perfil} />
+
             <div className="align-self-center">{userInfo.nombre} {userInfo.apellido}</div>
           </Box>
         </IconButton>
