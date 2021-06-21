@@ -56,21 +56,20 @@ export function VisualizarPerfil() {
             if (userInfo.usuario === "") {
                 getDatos();
             }
-
         } else {//perfil de otro usuario
+            console.log(otroUsuarioInfo)
             getDatosOtroUsuario(id);
             setUserInfo(otroUsuarioInfo);
-
         }
  
-    }, [userInfo])
+    }, [uInfo])
 
     const openPover=(e)=>{
         if(id===undefined){
             setAnchorEl(e.currentTarget)
-
         }
     }
+
     return (
 
         <div className="col-md-3" >

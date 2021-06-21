@@ -6,7 +6,7 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 export default function EncuestaPublicacion({ publicacionData= []}) {
   const { encuesta } = publicacionData;
-  console.log(encuesta);
+  //console.log(encuesta);
   const [totalVotos, setVotos] = useState(0);
   const [encuestaActiva, setEstadoEnc] = useState({
     estado:null,

@@ -12,7 +12,8 @@ import {BuscadorAmigos} from '../../services/SearchAmigos';
 import Avatar from '@material-ui/core/Avatar';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { useHistory } from "react-router-dom";
-
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 export function MenuHeader(){
   let history = useHistory();
 
@@ -83,6 +84,8 @@ const countries = [
   { code: 'AE', label: 'United Arab Emirates', phone: '971' },
   { code: 'AF', label: 'Afghanistan', phone: '93' },
 ];
+const estiloCursor=css`cursor:pointer;`;
+
 const goToHome=()=>{
   history.push("/home");
 }
@@ -92,7 +95,9 @@ const goToHome=()=>{
     <Toolbar style={{ height:'65px' }} >
 
    <div className="col-md-8 d-flex justify-content-start">
-    <img  src={process.env.PUBLIC_URL + '/recursos/icon_light.png'} alt="Logo Splash" width="50" onClick={goToHome} />
+    <img  src={process.env.PUBLIC_URL + '/recursos/icon_light.png'} alt="Logo Splash" width="50"
+    css={estiloCursor}
+    onClick={goToHome} />
     
     <div className="d-flex align-items-center">
 

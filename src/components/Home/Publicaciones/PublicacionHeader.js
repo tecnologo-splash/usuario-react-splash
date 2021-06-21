@@ -7,17 +7,27 @@ import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {StyledMenu,StyledMenuItem} from '../../StyledMenus';
-
+import { useHistory } from "react-router-dom";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,fecha_publicacion}){
   const [anchorEl, setAnchorEl] = useState(null);
+  let history = useHistory();
+  const estiloCursor=css`cursor:pointer;`;
+
+  const goToPerfil=()=>{
+    history.push("/home/perfil/"+id);
+  }
 
   return (
     <CardHeader
     avatar={
       <PerfilAvatar img={url_perfil}/>
     }
+    css={estiloCursor}
     title={nombre +" "+apellido}
     subheader={usuario+"- "+fecha_publicacion}
+    onClick={goToPerfil}
     action={
       <>
       <Tooltip title="Ver Más">
