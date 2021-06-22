@@ -10,7 +10,6 @@ import { SoloTextoPublicacion } from './SoloTextoPublicacion';
 import useNearScreen from '../../../hooks/useNearScreen';
 import { useMuroHook } from '../../../hooks/useMuroHook';
 import debounce from 'just-debounce-it';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function ListarMuro() {
-  const { loading, datos, setPage, hayDatos } = useMuroHook({ tipo_filtro: '' });
+  const { loading, datos, setPage } = useMuroHook({ tipo_filtro: '' });
   const externalRef = useRef();
 
   const { isNearScreen } = useNearScreen({
@@ -37,17 +36,16 @@ export function ListarMuro() {
     , 200), [setPage])
 
   useEffect(function () {
-    if (isNearScreen && hayDatos > 0) debounceHandleNextPage()
+    if (isNearScreen ) debounceHandleNextPage()
   }, [debounceHandleNextPage, isNearScreen])
 
   console.log(datos);
-  console.log("cargando");
 
   return (
     <>
-      {loading
-        ? <div className="col-md-8 offset-md-2 mb-4">     <CargandoPublicacion />
-
+      {loading && datos.length===0
+        ? <div className="col-md-8 offset-md-2 mb-4">   <>
+       <CargandoPublicacion /><br/><CargandoPublicacion /></>
         </div>
         : <>
 
@@ -73,12 +71,7 @@ export function ListarMuro() {
           ))}
           <div id="visor" ref={externalRef}>
             <div className="col-md-8 offset-md-2 mb-4">
-
-              {hayDatos > 0 ?
                 <CargandoPublicacion />
-                : "No hay  mas Datos para Cargar"
-              }
-
             </div>
           </div>
         </>

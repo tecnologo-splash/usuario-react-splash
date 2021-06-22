@@ -90,7 +90,7 @@ export default function CrearPublicacion() {
 
         <div className="d-flex flex-row mt-3">
           <div className="align-self-center col-md-1">
-          <PerfilAvatar img={userInfo.imgUrl} />
+          <PerfilAvatar img={userInfo.url_perfil} />
           </div>
           <div className="col-md-11 align-self-center pl-0 ">
             <div className={classes.inputPublicacion} >

@@ -1,6 +1,6 @@
 import {Login as LoginApi,UserInfo} from '../services/LoginApi';
 import {mensajesCustomizados} from '../config/api/mensajesCustomizados';
-import {saveTokenSplash} from '../config/api/tokenLogin';
+import {saveTokenSplash, logoutSplash} from '../config/api/tokenLogin';
 import { useHistory } from "react-router-dom";
 import { useDispatch,useStoreCuenta, useStore,useDispatchCuenta } from "../contexts/LoginContext";
 import { ACTIONS} from "../contexts/StoreLoginReducer";
@@ -21,10 +21,10 @@ export function useLoginHook(){
   }
 
   const onClickLogin=()=>{
-    
     if(credenciales.usuario==="" || credenciales.passwd===""){
       dispatch({ type: ACTIONS.MENSAJE_ERROR, payload: mensajesCustomizados("CAMPOS_OBLIGATORIOS") });
     }else{
+      logoutSplash();
       let newObject={clave:credenciales.passwd}
       //verficamos si nos manda un email o un usuario y creamos un nuevo objeto a partir de esta data
       userOrEmail(credenciales.usuario) ? newObject["correo"]=credenciales.usuario :newObject["usuario"]=credenciales.usuario;

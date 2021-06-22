@@ -1,49 +1,41 @@
-import {useState,useEffect} from 'react';
-import {ListarPublicacionMisSegudiores} from '../services/MuroApi';
-import {INITIAL_PAGE} from '../config/api/settings';
+import { useState, useEffect, useReducer } from 'react';
+import { ListarPublicacionMisSegudiores } from '../services/MuroApi';
+import { INITIAL_PAGE } from '../config/api/settings';
+import { ACTIONS_MURO, storeReducer, initialState } from '../contexts/StoreMuroReducer';
 
-export function useMuroHook ({ tipo_filtro=''}) {
+export function useMuroHook({ tipo_filtro = '' }) {
 
-    const [loading, setLoading] = useState(false)
-    const [loadingNextPage, setLoadingNextPage] = useState(false)
-    const [page, setPage] = useState(INITIAL_PAGE)
- //   const {gifs, setGifs} = useContext(GifsContext)
-      const [datos,setDatos]=useState([]);
-      const [ultimaPeticion,setUltimaPeticion]=useState([]);
-
-   
- useEffect(()=>{
-  setLoading(true);
-  console.log("1 useeffect");
-  (async()=>{
-    const response=await ListarPublicacionMisSegudiores({page,order:"fechaCreado",by:"desc"});
-      const {content}=response;
-    setDatos(content)
-    setUltimaPeticion(content);
-    console.log(content);
-    setLoading(false)
-  })();
-},[tipo_filtro,setDatos])
-
-    useEffect(() =>{
-      console.log("2do useeffect");
-      console.log(ultimaPeticion.length);
-      if(ultimaPeticion.length>0){
-        if (page === INITIAL_PAGE) return
-        setLoadingNextPage(true);
-     (async()=>{
-          const response=await ListarPublicacionMisSegudiores({page,order:"fechaCreado",by:"desc"});
-            const {content}=response;
-            console.log(content.length);
-              setDatos(prevData => prevData.concat(content))
-              setUltimaPeticion(content);
-          setLoading(false)
-        })();
-      }
+  const [loadingNextPage, setLoadingNextPage] = useState(false)
+  const [page, setPage] = useState(INITIAL_PAGE)
+  const [store, dispatch] = useReducer(storeReducer, initialState);
+  const { datos,cargando } = store;
+  useEffect(() => {
+    console.log("1 useeffect");
+     if (page === INITIAL_PAGE){
+      dispatch({ type: ACTIONS_MURO.CARGANDO, payload: true });
+      (async () => {
+        const response = await ListarPublicacionMisSegudiores({ page, order: "fechaCreado", by: "desc" });
+        const { content } = response;
+        dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload: content });
+        
+      })();
+     }
  
-      
-   
-    }, [tipo_filtro, page,setDatos])
-  
-    return {loading, loadingNextPage, datos, setPage, hayDatos:ultimaPeticion.length}
-  }
+  }, [tipo_filtro, page])
+
+  useEffect(() => {
+    console.log("2 useffect");
+    if (page === INITIAL_PAGE) return
+      setLoadingNextPage(true);
+      (async () => {
+        const response = await ListarPublicacionMisSegudiores({ page, order: "fechaCreado", by: "desc" });
+        const { content } = response;
+        dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload: datos.concat(content) });
+
+      })();
+
+
+  }, [tipo_filtro, page])
+
+  return { loading:cargando, loadingNextPage, datos, setPage  }
+}

@@ -11,5 +11,6 @@ export async function request(url, method, data) {
     },
     body: data ? JSON.stringify(data) : undefined,
   });
- return  response.json();
+ const response_json =await response.json();
+ return response_json;
 }

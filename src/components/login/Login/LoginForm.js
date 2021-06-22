@@ -13,8 +13,7 @@ import { ForgotPassword } from "../ForgotPassword/ForgotPassword";
 import { withStyles } from "@material-ui/core/styles";
 import {useLoginHook} from '../../../hooks/useLoginHook';
 import {ActivarCuentaModal} from './ActivarCuentaModal';
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
+
 
 const inputStyles = css`
   background-color: white;

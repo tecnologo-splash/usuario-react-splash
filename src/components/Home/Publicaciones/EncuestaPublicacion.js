@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import Card from "@material-ui/core/Card";
+import React, { useState, useEffect,useCallback } from "react";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -13,28 +12,31 @@ export default function EncuestaPublicacion({ publicacionData= []}) {
     fechaCierre:null
   });
  
-  const validarCierreEncuesta=()=>{
-    let today = new Date();
-    let fechaCierre = new Date(encuesta.fecha_cierre);
-    let dd = String(fechaCierre.getDate()).padStart(2, '0');
-    let mm = String(fechaCierre.getMonth() + 1).padStart(2, '0'); //January is 0!
-    let yyyy = fechaCierre.getFullYear();
-    fechaCierre = dd + '/' +  mm + '/' + yyyy;
-    let parts = fechaCierre.match(/(\d+)/g);
-    let   fechaCierre2=   new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
-    
-    if(today.getTime()>fechaCierre2.getTime()){
-      setEstadoEnc({
-        estado:false,
-        fechaCierre:"Cerrada "+fechaCierre
-      });
-    }else{
-      setEstadoEnc({
-       estado:true,
-      fechaCierre:"Activa hasta el: "+fechaCierre
-      });
-    }
-  }
+  const validarCierreEncuesta=useCallback(
+    ()=>{
+      let today = new Date();
+      let fechaCierre = new Date(encuesta.fecha_cierre);
+      let dd = String(fechaCierre.getDate()).padStart(2, '0');
+      let mm = String(fechaCierre.getMonth() + 1).padStart(2, '0'); //January is 0!
+      let yyyy = fechaCierre.getFullYear();
+      fechaCierre = dd + '/' +  mm + '/' + yyyy;
+      let parts = fechaCierre.match(/(\d+)/g);
+      let   fechaCierre2=   new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
+      
+      if(today.getTime()>fechaCierre2.getTime()){
+        setEstadoEnc({
+          estado:false,
+          fechaCierre:"Cerrada "+fechaCierre
+        });
+      }else{
+        setEstadoEnc({
+         estado:true,
+        fechaCierre:"Activa hasta el: "+fechaCierre
+        });
+      }
+    },[encuesta.fecha_cierre]
+  
+  )
   useEffect(() => {
     let total=0;
     encuesta.opciones.forEach(element => {
@@ -43,7 +45,7 @@ export default function EncuestaPublicacion({ publicacionData= []}) {
     setVotos(total);
     validarCierreEncuesta();
    
-  }, [encuesta.opciones]);
+  }, [encuesta.opciones,validarCierreEncuesta]);
 
   return (
 

@@ -25,7 +25,6 @@ export function useInfoUserHook(){
                 console.log(response);
                 if(response.status >=200 && response.status<=226){
                   dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' });
-                  //setActualizado(true);
                 }else{
                   dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: mensajesCustomizados(response.error_code) });
                 }
@@ -43,8 +42,9 @@ export function useInfoUserHook(){
          return userInfo;
         }
     }
+
     const getDatosOtroUsuario=(id)=>{
-      if(id!==userInfo.id){
+      if(id!==otroUsuarioInfo.id){
         (async () => {
           const response=await  UserInfoOtroUsuario(id);
             console.log(response);
@@ -55,6 +55,7 @@ export function useInfoUserHook(){
             }
       })()
       }else if(id===otroUsuarioInfo.id){
+        console.log("ya tengo datos de " +id)
         return otroUsuarioInfo;
       }
  
