@@ -15,10 +15,10 @@ export const routes = [
     isPrivate: true
   }
   ,{
-    component: pages.MiPerfil,
+    component: pages.PerfilAmigo,
     path: "/home/perfil/:id",
     isPrivate: true
-  },,{
+  },{
     component: pages.Perfil,
     path: "/home/mi-perfil/amigos",
     isPrivate: true

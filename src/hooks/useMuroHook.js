@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer } from 'react';
-import { ListarPublicacionMisSegudiores } from '../services/MuroApi';
+import { ListarPublicacionMisSegudiores,PublicarSoloTexto,EliminarPublicacion } from '../services/MuroApi';
 import { INITIAL_PAGE } from '../config/api/settings';
 import { ACTIONS_MURO, storeReducer, initialState } from '../contexts/StoreMuroReducer';
 
@@ -30,12 +30,47 @@ export function useMuroHook({ tipo_filtro = '' }) {
       (async () => {
         const response = await ListarPublicacionMisSegudiores({ page, order: "fechaCreado", by: "desc" });
         const { content } = response;
+        console.log("-->",content);
         dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload: datos.concat(content) });
 
       })();
 
-
   }, [tipo_filtro, page])
 
-  return { loading:cargando, loadingNextPage, datos, setPage  }
+  const publicarSoloTexto=(t)=>{
+    console.log(t);
+    (async () => {
+      const data={texto:t};
+        const response = await PublicarSoloTexto({data}) ;
+        console.log(response);
+        dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:[response].concat(datos) });
+        
+    })();
+  }
+
+
+
+  const eliminarPublicacion=(idPublicacion)=>{
+    (async () => {
+       await EliminarPublicacion({data:idPublicacion}) ;
+        
+        let index = datos.map((item) => item.id).indexOf(idPublicacion);
+        if (index > -1) {
+          datos.splice(index, 1);
+        }
+        dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:datos });
+        
+    })();
+  }
+
+  const publicarImagenVideo=()=>{
+
+  }
+
+  const publicarEnlaceExterno=({datosEnlace})=>{
+    
+  }
+
+
+  return { loading:cargando, loadingNextPage, datos, setPage,publicarSoloTexto,eliminarPublicacion,publicarImagenVideo  }
 }

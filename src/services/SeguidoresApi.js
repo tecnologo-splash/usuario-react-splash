@@ -10,6 +10,10 @@ import {request} from './GeneralApi';
     return request(`seguidores/seguir/${usuario_id}`,METHOD.PUT);
   }
 
+  export function DejarDeSeguir({usuario_id}) {
+    return request(`seguidores/dejardeseguir/${usuario_id}`,METHOD.DELETE);
+  }
+
   export function ListarUsuarioQueYoSigo({page=0}) {
     return request(`yo-sigo?page=${page}&size=${SIZE_SEARCH_AMIGOS}`,METHOD.GET);
   }

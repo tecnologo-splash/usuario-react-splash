@@ -21,7 +21,6 @@ import { useInfoUserHook } from "../../hooks/useInfoUserHook";
 export default function RightMenuItems() {
   const estiloColor=css`color:white !important;`;
   let history = useHistory();
-  const {userInfo,getDatos}=useInfoUserHook();
 
   const logOut=()=>{
     logoutSplash();
@@ -48,10 +47,13 @@ const irMiPerfil=()=>{
 const irAlInicio=()=>{
   history.push("/home");
 }
+const {userInfo,getDatos}=useInfoUserHook();
 
 useEffect(()=>{
   getDatos();
-})
+},[])
+
+console.log("rightMenu");
 
   return (
     <div className="col-md-4 d-flex justify-content-end">

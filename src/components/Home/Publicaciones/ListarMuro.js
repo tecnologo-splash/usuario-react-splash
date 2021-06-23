@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense, useRef, useCallback } from 'react';
+import React,{useEffect} from 'react';
 import { PublicacionHeader } from './PublicacionHeader';
 import { Acciones } from './Acciones';
 import Card from "@material-ui/core/Card";
@@ -7,13 +7,15 @@ import CarrouselPublicacion from './CarrouselPublicacion';
 import EncuestaPublicacion from './EncuestaPublicacion';
 import LinkExternoPublicacion from './LinkExternoPublicacion';
 import { SoloTextoPublicacion } from './SoloTextoPublicacion';
-import useNearScreen from '../../../hooks/useNearScreen';
-import { useMuroHook } from '../../../hooks/useMuroHook';
-import debounce from 'just-debounce-it';
 import { makeStyles } from '@material-ui/core/styles';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Skeleton from '@material-ui/lab/Skeleton';
+import {useInfoUserHook} from '../../../hooks/useInfoUserHook';
+import {FiltroPublicacion} from '../Publicaciones/FiltroPublicaciones';
+import CrearPublicacion from '../Publicaciones/Creacion/CreacionPublicacion';
+
+
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -21,28 +23,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function ListarMuro() {
-  const { loading, datos, setPage } = useMuroHook({ tipo_filtro: '' });
-  const externalRef = useRef();
+export function ListarMuro({datos=[],loading,externalRef,publicar,eliminarPublicacion}) {
+  const {userInfo,getDatos}=useInfoUserHook();
 
-  const { isNearScreen } = useNearScreen({
-    externalRef: loading ? null : externalRef,
-    once: false
-  })
-
-  const debounceHandleNextPage = useCallback(debounce(
-    () =>
-      setPage(prevPage => prevPage + 1)
-    , 200), [setPage])
-
-  useEffect(function () {
-    if (isNearScreen ) debounceHandleNextPage()
-  }, [debounceHandleNextPage, isNearScreen])
-
-  console.log(datos);
+  useEffect(() => {  
+    getDatos();
+  }, [])
 
   return (
     <>
+
+      <CrearPublicacion publicar={publicar}/>
+        <FiltroPublicacion/>
+
       {loading && datos.length===0
         ? <div className="col-md-8 offset-md-2 mb-4">   <>
        <CargandoPublicacion /><br/><CargandoPublicacion /></>
@@ -60,6 +53,9 @@ export function ListarMuro() {
                   usuario={"@" + item.usuario_comun.usuario}
                   id={item.usuario_comun.id}
                   fecha_publicacion={item.fecha_creado}
+                  meId={userInfo.id}
+                  publicacionId={item.id}
+                  eliminarPublicacion={eliminarPublicacion}
                 />
                 {Publicaciones({ item })}
 

@@ -10,6 +10,8 @@ export function useInfoUserHook(){
 
     const {userInfo,otroUsuarioInfo,mensajeActualizarDatos} = useStoreCuenta();
     const dispatch=useDispatchCuenta();
+    const [loading,setLoading]=useState(true);
+
   //  const [actualizado, setActualizado]=useState(false);
     
     const actualizarDatosUsuario=(datosActualizar)=>{
@@ -33,18 +35,23 @@ export function useInfoUserHook(){
     }
 
     const getDatos=()=>{
+      setLoading(true);
         if(userInfo.usuario===""){
             (async () => {
                 const response=await  UserInfo ();
-                 dispatch({type:ACTIONS_CUENTA.SET_DATA, payload:response});                
+                 dispatch({type:ACTIONS_CUENTA.SET_DATA, payload:response});
+                 setLoading(false);
+          
             })()
         }else{
+          setLoading(false);
          return userInfo;
         }
+       
     }
 
     const getDatosOtroUsuario=(id)=>{
-      if(id!==otroUsuarioInfo.id){
+      setLoading(true);
         (async () => {
           const response=await  UserInfoOtroUsuario(id);
             console.log(response);
@@ -53,11 +60,9 @@ export function useInfoUserHook(){
             }else{
               console.log("error url not found");
             }
+            setLoading(false);
       })()
-      }else if(id===otroUsuarioInfo.id){
-        console.log("ya tengo datos de " +id)
-        return otroUsuarioInfo;
-      }
+    
  
   }
 
@@ -68,7 +73,9 @@ export function useInfoUserHook(){
         actualizarDatosUsuario,
         mensajeActualizarDatos,
         getDatosOtroUsuario,
-        otroUsuarioInfo
+        otroUsuarioInfo,
+        loading,
+        setLoading
     }
 
 }

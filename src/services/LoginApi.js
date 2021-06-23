@@ -31,3 +31,4 @@ import {request,requestFormData} from './GeneralApi';
   export function ActualizarDatosPerfilUsuario({data}){
     return request('users/'+data.id,METHOD.PUT,data);
   }
+

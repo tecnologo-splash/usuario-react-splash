@@ -1,11 +1,12 @@
 import ContentLoader from 'react-content-loader'
 
-const PerfilData = props => (
+
+const PerfilDataLoading = props => (
   <ContentLoader
     speed={2}
     width={520}
     height={210}
-    viewBox="0 0 400 170"
+    viewBox="-50 0 400 170"
     backgroundColor="#bdc3c7"
     foregroundColor="#ecebeb"
     {...props}
@@ -19,11 +20,4 @@ const PerfilData = props => (
   </ContentLoader>
 )
 
-PerfilData.metadata = {
-  name: 'Dhruvit Galoriya', // My name
-  github: 'dhruvgaloriya', // Github username
-  description: 'Show Profile Page', // Little tagline
-  filename: 'PerfilData', // filename of your loader
-}
-
-export default PerfilData
+export default PerfilDataLoading

@@ -1,24 +1,46 @@
-import React from 'react';
+import React,{useEffect,useCallback,useRef} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
 import {MenuHeader} from '../components/Menu/MenuHeader';
-import CrearPublicacion from '../components/Home/Publicaciones/Creacion/CreacionPublicacion';
 import {ListAmigosSugeridos} from '../components/Home/AmigosSugeridos/ListAmigosSugeridos';
 
-import {FiltroPublicacion} from '../components/Home/Publicaciones/FiltroPublicaciones';
 
 import {ListarMuro} from '../components/Home/Publicaciones/ListarMuro';
+import useNearScreen from '../hooks/useNearScreen';
+import { useMuroHook } from '../hooks/useMuroHook';
+import debounce from 'just-debounce-it';
 
+const useStyles = makeStyles(theme => ({
+  content: {
+      padding: theme.spacing(3),
+      backgroundColor:'#ecf0f1'
+  }
+}));
 
 export default function Home() {
-const useStyles = makeStyles(theme => ({
-    content: {
-        padding: theme.spacing(3),
-        backgroundColor:'#ecf0f1'
-    }
- }));
 
  const classes = useStyles();  
+
+
+ const { loading, datos, setPage,publicarSoloTexto,eliminarPublicacion } = useMuroHook({ tipo_filtro: '' });
+                            
+ const externalRef = useRef();
+
+ const { isNearScreen } = useNearScreen({
+   externalRef: loading ? null : externalRef,
+   once: false
+ })
+
+ const debounceHandleNextPage = useCallback(debounce(
+   () =>
+     setPage(prevPage => prevPage + 1)
+   , 200), [setPage])
+
+ useEffect(function () {
+   if (isNearScreen ) debounceHandleNextPage()
+ }, [debounceHandleNextPage, isNearScreen])
+
+ console.log(datos);
+
 
   return (
       <>
@@ -30,11 +52,14 @@ const useStyles = makeStyles(theme => ({
             <ListAmigosSugeridos/>
 
     
-          <div className="col-md-9">
-          <CrearPublicacion/>
-          <FiltroPublicacion/>
+          <div className="col-md-9">      
 
-            <ListarMuro/>
+            <ListarMuro 
+            datos={datos} 
+            loading={loading} 
+            externalRef={externalRef} 
+            publicar={publicarSoloTexto}
+            eliminarPublicacion={eliminarPublicacion}/>
 
         
 

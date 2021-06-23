@@ -13,16 +13,18 @@ import Popover from "@material-ui/core/Popover";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import InsertLinkIcon from "@material-ui/icons/InsertLink";
-import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import Divider from "@material-ui/core/Divider";
 import NearMeIcon from '@material-ui/icons/NearMe';
 import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
+import TextField from '@material-ui/core/TextField';
 
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import AddIcon from '@material-ui/icons/Add';
 import { useInfoUserHook } from "../../../../hooks/useInfoUserHook";
+import {EnlaceExterno} from './EnlaceExterno';
+import {Multimedia} from './Multimedia';
 
 const useStyles = makeStyles((theme) => ({
   cssLabel:{
@@ -63,12 +65,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function CrearPublicacion() {
+export default function CrearPublicacion({publicar}) {
   const classes = useStyles();
   const [visible, setVisible] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const {userInfo,getDatos}=useInfoUserHook();
+
+  const [textoPublicacion,setTextoPublicacion]=useState("");
 
   const pepe = (emoji, e) => {
     console.log(emoji, e);
@@ -80,7 +84,12 @@ export default function CrearPublicacion() {
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
-
+  const handleChangeTexto=(e)=>{
+    setTextoPublicacion(e.target.value);
+  }
+  const handleClickPublicar=()=>{
+    publicar(textoPublicacion);
+  }
   const open = Boolean(anchorEl);
 
 
@@ -104,6 +113,8 @@ export default function CrearPublicacion() {
                   }
                 className="col-md-12"
                 multiline
+                onChange={handleChangeTexto}
+                value={textoPublicacion}
                 placeholder="¿Alguna idea interesante que publicar?"
                 classes={{
                   input: classes.inputInput,
@@ -139,16 +150,9 @@ export default function CrearPublicacion() {
 
 
           <div className="d-flex bd-highlight">
-            <Button className="flex-fill bd-highlight">
-              <AddPhotoAlternateIcon
-                className="mr-2"
-                style={{ textTransform: "none", color: "#27ae60" }}
-              />
-              <Typography style={{ textTransform: "none", color: "grey" }}>
-
-                Fotos/Video
-            </Typography>
-            </Button>
+          <Multimedia>
+            Foto/Video
+            </Multimedia>
 
             <Button className="flex-fill bd-highlight">
               <LibraryAddCheckIcon className="mr-2"
@@ -162,22 +166,29 @@ export default function CrearPublicacion() {
             </Button>
 
 
-            <Button className="flex-fill bd-highlight">
-              <InsertLinkIcon className="mr-2" />
-              <Typography style={{ textTransform: "none", color: "grey" }}>
-                {" "}
-              Enlace Externo
-            </Typography>
-            </Button>
+            <EnlaceExterno/>
 
-            <Button className="flex-fill bd-highlight" style={{ cursor: "not-allowed" }} >
+            <Button className="flex-fill bd-highlight" onClick={handleClickPublicar} >
               <NearMeIcon className="mr-2" style={{ color: "#2980b9" }} />
               <Typography style={{ textTransform: "none", color: "grey" }}>
                 Publicar
               </Typography>
             </Button>
           </div>
-
+          <TextField
+          id="outlined-full-width"
+          label="Enlace Externo"
+          style={{ margin: 8 }}
+          placeholder="Ingrese Su enlace Externo"
+          fullWidth
+          margin="normal"
+          size="small"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          variant="outlined"
+        />
+        
           <Popover
             open={open}
             anchorEl={anchorEl}
@@ -202,11 +213,6 @@ export default function CrearPublicacion() {
 
         </CardContent>
       </Card>
-
-
-
-
-
 
 
     </div>

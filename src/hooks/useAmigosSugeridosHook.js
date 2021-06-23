@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {SegurenciasDeSeguidores,ComenzarASeguir} from '../services/SeguidoresApi';
+import {SegurenciasDeSeguidores,ComenzarASeguir,DejarDeSeguir} from '../services/SeguidoresApi';
 
 const INITIAL_PAGE=0;
 export function useAmigosSugeridosHook(){
@@ -28,10 +28,25 @@ export function useAmigosSugeridosHook(){
         
         })()
     }
+
+    const dejarDeSeguir=(usuario_id)=>{
+        (async () => {
+            const response=await DejarDeSeguir({usuario_id});
+            console.log(response)
+            if(response.status >=200 && response.status <227){
+                //setDatos({data:datos.data.filter(prop => prop.usuario_id !== usuario_id)})
+            }else{
+                console.log("Error de algun tipo");
+            }
+        
+        })()
+    }
+
     return {
         obtenerAmigosSugeridos,
         datos,
-        seguirUsuario
+        seguirUsuario,
+        dejarDeSeguir
     }
 
 }

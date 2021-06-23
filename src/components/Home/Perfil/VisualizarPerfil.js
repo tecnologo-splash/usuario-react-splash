@@ -14,8 +14,8 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {MisDatosPersonales} from './MisDatosPerfil';
-import PerfilData from '../../Loading/PerfilData';
-import Button from '@material-ui/core/Button';
+import PerfilDataLoading from '../../Loading/PerfilDataLoading';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import { ModalEditarMisDatos } from './ModalEditarMisDatos';
 
@@ -32,28 +32,23 @@ export function VisualizarPerfil() {
     const [anchorEl, setAnchorEl] = useState(null); 
 
 
-    const { getDatos, userInfo,actualizarDatosUsuario,mensajeActualizarDatos,getDatosOtroUsuario,otroUsuarioInfo } = useInfoUserHook();
+    const { getDatos, userInfo,actualizarDatosUsuario,mensajeActualizarDatos,loading,setLoading} = useInfoUserHook();
     const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
-        if (id === undefined) {//mi perfil
             console.log("mi perfil")
-            console.log(userInfo);
+      
             if (userInfo.usuario === "") {
                 getDatos();
+            }else{
+                setLoading(false);
             }
-        } else {//perfil de otro usuario
-            console.log("otro perfil")
-            console.log(otroUsuarioInfo)
-            getDatosOtroUsuario(id);
-        }
- 
-    }, [])
-
+      
+    }, [id])
+    console.log(userInfo);
+    console.log("cargando "+loading)
     const openPover=(e)=>{
-        if(id===undefined){
             setAnchorEl(e.currentTarget)
-        }
     }
 
     return (
@@ -62,36 +57,13 @@ export function VisualizarPerfil() {
             <div className="sticky-top" style={{ top: '80px' }}>
                 <center>
   
-                {userInfo.url_perfil==="" || otroUsuarioInfo.url_perfil===""
-                ?
-                <PerfilData />
-
-            :
-            <>
-            {id===undefined ?
-                    <PerfilLateral id={id} uInfo={userInfo} openPover={openPover}/>
-                    :
-                    <PerfilLateral id={id} uInfo={otroUsuarioInfo} openPover={openPover}/>
-            }
-       
-</>
-            }
-            {
-                id!==undefined
-                ?
-                <>
-                <Button variant="contained" size="small" color="primary" className="mt-2">
-                Seguir
-              </Button>
-              <Button variant="outlined" size="small" color="secondary" className="mt-2">
-                Dejar de Seguir
-              </Button>
-              </>
-                :
-                null
-            }
-         
-                    <hr />
+  {
+      loading?
+      <PerfilDataLoading />
+      :
+      <PerfilLateral id={id} uInfo={userInfo} openPover={openPover}/>
+  }
+              <hr />
                     <div className="row d-flex justify-content-around">
                         <div >
 
@@ -102,45 +74,25 @@ export function VisualizarPerfil() {
                             <b>    Yo Sigo     </b>   </Typography></div>
                     </div>
                     <div className="row d-flex justify-content-around">
-                            { id===undefined ?
-                            <>
-                            <div>{otroUsuarioInfo.cantidad_usuarios_seguidores}</div>
-                            <div>{otroUsuarioInfo.cantidad_usuarios_siguiendo}</div>
-                            </>
+                    {
+                                loading ?
+                                <>
+                                <Skeleton width={50}  height={20} />
+                                <Skeleton width={50}  height={20} />
+                                </>
                             :
                             <>
                             <div>{userInfo.cantidad_usuarios_seguidores}</div>
                             <div>{userInfo.cantidad_usuarios_siguiendo}</div>
                             </>
                             }
+                         
+                    
                     
                     </div>
                 </center>
                 
-                {
-                    id === undefined ?
-
-                        <MisDatosPersonales data={userInfo} />
-                        :
-                        <>
-                        <hr />
-                        <Typography variant="h6" className="d-flex justify-content-center mb-3">
-                            ¿Quien soy?
-                     </Typography>
-                        <div>
-                        { id===undefined ?
-                            <>
-                            {otroUsuarioInfo.biografia}
-                            </>
-                            :
-                            <>
-                            {userInfo.biografia}
-                            </>
-                            }
-
-                        </div>
-                        </>
-                }
+           <MisDatosPersonales data={userInfo} loading={loading} />
             </div>
 
 
@@ -201,8 +153,6 @@ export function VisualizarPerfil() {
 }
 
 export function PerfilLateral({id,uInfo,openPover}){
-
-
     const classes = useStyles();
     const SmallAvatar = withStyles((theme) => ({
         root: {
@@ -228,8 +178,7 @@ export function PerfilLateral({id,uInfo,openPover}){
         onClick={openPover}
 
         badgeContent={
-            id === undefined ?
-                <SmallAvatar alt="Editar Mi Perfil" children={<CreateIcon />} /> : null
+                <SmallAvatar alt="Editar Mi Perfil" children={<CreateIcon />} />
         }>
 
         <Zoom zoomMargin={150}>
