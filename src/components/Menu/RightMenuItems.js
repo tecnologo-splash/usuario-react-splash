@@ -47,6 +47,11 @@ const irMiPerfil=()=>{
 const irAlInicio=()=>{
   history.push("/home");
 }
+
+const irAConfig = () => {
+  history.push("/configuracion");
+}
+
 const {userInfo,getDatos}=useInfoUserHook();
 
 useEffect(()=>{
@@ -145,13 +150,13 @@ console.log("rightMenu");
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem>
+        <StyledMenuItem onClick={irAConfig}>
           <SettingsIcon fontSize="small" className="mr-2" />
-          Configuracion
+          Configuración
         </StyledMenuItem>
         <StyledMenuItem  onClick={logOut}>
           <ExitToAppIcon fontSize="small" className="mr-2" />
-          Cerrar Sesion
+          Cerrar Sesión
         </StyledMenuItem>
       </StyledMenu>   
     
