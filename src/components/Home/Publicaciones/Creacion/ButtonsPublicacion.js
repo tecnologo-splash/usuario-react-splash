@@ -9,7 +9,7 @@ export function Multimedia({ children,disabled,activarButtons,setCantFotos,setMu
 	
   const changeHandler = (event) => {
    setMultimedia(event.target.files[0]);
-  //  setCantFotos(event.target.files.length);
+   setCantFotos(event.target.files.length);
 	};
   
   return (

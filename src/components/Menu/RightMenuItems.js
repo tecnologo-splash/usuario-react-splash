@@ -17,6 +17,7 @@ import { PerfilAvatar } from "../Home/Perfil/PerfilAvatar";
 import { css } from "@emotion/react";
 import {StyledMenu,StyledMenuItem} from '../StyledMenus';
 import { useInfoUserHook } from "../../hooks/useInfoUserHook";
+import ForumIcon from '@material-ui/icons/Forum';
 
 export default function RightMenuItems() {
   const estiloColor=css`color:white !important;`;
@@ -53,7 +54,9 @@ const irAConfig = () => {
 }
 
 const {userInfo,getDatos}=useInfoUserHook();
-
+const irAlChat=()=>{
+  history.push("/home/chat");
+}
 useEffect(()=>{
   getDatos();
 },[])
@@ -110,6 +113,18 @@ console.log("rightMenu");
               <EmailIcon fontSize="large" />
             </Badge>
           </Box>
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Chat">
+        <IconButton
+          className="ml-3"
+          aria-haspopup="true"
+          size="small"
+          css={estiloColor}
+          onClick={irAlChat}
+        >
+              <ForumIcon fontSize="large" />
+      
         </IconButton>
       </Tooltip>
 
