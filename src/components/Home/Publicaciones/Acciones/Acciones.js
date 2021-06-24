@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
@@ -11,11 +11,12 @@ import Popover from "@material-ui/core/Popover";
 import Tooltip from '@material-ui/core/Tooltip';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import { Divider } from "@material-ui/core";
-import { Comentarios } from "./Comentarios";
+import { Comentarios } from "../Comentarios";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { ReaccionarAPublicacion,BorrarReaccionarAPublicacion,Publicacion } from '../../../services/MuroApi';
+import { ReaccionarAPublicacion,BorrarReaccionarAPublicacion,Publicacion } from '../../../../services/MuroApi';
 import { PublicacionReaccionada } from './PublicacioReaccionada';
+
 const useStyles = makeStyles((theme) => ({
   elementsHover: {
     "&:hover": {
@@ -36,20 +37,23 @@ const emjis = [
 ];
 
 export function Acciones({ resumen_reaccion = [], publicacionId }) {
-
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [reacciones, setReacciones] = useState(resumen_reaccion);
+  const [reacciones, setReacciones] = useState([]);
 
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
-
   const open = Boolean(anchorEl);
 
   const handleExpandClick = () => {
       setExpanded(!expanded);
   };
+  
+  useEffect(()=>{
+    setReacciones(resumen_reaccion)
+
+  },[resumen_reaccion])
 
   const openReaccion=(e)=>{
     if(reacciones.mi_reaccion!=null){
@@ -59,7 +63,6 @@ export function Acciones({ resumen_reaccion = [], publicacionId }) {
       })();
       (async () => {
           const response=await Publicacion({publicacionId});
-          console.log(response);
           const {resumen_reaccion}=response;
           setReacciones(resumen_reaccion);
         })()
@@ -70,7 +73,9 @@ export function Acciones({ resumen_reaccion = [], publicacionId }) {
   return (
     <>
 
-<div className="col-md-12 mb-1">     <PublicacionReaccionada resumen_reaccion={reacciones} />
+<div className="col-md-12 mb-1"> 
+
+    <PublicacionReaccionada resumen_reaccion={reacciones} />
 
 </div>
       <div className="col-md-12"><Divider /></div>

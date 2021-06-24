@@ -22,8 +22,8 @@ export const PUSHER={
 }
 
 export const URL_BASE_LINK_PREVIEW={
-    URL:'',
-    API_KEY:''
+    URL:'https://api.linkpreview.net',
+    API_KEY:'cae12709afde4aa93107dea67ec447ca'
 };
 
 export const METHOD={

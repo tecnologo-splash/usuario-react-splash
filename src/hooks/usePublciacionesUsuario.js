@@ -31,6 +31,7 @@ export function usePublciacionesUsuario({ tipo_filtro = '',usuarioId,otroUsuario
       (async () => {
         const response = await ObtenerPublicacionesPorUsuario({ usuarioId,page, order: "fechaCreado", by: "desc" });
         const { content } = response;
+        console.log("here->",content)
         if(otroUsuarioInfo.lo_sigo){
           dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload: datos.concat(content) });
         }else{

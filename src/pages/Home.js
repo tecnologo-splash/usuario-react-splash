@@ -1,75 +1,78 @@
-import React,{useEffect,useCallback,useRef} from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {MenuHeader} from '../components/Menu/MenuHeader';
-import {ListAmigosSugeridos} from '../components/Home/AmigosSugeridos/ListAmigosSugeridos';
-
-
-import {ListarMuro} from '../components/Home/Publicaciones/ListarMuro';
+import { MenuHeader } from '../components/Menu/MenuHeader';
+import { ListAmigosSugeridos } from '../components/Home/AmigosSugeridos/ListAmigosSugeridos';
+import { ListarMuro } from '../components/Home/Publicaciones/ListarMuro';
 import useNearScreen from '../hooks/useNearScreen';
 import { useMuroHook } from '../hooks/useMuroHook';
 import debounce from 'just-debounce-it';
-
+import CrearPublicacion from '../components/Home/Publicaciones/Creacion/CreacionPublicacion';
+import { useInfoUserHook } from '../hooks/useInfoUserHook';
 const useStyles = makeStyles(theme => ({
   content: {
-      padding: theme.spacing(3),
-      backgroundColor:'#ecf0f1'
+    padding: theme.spacing(3),
+    backgroundColor: '#ecf0f1'
   }
 }));
 
 export default function Home() {
 
- const classes = useStyles();  
+  const classes = useStyles();
 
 
- const { loading, datos, setPage,publicarSoloTexto,eliminarPublicacion } = useMuroHook({ tipo_filtro: '' });
-                            
- const externalRef = useRef();
+  const { loading, datos, setPage, publicarSoloTexto, eliminarPublicacion, editarPublicacion,publicarEnlaceExterno,SubirMultimedia } = useMuroHook({ tipo_filtro: '' });
+  const { userInfo, getDatos } = useInfoUserHook();
 
- const { isNearScreen } = useNearScreen({
-   externalRef: loading ? null : externalRef,
-   once: false
- })
+  const externalRef = useRef();
 
- const debounceHandleNextPage = useCallback(debounce(
-   () =>
-     setPage(prevPage => prevPage + 1)
-   , 200), [setPage])
+  const { isNearScreen } = useNearScreen({
+    externalRef: loading ? null : externalRef,
+    once: false
+  })
 
- useEffect(function () {
-   if (isNearScreen ) debounceHandleNextPage()
- }, [debounceHandleNextPage, isNearScreen])
+  const debounceHandleNextPage = useCallback(debounce(
+    () =>
+      setPage(prevPage => prevPage + 1)
+    , 200), [setPage])
 
- console.log(datos);
+  useEffect(function () {
+    if (isNearScreen) debounceHandleNextPage()
+  }, [debounceHandleNextPage, isNearScreen])
+
+  useEffect(function () {
+    getDatos();
+  }, [])
 
 
   return (
-      <>
-      <MenuHeader/>
-    <main className={classes.content}>
-          
-          <div className="row">
+    <>
+      <MenuHeader />
+      <main className={classes.content}>
 
-            <ListAmigosSugeridos/>
+        <div className="row">
 
-    
-          <div className="col-md-9">      
+          <ListAmigosSugeridos />
 
-            <ListarMuro 
-            datos={datos} 
-            loading={loading} 
-            externalRef={externalRef} 
-            publicar={publicarSoloTexto}
-            eliminarPublicacion={eliminarPublicacion}/>
 
-        
+          <div className="col-md-9">
+            <CrearPublicacion publicar={publicarSoloTexto} publicarEnlaceExterno={publicarEnlaceExterno} SubirMultimedia={SubirMultimedia}/>
+
+            <ListarMuro
+             userInfo={userInfo}
+              datos={datos}
+              loading={loading}
+              externalRef={externalRef}
+              eliminarPublicacion={eliminarPublicacion}
+              editarPublicacion={editarPublicacion}
+            />
 
           </div>
- 
-      </div>
-  </main>
- 
 
-</>
+        </div>
+      </main>
+
+
+    </>
   );
 
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect, useReducer } from 'react';
-import { ListarPublicacionMisSegudiores,PublicarSoloTexto,EliminarPublicacion } from '../services/MuroApi';
+import { ListarPublicacionMisSegudiores,PublicarSoloTexto,EliminarPublicacion,EditarPublicacion,SubirMultimedia,PublicarEnlaceExterno } from '../services/MuroApi';
+import {requestPrevieURL} from '../services/GeneralApi';
 import { INITIAL_PAGE } from '../config/api/settings';
 import { ACTIONS_MURO, storeReducer, initialState } from '../contexts/StoreMuroReducer';
 
@@ -9,6 +10,7 @@ export function useMuroHook({ tipo_filtro = '' }) {
   const [page, setPage] = useState(INITIAL_PAGE)
   const [store, dispatch] = useReducer(storeReducer, initialState);
   const { datos,cargando } = store;
+
   useEffect(() => {
     console.log("1 useeffect");
      if (page === INITIAL_PAGE){
@@ -37,6 +39,8 @@ export function useMuroHook({ tipo_filtro = '' }) {
 
   }, [tipo_filtro, page])
 
+
+
   const publicarSoloTexto=(t)=>{
     console.log(t);
     (async () => {
@@ -53,7 +57,6 @@ export function useMuroHook({ tipo_filtro = '' }) {
   const eliminarPublicacion=(idPublicacion)=>{
     (async () => {
        await EliminarPublicacion({data:idPublicacion}) ;
-        
         let index = datos.map((item) => item.id).indexOf(idPublicacion);
         if (index > -1) {
           datos.splice(index, 1);
@@ -63,14 +66,58 @@ export function useMuroHook({ tipo_filtro = '' }) {
     })();
   }
 
+  const editarPublicacion=(publicacionId,t)=>{
+    (async () => {
+      const data={texto:t};
+     await EditarPublicacion({publicacionId,data}) ;
+      let index = datos.map((item) => item.id).indexOf(publicacionId);
+       datos[index].texto=t;
+        dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:datos });
+        
+    })();
+  }
+
+
+  const upLoadMultimedia=(multimedia,texto)=>{
+      (async () => {
+        const r_texto = await PublicarSoloTexto({data:{texto:texto}}) ;
+        const publicacionId=r_texto.id;
+        const formData = new FormData()
+        formData.append('myFile', multimedia)
+         const data=formData;
+         const response= await  SubirMultimedia({publicacionId,data});
+         console.log(response);
+        // dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:[response].concat(datos) });
+    
+        })();
+  
+  
+  }
+
   const publicarImagenVideo=()=>{
 
   }
 
-  const publicarEnlaceExterno=({datosEnlace})=>{
-    
+  const publicarEnlaceExterno=(url,t)=>{
+    (async () => {
+      const resLink=  await requestPrevieURL(url);
+      const link={
+        "url": resLink.url,
+        "titulo":resLink.title,
+        "descripcion":resLink.description,
+        "imagen_url": resLink.image
+      }
+      const data={texto:t,enlaces_externos:[link]};
+      const response=await PublicarEnlaceExterno({data});
+      dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:[response].concat(datos) });
+     })();
+
   }
 
+  
 
-  return { loading:cargando, loadingNextPage, datos, setPage,publicarSoloTexto,eliminarPublicacion,publicarImagenVideo  }
+ 
+
+  return { loading:cargando, loadingNextPage, datos,
+     setPage,publicarSoloTexto,eliminarPublicacion,publicarImagenVideo,editarPublicacion,SubirMultimedia:upLoadMultimedia,publicarEnlaceExterno  }
 }

@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react';
 import { PublicacionHeader } from './PublicacionHeader';
-import { Acciones } from './Acciones';
+import { Acciones } from './Acciones/Acciones';
 import Card from "@material-ui/core/Card";
 import SimplePublicacion from './SimplePublicacion';
 import CarrouselPublicacion from './CarrouselPublicacion';
@@ -11,9 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Skeleton from '@material-ui/lab/Skeleton';
-import {useInfoUserHook} from '../../../hooks/useInfoUserHook';
 import {FiltroPublicacion} from '../Publicaciones/FiltroPublicaciones';
-import CrearPublicacion from '../Publicaciones/Creacion/CreacionPublicacion';
 
 
 
@@ -23,17 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function ListarMuro({datos=[],loading,externalRef,publicar,eliminarPublicacion}) {
-  const {userInfo,getDatos}=useInfoUserHook();
-
-  useEffect(() => {  
-    getDatos();
-  }, [])
+export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,editarPublicacion,userInfo}) {
+console.log("listar muro->",datos);
 
   return (
     <>
 
-      <CrearPublicacion publicar={publicar}/>
         <FiltroPublicacion/>
 
       {loading && datos.length===0
@@ -44,7 +37,6 @@ export function ListarMuro({datos=[],loading,externalRef,publicar,eliminarPublic
 
           {datos.map((item, index) => (
             <div className="col-md-8 offset-md-2 mb-4" key={index}>
-
               <Card >
                 <PublicacionHeader
                   nombre={item.usuario_comun.nombre}
@@ -56,6 +48,8 @@ export function ListarMuro({datos=[],loading,externalRef,publicar,eliminarPublic
                   meId={userInfo.id}
                   publicacionId={item.id}
                   eliminarPublicacion={eliminarPublicacion}
+                  editarPublicacion={editarPublicacion}
+                  textoEdicion={item.texto}
                 />
                 {Publicaciones({ item })}
 

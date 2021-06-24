@@ -1,5 +1,5 @@
 import React from 'react';
-import { emojis } from '../../../util/emojis';
+import { emojis } from '../../../../util/emojis';
 import { Tooltip } from '@material-ui/core';
 export function PublicacionReaccionada({ resumen_reaccion }) {
     const {mi_reaccion}=resumen_reaccion;

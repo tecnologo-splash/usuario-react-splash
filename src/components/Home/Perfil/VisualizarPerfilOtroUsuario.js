@@ -3,16 +3,14 @@ import Avatar from "@material-ui/core/Avatar";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { URL_BASE_FILE_STORAGE } from '../../../config/api/settings';
-import { useParams } from 'react-router';
 import 'react-medium-image-zoom/dist/styles.css';
-import { useInfoUserHook } from '../../../hooks/useInfoUserHook';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 import Button from '@material-ui/core/Button';
 import PerfilDataLoading from '../../Loading/PerfilDataLoading';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useAmigosSugeridosHook } from '../../../hooks/useAmigosSugeridosHook';
-
+import ChatIcon from '@material-ui/icons/Chat';
 const useStyles = makeStyles(theme => ({
     large: {
         width: theme.spacing(20),
@@ -45,10 +43,10 @@ export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading }) {
                         <div className="row d-flex justify-content-around">
                             <div >
                                 <Typography variant="body1">
-                                    <b>    Seguidores     </b> </Typography>
+                                    <b>    Me Siguen     </b> </Typography>
                             </div>
                             <div > <Typography variant="body1">
-                                <b>    Siguiendo     </b>   </Typography></div>
+                                <b>    Yo Sigo     </b>   </Typography></div>
                         </div>
                         <div className="row d-flex justify-content-around">
                             {
@@ -126,6 +124,13 @@ export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
                     Seguir
                 </Button>
             }
+           <div className="mt-3">
+               <Button variant="contained" size="small" color="inherit"
+                   startIcon={<ChatIcon fontSize="small"/>}>
+
+                    Enviar Mensaje
+                </Button>
+        </div>
         </>
     )
 }

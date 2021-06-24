@@ -1,15 +1,11 @@
 import React from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import Typography from "@material-ui/core/Typography";
-import {Acciones} from './Acciones';
 import CardMedia from "@material-ui/core/CardMedia";
 import {URL_BASE_FILE_STORAGE} from '../../../config/api/settings';
 
 import {Carousel} from 'react-bootstrap';
-import {PublicacionHeader} from './PublicacionHeader';
 
 const estilo=css`
 .carousel-indicators li{

@@ -1,13 +1,9 @@
 import React from "react";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-
 import {URL_BASE_FILE_STORAGE} from '../../../config/api/settings';
-import {PublicacionReaccionada} from './PublicacioReaccionada';
-
 
 export default function SimplePublicacion({publicacionData}) {
-  const{usuario_comun}=publicacionData;
   const {multimedia}=publicacionData;
   const valor=multimedia[0].tipo.toLowerCase()==='foto'? "img" : "video";
   

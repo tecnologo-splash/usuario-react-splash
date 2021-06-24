@@ -65,8 +65,7 @@ export default function PerfilAmigo() {
 
     {otroUsuarioInfo.lo_sigo && !loading?
     <>
-              <FiltroPublicacion/>
-              <ListarMuro datos={datos} loading={cargando} externalRef={externalRef}/>
+              <ListarMuro datos={datos} loading={cargando} externalRef={externalRef} userInfo={otroUsuarioInfo} />
       </>
   :   loading ?
   <div className="col-md-8 offset-md-2 mb-4"> 

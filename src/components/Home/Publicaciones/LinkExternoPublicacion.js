@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
-import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import { Acciones } from "./Acciones";
 import LinkIcon from '@material-ui/icons/Link';
-import { PublicacionHeader } from './PublicacionHeader';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 export default function LinkExternoPublicacion({ publicacionData }) {
@@ -23,19 +20,7 @@ export default function LinkExternoPublicacion({ publicacionData }) {
     }
     return text;
   };
-  /*
-  useEffect(()=>{
-    var data = {key: '6501a53ddc771c51449019364397ab0f', q: 'https://www.youtube.com/watch?v=aOC8E8z_ifw'}
-  
-  fetch('https://api.linkpreview.net', {
-    method: 'POST',
-    mode: 'cors',
-    body: JSON.stringify(data),
-  })
-    .then(res => res.json())
-    .then(response => console.log(response))
-  })
-  */
+
   return (
 
            <CardContent>
