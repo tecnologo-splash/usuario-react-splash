@@ -78,19 +78,26 @@ export function useMuroHook({ tipo_filtro = '' }) {
   }
 
 
-  const upLoadMultimedia=(multimedia,texto)=>{
+  const upLoadMultimedia=(multimedia,texto,catidad)=>{
+    console.log(multimedia);
+    let responseMultimedia="";
       (async () => {
         const r_texto = await PublicarSoloTexto({data:{texto:texto}}) ;
         const publicacionId=r_texto.id;
-        const formData = new FormData()
-        formData.append('myFile', multimedia)
-         const data=formData;
-         const response= await  SubirMultimedia({publicacionId,data});
-         console.log(response);
-        // dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:[response].concat(datos) });
-    
+        for(let i=0; i<catidad; i++){
+          const formData = new FormData()
+          formData.append('file', multimedia[i])
+          const data=formData;
+           
+           const response= await  SubirMultimedia({publicacionId,data});
+           console.log(response);
+           responseMultimedia=response;
+        }
+
+        dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:[responseMultimedia].concat(datos) });
+
         })();
-  
+ 
   
   }
 

@@ -11,6 +11,8 @@ import PerfilDataLoading from '../../Loading/PerfilDataLoading';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useAmigosSugeridosHook } from '../../../hooks/useAmigosSugeridosHook';
 import ChatIcon from '@material-ui/icons/Chat';
+import {EnviarMensajePerfilUsuario} from '../../Chat/EnviarMensajePerfilUsuario';
+
 const useStyles = makeStyles(theme => ({
     large: {
         width: theme.spacing(20),
@@ -104,6 +106,8 @@ export function PerfilLateral({ uInfo }) {
 export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
     const [follow, setFollow] = useState(otroUsuarioInfo.lo_sigo);
     const { dejarDeSeguir, seguirUsuario } = useAmigosSugeridosHook();
+    const [open,setOpen]=useState(false);
+
     const comenzarASeguir = () => {
         seguirUsuario(otroUsuarioInfo.id);
         setFollow(true);
@@ -113,6 +117,12 @@ export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
         dejarDeSeguir(otroUsuarioInfo.id);
         setFollow(false);
     }
+    
+    const handleClick = () => {
+        setOpen(true);
+    }
+    
+
     return (
         <>
             {follow ?
@@ -126,11 +136,15 @@ export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
             }
            <div className="mt-3">
                <Button variant="contained" size="small" color="inherit"
-                   startIcon={<ChatIcon fontSize="small"/>}>
+                   startIcon={<ChatIcon fontSize="small"/>}  
+                   onClick={handleClick}>
 
                     Enviar Mensaje
                 </Button>
         </div>
+        <EnviarMensajePerfilUsuario open={open} setOpen={setOpen} title="Enviar Mensaje" usuarioIdDos={otroUsuarioInfo.id}/>
+
+
         </>
     )
 }

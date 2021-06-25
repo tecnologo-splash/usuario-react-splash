@@ -35,7 +35,7 @@ export async function requestFormData(url, method, data) {
     headers: {
      Authorization: getTokenSplash() ?'Bearer ' +getTokenSplash() : undefined,
      // Accept: "application/JSON",
-    //  "Content-Type": "application/JSON",
+  //    "Content-Type": "application/JSON",
     },
     body: data 
   });

@@ -36,7 +36,12 @@ export function usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia}){
       }else if(tipoPublicacion==="multimedia"){
         console.log("multimedia")
         console.log(multimedia);
-        SubirMultimedia(multimedia,textoPublicacion);
+        if(cantFotos>4 && cantFotos<1){
+          console.log("err");
+        }else{
+          SubirMultimedia(multimedia,textoPublicacion,cantFotos);
+
+        }
       }
     
     }
