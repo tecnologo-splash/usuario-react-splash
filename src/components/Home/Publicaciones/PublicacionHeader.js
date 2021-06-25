@@ -8,8 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {StyledMenu,StyledMenuItem} from '../../StyledMenus';
 import { useHistory } from "react-router-dom";
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,7 +20,6 @@ import {InputPublicacion} from './InputPublicacion';
 export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,fecha_publicacion,meId,publicacionId,eliminarPublicacion,textoEdicion,editarPublicacion}){
   const [anchorEl, setAnchorEl] = useState(null);
   let history = useHistory();
-  const estiloCursor=css`cursor:pointer;`;
   const [open, setOpen] = useState(false);
 
   const goToPerfil=()=>{
@@ -47,7 +45,6 @@ export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,fecha_p
     avatar={
       <PerfilAvatar img={url_perfil}  onClick={goToPerfil}/>
     }
-    css={estiloCursor}
     title={nombre +" "+apellido}
     subheader={usuario+"- "+fecha_publicacion}
           action={

@@ -7,8 +7,9 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 
 import {useStyles} from '../../StyleInputPublicacion';
 
-export function InputPublicacion({setTexto,textoPublicacion}){
+export function InputPublicacion({setTexto,textoPublicacion,placeH='¿Alguna idea interesante que publicar?'}){
     const classes = useStyles();
+
     const handleChangeTexto=(e)=>{
       setTexto(e.target.value);
     }
@@ -27,7 +28,8 @@ export function InputPublicacion({setTexto,textoPublicacion}){
             multiline
             onChange={handleChangeTexto}
             value={textoPublicacion}
-            placeholder="¿Alguna idea interesante que publicar?"
+            autoFocus
+            placeholder={placeH}
             classes={{
               input: classes.inputInput,
               focused: classes.cssLabel,

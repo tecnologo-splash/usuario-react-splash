@@ -8,7 +8,9 @@ export function Multimedia({ children,disabled,activarButtons,setCantFotos,setMu
   const color= !disabled? "#27ae60" : "grey";
 	
   const changeHandler = (event) => {
-   setMultimedia(event.target.files[0]);
+    activarButtons('multimedia');
+    
+   setMultimedia(event.target.files);
    setCantFotos(event.target.files.length);
 	};
   
@@ -20,7 +22,6 @@ export function Multimedia({ children,disabled,activarButtons,setCantFotos,setMu
         component="label"
         className="flex-fill bd-highlight"
         onChange={changeHandler} 
-        onClick={()=>activarButtons('multimedia')}
       >
         <AddPhotoAlternateIcon
           className="mr-2"
