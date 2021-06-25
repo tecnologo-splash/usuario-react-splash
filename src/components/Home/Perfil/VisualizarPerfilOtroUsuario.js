@@ -12,12 +12,15 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { useAmigosSugeridosHook } from '../../../hooks/useAmigosSugeridosHook';
 import ChatIcon from '@material-ui/icons/Chat';
 import {EnviarMensajePerfilUsuario} from '../../Chat/EnviarMensajePerfilUsuario';
+import ReportIcon from '@material-ui/icons/Report';
+import Grid from '@material-ui/core/Grid';
+import { Denunciar } from './Denunciar';
 
 const useStyles = makeStyles(theme => ({
     large: {
         width: theme.spacing(20),
         height: theme.spacing(20),
-    },
+    }
 }));
 
 export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading }) {
@@ -108,6 +111,8 @@ export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
     const { dejarDeSeguir, seguirUsuario } = useAmigosSugeridosHook();
     const [open,setOpen]=useState(false);
 
+    const [openModal, setOpenModal] = useState(false);
+
     const comenzarASeguir = () => {
         seguirUsuario(otroUsuarioInfo.id);
         setFollow(true);
@@ -121,25 +126,46 @@ export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
     const handleClick = () => {
         setOpen(true);
     }
+
+    const denunciarUsuario = () => {
+        // denunciar({
+        //   "usuario_denunciado_id": otroUsuarioInfo.id,
+        //   "tipo": "CONTENIDO_INAPROPIADO"
+        // })
+    }
     
 
     return (
         <>
-            {follow ?
-                <Button variant="outlined" size="small" color="secondary" className="mt-2" onClick={dejarDeSeguirUsuario}>
-                    Dejar de Seguir
-                </Button>
-                :
-                <Button variant="contained" size="small" color="primary" className="mt-2" onClick={comenzarASeguir}>
-                    Seguir
-                </Button>
-            }
+            <span>
+                <Grid container>
+                    <Grid item xs>
+                    {follow ?
+                        <Button variant="outlined" size="small" color="secondary" className="mt-2" onClick={dejarDeSeguirUsuario}>
+                            Dejar de Seguir
+                        </Button>
+                        :
+                        <Button variant="contained" size="small" color="primary" className="mt-2" onClick={comenzarASeguir}>
+                            Seguir
+                        </Button>
+                    }
+                    </Grid>
+                    <Grid item xs>
+                    <Denunciar
+                        datosUsuario = {otroUsuarioInfo}
+                    >
+                        Reportar
+                    </Denunciar>
+                    </Grid>
+                </Grid>
+            </span>
+
            <div className="mt-3">
-               <Button variant="contained" size="small" color="inherit"
+                <Button variant="contained" size="small" color="inherit"
                    startIcon={<ChatIcon fontSize="small"/>}  
                    onClick={handleClick}>
 
-                    Enviar Mensaje
+                Enviar Mensaje
                 </Button>
         </div>
         <EnviarMensajePerfilUsuario open={open} setOpen={setOpen} title="Enviar Mensaje" usuarioIdDos={otroUsuarioInfo.id}/>

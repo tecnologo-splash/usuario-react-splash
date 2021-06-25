@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {UserInfo,ActualizarDatosPerfilUsuario,UserInfoOtroUsuario} from '../services/LoginApi';
+import {UserInfo,ActualizarDatosPerfilUsuario,UserInfoOtroUsuario, PostDenuncia} from '../services/LoginApi';
 import { useStoreCuenta,useDispatchCuenta } from "../contexts/LoginContext";
 import { ACTIONS as ACTIONS_CUENTA} from "../contexts/StoreCuentaReducer";
 import {isEmptyInputs} from '../util/validarCamposVacios';
@@ -66,6 +66,10 @@ export function useInfoUserHook(){
  
   }
 
+  const crearDenunciaUsuario = async (data) => {
+    const response = await PostDenuncia(data); 
+    return response; 
+  }
 
     return {
         getDatos,
@@ -73,6 +77,7 @@ export function useInfoUserHook(){
         actualizarDatosUsuario,
         mensajeActualizarDatos,
         getDatosOtroUsuario,
+        crearDenunciaUsuario,
         otroUsuarioInfo,
         loading,
         setLoading

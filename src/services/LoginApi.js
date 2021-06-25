@@ -32,3 +32,7 @@ import {request,requestFormData} from './GeneralApi';
     return request('users/'+data.id,METHOD.PUT,data);
   }
 
+  export function PostDenuncia(data){
+    return request('denuncias/', METHOD.POST, data);
+  }
+
