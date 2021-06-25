@@ -1,5 +1,5 @@
 import {METHOD} from '../config/api/settings';
-import {request} from './GeneralApi';
+import {request, requestFormData} from './GeneralApi';
 
 
   export function GetConfigNotificaciones() {
@@ -10,7 +10,6 @@ import {request} from './GeneralApi';
     return request(`configuracion-notificaciones`, METHOD.PATCH, notifs);
   }
 
-  export function EliminarCuenta({usuario_id}) {
-    return request(`WIP WIP WIP WIP WIP`, METHOD.DELETE);
+  export function EliminarCuenta(id, formData) {
+    return requestFormData('users/' + id, METHOD.PUT, formData);
   }
-  

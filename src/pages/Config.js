@@ -11,6 +11,8 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
+import { useInfoUserHook } from '../hooks/useInfoUserHook';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -53,11 +55,17 @@ const useStyles = makeStyles((theme) => ({
 export default function Config() {
 
   const classes = useStyles();
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = useState(1);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const {userInfo, getDatos} = useInfoUserHook();
+
+  useEffect(()=>{
+    getDatos();
+  },[])
 
   return (
     <>
@@ -87,7 +95,11 @@ export default function Config() {
             </TabPanel>
             <TabPanel value={value} index={2}>
 
-              <EliminarCuenta/>
+              <EliminarCuenta
+                userId = {userInfo.id}
+                userGenero = {userInfo.genero}
+                username = {userInfo.usuario}
+              />
               
             </TabPanel>
           </Grid>

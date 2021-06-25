@@ -36,7 +36,6 @@ export default function Notificaciones() {
   
   useEffect(() => {
     updateConfigNotificaciones(notifs).then((a) => {
-      console.log(a)
       setNotifs(a);
     })
   }, [update])

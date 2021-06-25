@@ -19,7 +19,13 @@ export function useConfigHook(){
     return response;   
   }
   
-  const eliminarCuenta = () => {
+  const eliminarCuenta = async (userId) => {
+    
+    const formData = new FormData();
+    formData.append("activo", false);
+    
+    const response = await EliminarCuenta(userId, formData);
+    return response;
 
   }
 
