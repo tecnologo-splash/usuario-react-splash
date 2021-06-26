@@ -47,17 +47,15 @@ export function useInfoUserHook(){
 
     const getDatos=()=>{
       setLoading(true);
-        if(userInfo.usuario===""){
+
             (async () => {
                 const response=await  UserInfo ();
                  dispatch({type:ACTIONS_CUENTA.SET_DATA, payload:response});
                  setLoading(false);
           
             })()
-        }else{
-          setLoading(false);
-         return userInfo;
-        }
+
+
        
     }
 

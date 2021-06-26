@@ -12,7 +12,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import EmailIcon from "@material-ui/icons/Email";
 
-export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarDatosUsuario,mensajeActualizarDatos}){
+export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarDatosUsuario,mensajeActualizarDatos, setUpdate}){
     const mensajeError=css`
       color:#F44336;
     `;
@@ -24,12 +24,11 @@ export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarD
         setOpenModal(false);
     }
     const handleChangeUdpate=(e)=>{
-        console.log(e.target.name, e.target.value)
         setUserDataUpdate({...userDataUpdate,[e.target.name]:e.target.value});
     }
     const handleClick=()=>{
-      console.log(userDataUpdate)
-       actualizarDatosUsuario (userDataUpdate);
+      setUpdate(true);
+      actualizarDatosUsuario (userDataUpdate);
     }
 
   

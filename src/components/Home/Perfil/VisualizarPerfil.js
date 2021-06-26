@@ -34,18 +34,21 @@ export function VisualizarPerfil() {
 
     const { getDatos, userInfo,actualizarDatosUsuario,mensajeActualizarDatos,loading,setLoading} = useInfoUserHook();
     const [openModal, setOpenModal] = useState(false);
+    const [perfilUpdate, setPerfilUpdate] = useState(false);
 
     useEffect(() => {
             console.log("mi perfil")
       
-            if (userInfo.usuario === "") {
+            if (userInfo.usuario === "" || perfilUpdate) {
+                console.log("ESTOY CARGANDO DATOS EH\nESTOY CARGANDO DATOS EH\nESTOY CARGANDO DATOS EH\nESTOY CARGANDO DATOS EH")
                 getDatos();
+                setPerfilUpdate(false)
             }else{
                 setLoading(false);
             }
       
-    }, [id])
-    console.log(userInfo);
+    }, [id, perfilUpdate])
+
     console.log("cargando "+loading)
     const openPover=(e)=>{
             setAnchorEl(e.currentTarget)
@@ -133,6 +136,7 @@ export function VisualizarPerfil() {
     openModal={openModal} 
     setOpenModal={setOpenModal}
      userData={userInfo}
+     setUpdate={setPerfilUpdate}
      actualizarDatosUsuario={actualizarDatosUsuario}
      mensajeActualizarDatos={mensajeActualizarDatos}
      />
