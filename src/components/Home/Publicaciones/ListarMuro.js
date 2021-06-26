@@ -13,12 +13,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {FiltroPublicacion} from '../Publicaciones/FiltroPublicaciones';
 
-
-
 const useStyles = makeStyles((theme) => ({
-  media: {
-    height: 190,
-  },
+  media: {height: 190, },
 }));
 
 export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,editarPublicacion,userInfo}) {
@@ -53,7 +49,10 @@ console.log("listar muro->",datos);
                 />
                 {Publicaciones({ item })}
 
-                <Acciones resumen_reaccion={item.resumen_reaccion} publicacionId={item.id} />
+                <Acciones resumen_reaccion={item.resumen_reaccion} publicacionId={item.id} 
+                comentarios={item.comentarios}  userInfo={userInfo}
+                idOtroUsuario={item.usuario_comun.id}
+                />
 
               </Card>
 

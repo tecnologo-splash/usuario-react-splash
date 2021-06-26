@@ -43,7 +43,7 @@ export function ModalDenunciar({open, setOpen, datosUsuario, denunciarUsuario}){
         onClose={onCloseModal}
         aria-labelledby="form-dialog-title"
       >
-      <DialogTitle id="form-dialog-title">Reportar a {datosUsuario.usuario}</DialogTitle>
+      <DialogTitle id="form-dialog-title">Reportar a @{datosUsuario.usuario}</DialogTitle>
       <DialogContent>
       { exito ? 
         <Typography>

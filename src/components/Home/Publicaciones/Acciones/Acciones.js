@@ -11,7 +11,7 @@ import Popover from "@material-ui/core/Popover";
 import Tooltip from '@material-ui/core/Tooltip';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import { Divider } from "@material-ui/core";
-import { Comentarios } from "../Comentarios";
+import { ListComentarios } from "../Comentarios/ListComentarios";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { ReaccionarAPublicacion,BorrarReaccionarAPublicacion,Publicacion } from '../../../../services/MuroApi';
@@ -36,7 +36,7 @@ const emjis = [
   { img: '/recursos/reaciones/64px/woman_shrugging.gif', nameEmoji: 'No Me Interesa', enumEmoji: 'NO_ME_INTERESA' }
 ];
 
-export function Acciones({ resumen_reaccion = [], publicacionId }) {
+export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,userInfo,idOtroUsuario }) {
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [reacciones, setReacciones] = useState([]);
@@ -78,7 +78,15 @@ export function Acciones({ resumen_reaccion = [], publicacionId }) {
     <PublicacionReaccionada resumen_reaccion={reacciones} />
 
 </div>
+<div className="col-md-12 d-flex flex-row-reverse">
+
+<Typography variant="caption"gutterBottom className=" d-flex flex-row-reverse">
+{comentarios.length} Comentarios
+  </Typography>
+  </div>
       <div className="col-md-12"><Divider /></div>
+
+  
 
       <CardActions className="d-flex bd-highlight">
 
@@ -141,7 +149,12 @@ export function Acciones({ resumen_reaccion = [], publicacionId }) {
 
       <div className="col-md-12"><Divider /></div>
 
-      <Comentarios expanded={expanded} />
+      <ListComentarios expanded={expanded}
+       comentarios={comentarios}
+       userInfo={userInfo}
+        publicacionId={publicacionId}
+        idOtroUsuario={idOtroUsuario}
+      />
 
     </>
   )
