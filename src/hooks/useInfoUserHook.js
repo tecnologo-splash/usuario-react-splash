@@ -14,7 +14,7 @@ export function useInfoUserHook(){
 
   //  const [actualizado, setActualizado]=useState(false);
     
-    const actualizarDatosUsuario=(datosActualizar)=>{
+    const actualizarDatosUsuario=(datosActualizar, foto)=>{
         if(isEmptyInputs(datosActualizar)){
             dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: "Debe Ingresar los Campos Obligatorios" });
           }else if(!userOrEmail(datosActualizar.correo)){
@@ -31,6 +31,10 @@ export function useInfoUserHook(){
                 fd.append('fecha_nacimiento', datosActualizar.fecha_nacimiento);
                 fd.append('correo', datosActualizar.correo);
                 fd.append('biografia', datosActualizar.biografia);
+                if (datosActualizar.borrarFotoActual) fd.append('borrarFotoActual', true);
+                if (foto) {
+                  fd.append('fotoDePerfil', foto);
+                }
 
                 const response=await ActualizarDatosPerfilUsuario(datosActualizar.id, fd);
                 if(response.status >=200 && response.status<=226){
@@ -41,8 +45,45 @@ export function useInfoUserHook(){
                 }
               })()
           }
+    }
 
-          console.log(222222222222, mensajeActualizarDatos)
+    const actualizarFotoUsuario = (id, foto) => {
+      (async () => {
+
+        if (/image\/(png|gif|jpg|jpeg)/g.test(foto.type)) {
+          const fd = new FormData();
+          fd.append('fotoDePerfil', foto);
+
+
+          const response=await ActualizarDatosPerfilUsuario(id, fd);
+          if(response.status >=200 && response.status<=226){
+            dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: 'Editado correctamente' });
+            setTimeout(() => {dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' })}, 2000)
+          } else {
+            dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: mensajesCustomizados(response.error_code) });
+            setTimeout(() => {dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' })}, 2000)
+          }
+        } else {
+          dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: 'Tipo de archivo no soportado' });
+          setTimeout(() => {dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' })}, 2000)
+        }
+      })()
+    }
+
+    const eliminarFotoUsuario = (id) => {
+      (async () => {
+
+        const fd = new FormData();
+        fd.append('borrarFotoActual', true);
+
+        const response=await ActualizarDatosPerfilUsuario(id, fd);
+        if(response.status >=200 && response.status<=226){
+          dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: 'Editado correctamente' });
+          setTimeout(() => {dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' })}, 2000)
+        } else {
+          dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: mensajesCustomizados(response.error_code) });
+        }
+      })()
     }
 
     const getDatos=()=>{
@@ -83,6 +124,8 @@ export function useInfoUserHook(){
     return {
         getDatos,
         userInfo,
+        actualizarFotoUsuario,
+        eliminarFotoUsuario,
         actualizarDatosUsuario,
         mensajeActualizarDatos,
         getDatosOtroUsuario,

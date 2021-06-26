@@ -18,6 +18,8 @@ import PerfilDataLoading from '../../Loading/PerfilDataLoading';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 import { ModalEditarMisDatos } from './ModalEditarMisDatos';
+import { ModalEliminarFoto } from './ModalEliminarFoto';
+import { ModalEditarFoto } from './ModalEditarFoto';
 
 const useStyles = makeStyles(theme => ({
     large: {
@@ -32,15 +34,16 @@ export function VisualizarPerfil() {
     const [anchorEl, setAnchorEl] = useState(null); 
 
 
-    const { getDatos, userInfo,actualizarDatosUsuario,mensajeActualizarDatos,loading,setLoading} = useInfoUserHook();
+    const { getDatos, userInfo,actualizarDatosUsuario,mensajeActualizarDatos,loading,setLoading, actualizarFotoUsuario, eliminarFotoUsuario,} = useInfoUserHook();
     const [openModal, setOpenModal] = useState(false);
     const [perfilUpdate, setPerfilUpdate] = useState(false);
+    const [openModalFoto, setOpenModalFoto] = useState(false);
+    const [openModalEliminar, setOpenModalEliminar] = useState(false);
 
     useEffect(() => {
             console.log("mi perfil")
       
             if (userInfo.usuario === "" || perfilUpdate) {
-                console.log("ESTOY CARGANDO DATOS EH\nESTOY CARGANDO DATOS EH\nESTOY CARGANDO DATOS EH\nESTOY CARGANDO DATOS EH")
                 getDatos();
                 setPerfilUpdate(false)
             }else{
@@ -120,12 +123,12 @@ export function VisualizarPerfil() {
                     Editar Datos
                 </StyledMenuItem>
 
-                <StyledMenuItem>
+                <StyledMenuItem onClick={()=>setOpenModalFoto(true)}>
                     <AddAPhotoIcon fontSize="small" className="mr-2" />
                         Editar Foto
                 </StyledMenuItem >
 
-                <StyledMenuItem>
+                <StyledMenuItem onClick={()=>setOpenModalEliminar(true)}>
                     <DeleteIcon fontSize="small" className="mr-2" />
                     Eliminar Foto
                 </StyledMenuItem>
@@ -138,6 +141,28 @@ export function VisualizarPerfil() {
      userData={userInfo}
      setUpdate={setPerfilUpdate}
      actualizarDatosUsuario={actualizarDatosUsuario}
+     mensajeActualizarDatos={mensajeActualizarDatos}
+     />
+    : null
+}
+{
+    openModalFoto ?  <ModalEditarFoto 
+    openModal={openModalFoto} 
+    setOpenModal={setOpenModalFoto}
+     userData={userInfo}
+     setUpdate={setPerfilUpdate}
+     actualizarFotoUsuario={actualizarFotoUsuario}
+     mensajeActualizarDatos={mensajeActualizarDatos}
+     />
+    : null
+}
+{
+    openModalEliminar ?  <ModalEliminarFoto 
+    openModal={openModalEliminar} 
+    setOpenModal={setOpenModalEliminar}
+     userData={userInfo}
+     setUpdate={setPerfilUpdate}
+     eliminarFotoUsuario={eliminarFotoUsuario}
      mensajeActualizarDatos={mensajeActualizarDatos}
      />
     : null
