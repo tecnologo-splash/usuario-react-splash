@@ -7,28 +7,17 @@ import { css } from "@emotion/react";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
-import MuiAlert from '@material-ui/lab/Alert';
-import Snackbar from '@material-ui/core/Snackbar';
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import EmailIcon from "@material-ui/icons/Email";
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarDatosUsuario,mensajeActualizarDatos}){
     const mensajeError=css`
       color:#F44336;
     `;
 
-    const mensajeExito=css`
-      color:#43F436;
-    `;
-
     const {nombre,apellido,fecha_nacimiento,correo,biografia,id} = userData;
-    const [open, setOpen] = useState(false);
     const [userDataUpdate, setUserDataUpdate] = useState({nombre,apellido,fecha_nacimiento,
       correo,biografia,id});
     const onCloseModal=()=>{
@@ -43,13 +32,7 @@ export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarD
        actualizarDatosUsuario (userDataUpdate);
     }
 
-    const handleClose = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-      setOpen(false);
-    };
-    
+  
     return (
        <>
         <Dialog
