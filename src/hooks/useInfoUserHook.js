@@ -8,30 +8,41 @@ import {mensajesCustomizados} from '../config/api/mensajesCustomizados';
 
 export function useInfoUserHook(){
 
-    const {userInfo,otroUsuarioInfo,mensajeActualizarDatos} = useStoreCuenta();
+    const {userInfo, otroUsuarioInfo, mensajeActualizarDatos} = useStoreCuenta();
     const dispatch=useDispatchCuenta();
     const [loading,setLoading]=useState(true);
 
   //  const [actualizado, setActualizado]=useState(false);
     
     const actualizarDatosUsuario=(datosActualizar)=>{
-        console.log(datosActualizar);
         if(isEmptyInputs(datosActualizar)){
             dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: "Debe Ingresar los Campos Obligatorios" });
           }else if(!userOrEmail(datosActualizar.correo)){
-            dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: "Error, correo invalido" });
+            dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: "Error, correo inválido" });
           }else{
-            dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload:'' });
+            dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' });
             (async () => {
-                const response=await ActualizarDatosPerfilUsuario({data:datosActualizar});
-                console.log(response);
+
+              //nombre,apellido,fecha_nacimiento, correo,biografia,id
+
+                const fd = new FormData();
+                fd.append('nombre', datosActualizar.nombre);
+                fd.append('apellido', datosActualizar.apellido);
+                fd.append('fecha_nacimiento', datosActualizar.fecha_nacimiento);
+                fd.append('correo', datosActualizar.correo);
+                fd.append('biografia', datosActualizar.biografia);
+
+                const response=await ActualizarDatosPerfilUsuario(datosActualizar.id, fd);
                 if(response.status >=200 && response.status<=226){
-                  dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' });
+                  dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: 'Editado correctamente' });
+                  setTimeout(() => {dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' })}, 2000)
                 }else{
                   dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: mensajesCustomizados(response.error_code) });
                 }
               })()
           }
+
+          console.log(222222222222, mensajeActualizarDatos)
     }
 
     const getDatos=()=>{

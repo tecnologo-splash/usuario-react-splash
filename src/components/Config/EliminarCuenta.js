@@ -1,5 +1,4 @@
-import React,{useEffect,useState} from 'react';
-import Switch from '@material-ui/core/Switch';
+import React,{useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -13,7 +12,6 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
-import { useLocation } from 'react-router-dom'
 import { useConfigHook } from '../../hooks/useConfigHook';
 
 const useStyles = makeStyles((theme) => ({
