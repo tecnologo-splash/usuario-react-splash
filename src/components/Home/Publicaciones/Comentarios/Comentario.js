@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from '@material-ui/core/Typography';
 
@@ -7,6 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import{PerfilAvatar} from '../../Perfil/PerfilAvatar';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import {ModalRespuesta} from './ModalRespuesta';
 
 const estiloCursor=css`cursor:pointer;`;
 
@@ -17,9 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },      
 }));
 
-export function Comentario({data,idOtroUsuario,idMe,eliminarComentario}) {
+export function Comentario({data,idOtroUsuario,idMe,eliminarComentario,ingresarRespuesta}) {
 const {respuestas}=data;
-console.log("comnets*",data);
 
 return (
 
@@ -29,6 +29,7 @@ return (
       idOtroUsuario={idOtroUsuario}
       eliminarComentario={eliminarComentario}
       idMe={idMe}
+      ingresarRespuesta={ingresarRespuesta}
       />
   {/*Respuestas */}
         {respuestas.map((item,index)=>(
@@ -46,8 +47,9 @@ return (
 
 }
 
-export function Coment({data,size='', tipo='comentario',idOtroUsuario,idMe,eliminarComentario}){
+export function Coment({data,size='', tipo='comentario',idOtroUsuario,idMe,eliminarComentario,ingresarRespuesta}){
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
   const handleDelete=()=>{
     if(tipo==="respuesta"){
@@ -58,6 +60,14 @@ export function Coment({data,size='', tipo='comentario',idOtroUsuario,idMe,elimi
   }
   return (
     <div className={size+" row mb-3"}>
+    {tipo==='comentario' ?
+<ModalRespuesta
+ open={open}
+  setOpen={setOpen} 
+  ingresarRespuesta={ingresarRespuesta} 
+  comentarioId={data.id}/>
+:null
+    }
 
     <div  className="col-md-1 mr-3"><PerfilAvatar img={data.usuario_comun.url_perfil} /></div>
         <div className={classes.inputPublicacion+" col-md-10"} >
@@ -67,7 +77,8 @@ export function Coment({data,size='', tipo='comentario',idOtroUsuario,idMe,elimi
    
           {idOtroUsuario===idMe ?  <div onClick={handleDelete}><DeleteIcon  
                                     fontSize="small" color="action"  css={estiloCursor}/></div>
-          :  null } 
+          : data.usuario_comun.id===idMe ? <div onClick={handleDelete}><DeleteIcon  
+                                    fontSize="small" color="action"  css={estiloCursor}/></div> :null} 
 
         </Typography>
         
@@ -84,7 +95,13 @@ export function Coment({data,size='', tipo='comentario',idOtroUsuario,idMe,elimi
   tipo==='comentario' ?
 
   <div>   
-   <Typography variant="caption" display="block" gutterBottom color="primary" css={estiloCursor}>Responder</Typography>
+   <Typography
+    variant="caption" 
+    display="block"
+    gutterBottom color="primary"
+    css={estiloCursor}
+    onClick={()=>setOpen(true)}
+      >Responder</Typography>
 </div>
 : null
 }

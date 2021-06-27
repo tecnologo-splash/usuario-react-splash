@@ -84,6 +84,7 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
 {comentarios.length} Comentarios
   </Typography>
   </div>
+  
       <div className="col-md-12"><Divider /></div>
 
   
@@ -145,7 +146,6 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
       </CardActions>
 
 
-      <div className="col-md-12"><Divider /></div>
 
       <ListComentarios expanded={expanded}
        comentarios={comentarios}

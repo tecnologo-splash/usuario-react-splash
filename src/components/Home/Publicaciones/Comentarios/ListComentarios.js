@@ -9,6 +9,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import {useComentarioHook} from '../../../../hooks/comentarios/useComentarioHook';
+import { Divider } from "@material-ui/core";
 
 export function ListComentarios({expanded, publicacionId,comentarios,userInfo,idOtroUsuario}) {
     const estilo=css`input:focus {
@@ -16,11 +17,12 @@ export function ListComentarios({expanded, publicacionId,comentarios,userInfo,id
         }`;
     const estiloCursor=css`cursor:pointer;`;
     const {ingresarComentario,eliminarComentario,setComentarios,
-        handleChangeTextComentario,coments}=useComentarioHook({comentarios,publicacionId});
+        handleChangeTextComentario,coments,ingresarRespuesta}=useComentarioHook({comentarios,publicacionId});
         //useMemo here
 
 return (
 <>
+      <div className="col-md-12"><Divider /></div>
 
         <Collapse in={expanded} timeout="auto" unmountOnExit >
         <CardContent>
@@ -30,6 +32,7 @@ return (
                 idOtroUsuario={idOtroUsuario} 
                 idMe={userInfo.id}
                 eliminarComentario={eliminarComentario}
+                ingresarRespuesta={ingresarRespuesta}
                   />
             ))}
         </CardContent>

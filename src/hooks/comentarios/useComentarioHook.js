@@ -24,13 +24,22 @@ export function useComentarioHook({comentarios,publicacionId}){
 
     }
 
+    const ingresarRespuesta =async(comentarioId,textoResp)=>{
+        const data={texto:textoResp};
+       const response=await ResponderAComentario({publicacionId,comentarioId,data});
+        const {comentarios}=response;
+           //setComentarios(comentarios);
+      dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios});
+
+    }
     const eliminarComentario= async(comentarioId)=>{
 
        const response=await EliminarComentario({publicacionId,comentarioId});
        const resp= coments.find(x => x.id === comentarioId).respuestas;
 
        if(resp.length>0){//tiene respuestas
-
+        const {comentarios}=response;
+        dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios });
 
        }else{//no tiene respuesta
         let index = coments.map((item) => item.id).indexOf(comentarioId);
@@ -50,6 +59,7 @@ export function useComentarioHook({comentarios,publicacionId}){
         ingresarComentario,
         handleChangeTextComentario,
         eliminarComentario,
+        ingresarRespuesta,
         coments
     }
 }
