@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { MenuHeader } from '../components/Menu/MenuHeader';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -19,17 +20,15 @@ export default function Chat() {
       <MenuHeader />
       <main className={classes.content}>
 
-        <div className="row">
-
-          <div className="col-md-3">
-            
+          <div className="col-md-9 offset-md-2 row">
+         <div className="col-md-3">
+          <center>Conversaciones</center>
           </div>
           <div className="col-md-9">
-          <div className="col-md-8 offset-md-2 mb-4 ">
-    
+            <center>chats</center>
           </div>
           </div>
-        </div>
+
       </main>
 
 

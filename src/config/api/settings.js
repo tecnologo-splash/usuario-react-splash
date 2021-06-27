@@ -1,6 +1,8 @@
 export const SIZE_SUGERENCIAS_AMIGOS_MURO=5;
 export const SIZE_SEARCH_AMIGOS=8; 
 export const SIZE_MURO=15; 
+export const SIZE_CONVERSACIONES_CHAT=10; 
+export const SIZE_MENSAJES_CHAT=10; 
 
 export const INITIAL_PAGE=0;
 
