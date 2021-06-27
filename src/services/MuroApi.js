@@ -42,10 +42,18 @@ export function PublicarEnlaceExterno({ data }) {
 }
 
 //comentarios
-export function PublicarComentario({ pulicacionId, data }) {
-  return request(`posts/${pulicacionId}/comentarios`, METHOD.POST, data);
+export function PublicarComentario({ publicacionId, data }) {
+  return request(`posts/${publicacionId}/comentarios`, METHOD.POST, data);
 }
 
-export function ResponderAComentario({ pulicacionId, comentarioId, data }) {
-  return request(`posts/${pulicacionId}/comentarios/${comentarioId}/respuestas`, METHOD.POST, data);
+export function ResponderAComentario({ publicacionId, comentarioId, data }) {
+  return request(`posts/${publicacionId}/comentarios/${comentarioId}/respuestas`, METHOD.POST, data);
+}
+
+export function EliminarComentario({publicacionId,comentarioId}){
+  return request(`posts/${publicacionId}/comentarios/${comentarioId}`, METHOD.DELETE);
+}
+
+export function EliminarRespuestaAComentario({publicacionId,comentarioId,respuestaId}){
+  return request(`posts/${publicacionId}/comentarios/${comentarioId}/respuestas/${respuestaId}`, METHOD.DELETE);
 }

@@ -130,8 +130,6 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
           style={{ textTransform: 'none', color: 'grey' }}
           className="flex-fill bd-highlight"
           onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
         >
           {expanded ? <MenuBookIcon className="mr-2" /> : <CommentIcon className="mr-2" />}
           <Typography> Comentarios</Typography>

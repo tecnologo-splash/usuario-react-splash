@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CardContent from "@material-ui/core/CardContent";
 import Collapse from "@material-ui/core/Collapse";
 import { Comentario } from './Comentario';
@@ -8,20 +8,29 @@ import NearMeIcon from '@material-ui/icons/NearMe';
 import InputAdornment from '@material-ui/core/InputAdornment';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import {useComentarioHook} from '../../../../hooks/comentarios/useComentarioHook';
 
 export function ListComentarios({expanded, publicacionId,comentarios,userInfo,idOtroUsuario}) {
     const estilo=css`input:focus {
         background-color: white;
-      }`;
-      const estiloCursor=css`cursor:pointer;`;
+        }`;
+    const estiloCursor=css`cursor:pointer;`;
+    const {ingresarComentario,eliminarComentario,setComentarios,
+        handleChangeTextComentario,coments}=useComentarioHook({comentarios,publicacionId});
+        //useMemo here
 
 return (
 <>
 
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <Collapse in={expanded} timeout="auto" unmountOnExit >
         <CardContent>
-            {comentarios.map((item,index)=>(
-                <Comentario key={index} data={item} idOtroUsuario={idOtroUsuario}  idMe={userInfo.id}/>
+            {coments.map((item,index)=>(
+                <Comentario key={index} 
+                data={item}
+                idOtroUsuario={idOtroUsuario} 
+                idMe={userInfo.id}
+                eliminarComentario={eliminarComentario}
+                  />
             ))}
         </CardContent>
       </Collapse>
@@ -42,9 +51,10 @@ return (
             size="small"
             variant="outlined"
             css={estilo}
+            onChange={(e)=>handleChangeTextComentario(e)}
             InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end" css={estiloCursor}>
+                  <InputAdornment position="end" css={estiloCursor} onClick={ingresarComentario}>
                     <NearMeIcon />
                   </InputAdornment>
                 )
