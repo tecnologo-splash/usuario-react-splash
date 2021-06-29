@@ -17,12 +17,10 @@ const useStyles = makeStyles((theme) => ({
   media: {height: 190, },
 }));
 
-export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,editarPublicacion,userInfo}) {
-console.log("listar muro->",datos);
-
+export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,editarPublicacion,userInfo,userUrlMe={}}) {
+ 
   return (
     <>
-
         <FiltroPublicacion/>
 
       {loading && datos.length===0

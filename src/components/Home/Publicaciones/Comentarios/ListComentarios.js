@@ -12,7 +12,8 @@ import {useComentarioHook} from '../../../../hooks/comentarios/useComentarioHook
 import { Divider } from "@material-ui/core";
 
 export function ListComentarios({expanded, publicacionId,comentarios,userInfo,idOtroUsuario}) {
-    const estilo=css`input:focus {
+
+  const estilo=css`input:focus {
         background-color: white;
         }`;
     const estiloCursor=css`cursor:pointer;`;
@@ -42,6 +43,7 @@ return (
 
       <div className="col-md-12 row mb-3">
     <div className='col-md-1 align-self-center'>
+  
     <PerfilAvatar img={userInfo.url_perfil} size='small'/>
     </div>
     <div className='col-md-11'>
