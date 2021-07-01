@@ -10,6 +10,7 @@ import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Popover from "@material-ui/core/Popover";
 import Tooltip from '@material-ui/core/Tooltip';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import { ModalReacciones } from './ModalReacciones'
 import { Divider } from "@material-ui/core";
 import { Comentarios } from "../Comentarios";
 /** @jsxImportSource @emotion/react */
@@ -41,6 +42,8 @@ export function Acciones({ resumen_reaccion = [], publicacionId }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [reacciones, setReacciones] = useState([]);
 
+  const [openReact, setOpenReact] = useState(false);
+
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
@@ -49,6 +52,10 @@ export function Acciones({ resumen_reaccion = [], publicacionId }) {
   const handleExpandClick = () => {
       setExpanded(!expanded);
   };
+
+  const handleClick = () => {
+    setOpenReact(true)
+  }
   
   useEffect(()=>{
     setReacciones(resumen_reaccion)
@@ -72,8 +79,18 @@ export function Acciones({ resumen_reaccion = [], publicacionId }) {
   }
   return (
     <>
+  {
+    openReact ? 
+    <ModalReacciones
+      pubId = {publicacionId}
+      openModal = {openReact}
+      setOpenModal = {setOpenReact}
+    />
+    
+    : null
+  }
 
-<div className="col-md-12 mb-1"> 
+<div className="col-md-12 mb-1" onClick={handleClick}> 
 
     <PublicacionReaccionada resumen_reaccion={reacciones} />
 
@@ -133,7 +150,7 @@ export function Acciones({ resumen_reaccion = [], publicacionId }) {
           className="flex-fill bd-highlight"
           style={{ textTransform: 'none', color: 'grey' }}
         >
-          <ShareIcon className="mr-2" />  <Typography> Compartir</Typography>
+          <ShareIcon className="mr-2" />  <Typography>Compartir</Typography>
         </Button>
 
       </CardActions>

@@ -29,16 +29,18 @@ export function BorrarReaccionarAPublicacion({publicacionId}) {
   return request(`posts/${publicacionId}/reacciones`,METHOD.DELETE);             
 }
 
-  export function Publicacion({publicacionId}) {
-   return request(`posts/${publicacionId}`,METHOD.GET);             
-  }
-  
-  export function PublicarSoloTexto({data}) {
-   return request(`posts/`,METHOD.POST,data);             
-  }
+export function Publicacion({publicacionId}) {
+  return request(`posts/${publicacionId}`,METHOD.GET);             
+}
 
-  export function PublicarEnlaceExterno({data}) {
-    return request(`posts/`,METHOD.POST,data);             
-   }
- 
+export function PublicarSoloTexto({data}) {
+  return request(`posts/`,METHOD.POST,data);             
+}
 
+export function PublicarEnlaceExterno({data}) {
+  return request(`posts/`,METHOD.POST,data);             
+}
+
+export function GetReacciones(id) {
+  return request(`posts/${id}/reacciones?page=0&size=100`, METHOD.GET)
+}

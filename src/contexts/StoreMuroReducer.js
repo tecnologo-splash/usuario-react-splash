@@ -1,12 +1,14 @@
 const ACTIONS_MURO = {
     CARGANDO: 'cargando',
     OBTENER_DATOS: 'obtener-datos',
-    NO_HAY_MAS_DATOS:'no-hay-mas-datos'
+    NO_HAY_MAS_DATOS:'no-hay-mas-datos',
+    OBTENER_REACCIONES:'obtener-reacciones'
   
 }
 const initialState = {
     cargando:true,
     datos:[],
+    reacciones:[],
     utlimosDatos:'',
     page:0,
 };
@@ -29,6 +31,12 @@ const storeReducer = (state, action) => {
             return {
                 ...state,
                 utlimosDatos: action.payload,
+            }
+        
+        case ACTIONS_MURO.OBTENER_REACCIONES:
+            return {
+                ...state,
+                reacciones: action.payload
             }
     
         default:
