@@ -13,10 +13,10 @@ import {request} from './GeneralApi';
     return request(`chat/enviar-mensaje`, METHOD.POST,data);
  }
 
- export function ListarMensajes({chat_id, page,data}){
-    return request(`chat/obtener-mensajes?chatId=${chat_id}&page=${page}&size=${SIZE_MENSAJES_CHAT}`, METHOD.GET,data);
+ export function ListarMensajes({chatId, page}){
+    return request(`chat/obtener-mensajes?chatId=${chatId}&page=${page}&size=${SIZE_MENSAJES_CHAT}`, METHOD.GET);
  }
 
- export function ListarConversaciones({data, page}){
-    return request(`chat/obtener-chats?page=${page}&size=${SIZE_MENSAJES_CHAT}`, METHOD.GET,data);
+ export function ListarConversaciones({page}){
+    return request(`chat/obtener-chats?page=${page}&size=${SIZE_CONVERSACIONES_CHAT}`, METHOD.GET);
  }

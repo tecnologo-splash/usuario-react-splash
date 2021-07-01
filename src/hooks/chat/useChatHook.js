@@ -1,8 +1,19 @@
-import {useState} from 'react';
-import {ExisteChat,CrearChatIndividuar, EnviarMensaje, ListarConversacion,ListarMensajes} from '../../services/ChatApi';
+import {useEffect,useState,useReducer} from 'react';
+import {ExisteChat,CrearChatIndividuar, EnviarMensaje, ListarConversaciones,ListarMensajes} from '../../services/ChatApi';
+import { ACTIONS, ChatoReducer, initialStateCuenta } from '../../contexts/ChatReducer';
+
+const INITIAL_PAGE=0;
 
 export function useChatHook(){
+    const [page, setPage] = useState(INITIAL_PAGE);
+    const [pageMensajes, setPageMensajes] = useState(INITIAL_PAGE);
 
+    const [store, dispatch] = useReducer(ChatoReducer, initialStateCuenta);
+      const {conversaciones,chatIdSelected,lstMensajes}=store;
+
+      useEffect(()=>{
+       obtenerConversaciones();
+      },[])
 
 const enviarMensajeChat=async(mensaje,usuarioIdDos)=>{
         const response=await ExisteChat(usuarioIdDos);
@@ -16,7 +27,7 @@ const enviarMensajeChat=async(mensaje,usuarioIdDos)=>{
                 chat_id: chatId
             }
             console.log(data);
-            const response = await EnviarMensaje({data});
+            await EnviarMensaje({data});
         }else{//creo chat 
             console.log("crear chat")
             const data={
@@ -29,23 +40,29 @@ const enviarMensajeChat=async(mensaje,usuarioIdDos)=>{
         }
 }
 
-const obtenerConversacion = async(usuarioIdDos) =>{
-    const response=await ExisteChat(usuarioIdDos);
-    if(response.length>0){
-        const data = {
-            mensaje: response.mensaje,
-            from_usuario_id: response.from_usuario_id,
-            from_usuario_nombre_apellido: response.from_usuario_nombre_apellido,
-            tipo_mensaje: "TEXTO", 
-            fecha_envio: response.fecha_envio
-        }
-    const response = await ListarMensajes({data})
+
+
+  const obtenerConversaciones= async()=>{
+        const response=await ListarConversaciones({page});
+        dispatch({ type: ACTIONS.CONVERSACIONES, payload: response});
+  }
+
+    const listarMensajesDelChat=async(chatId)=>{
+        //setChatId(chatId);
+        const response=await ListarMensajes({chatId,page:pageMensajes});
+      //  console.log(response);
+        dispatch({ type: ACTIONS.CHATID, payload: chatId});
+
+        dispatch({ type: ACTIONS.LISTAMENSAJES, payload: response});
+
     }
-}
 
 return {
     enviarMensajeChat,
-    obtenerConversacion
+    conversaciones,
+    chatIdSelected,
+    lstMensajes,
+    listarMensajesDelChat
 }
 
 }
