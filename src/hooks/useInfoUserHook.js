@@ -93,7 +93,6 @@ export function useInfoUserHook(){
                 const response=await  UserInfo ();
                  dispatch({type:ACTIONS_CUENTA.SET_DATA, payload:response});
                  setLoading(false);
-          
             })()
 
 

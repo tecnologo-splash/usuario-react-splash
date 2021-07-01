@@ -44,7 +44,7 @@ export default function SearchInput() {
         
         <Autocomplete
             id="combo-box-demo"
-            size="large"
+            size="medium"
             style={{ width: 300, backgroundColor:"whitesmoke",borderRadius:"100px",padding:"2%"}}
             onChange={(event,value)=> console.log(value)}
             getOptionLabel={(option) => option.nombre + " " + option.apellido}

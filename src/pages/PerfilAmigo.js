@@ -23,10 +23,10 @@ export default function PerfilAmigo() {
    const classes = useStyles();
 
    const { id } = useParams();
-   const { getDatosOtroUsuario, otroUsuarioInfo, loading } = useInfoUserHook();
+   const { getDatosOtroUsuario, otroUsuarioInfo, loading,userInfo } = useInfoUserHook();
   const { cargando, datos, setPage,page,INITIAL_PAGE } = usePublciacionesUsuario({ tipo_filtro: '',usuarioId:id,otroUsuarioInfo });
   const externalRef = useRef();
- 
+  console.log("---userInfo",userInfo)
   const { isNearScreen } = useNearScreen({
     externalRef: loading ? null : externalRef,
     once: false
@@ -65,7 +65,13 @@ export default function PerfilAmigo() {
 
     {otroUsuarioInfo.lo_sigo && !loading?
     <>
-              <ListarMuro datos={datos} loading={cargando} externalRef={externalRef} userInfo={otroUsuarioInfo} />
+              <ListarMuro 
+              datos={datos} 
+              loading={cargando} 
+              externalRef={externalRef}
+               userInfo={otroUsuarioInfo} 
+               userUrlMe={userInfo.url_perfil}
+               />
       </>
   :   loading ?
   <div className="col-md-8 offset-md-2 mb-4"> 

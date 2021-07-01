@@ -61,8 +61,13 @@ useEffect(function () {
               <MisAmigos/>
               :
               <>
-                  <CrearPublicacion/>
-                <ListarMuro datos={datos} loading={cargando} externalRef={externalRef} userInfo={userInfo} />
+                <CrearPublicacion/>
+                <ListarMuro 
+                datos={datos} 
+                loading={cargando} 
+                externalRef={externalRef}
+                 userInfo={userInfo} 
+                 />
 
               </>
             }

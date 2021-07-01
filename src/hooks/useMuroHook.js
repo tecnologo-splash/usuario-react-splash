@@ -12,7 +12,7 @@ export function useMuroHook({ tipo_filtro = '' }) {
   const { datos,cargando,reacciones } = store;
 
   useEffect(() => {
-    console.log("1 useeffect");
+   // console.log("1 useeffect");
      if (page === INITIAL_PAGE){
       dispatch({ type: ACTIONS_MURO.CARGANDO, payload: true });
       (async () => {
@@ -26,13 +26,13 @@ export function useMuroHook({ tipo_filtro = '' }) {
   }, [tipo_filtro, page])
 
   useEffect(() => {
-    console.log("2 useffect");
+ //   console.log("2 useffect");
     if (page === INITIAL_PAGE) return
       setLoadingNextPage(true);
       (async () => {
         const response = await ListarPublicacionMisSegudiores({ page, order: "fechaCreado", by: "desc" });
         const { content } = response;
-        console.log("-->",content);
+     //   console.log("-->",content);
         dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload: datos.concat(content) });
 
       })();

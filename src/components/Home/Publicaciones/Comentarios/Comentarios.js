@@ -9,7 +9,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 
 
 import AnnouncementIcon from "@material-ui/icons/Announcement";
-import{PerfilAvatar} from '../Perfil/PerfilAvatar';
+import{PerfilAvatar} from '../../Perfil/PerfilAvatar';
 export function Comentarios({expanded}) {
 
   const useStyles = makeStyles((theme) => ({
