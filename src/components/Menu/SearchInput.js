@@ -7,48 +7,54 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { URL_BASE_FILE_STORAGE } from "../../config/api/settings";
 import { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import { useHistory } from "react-router-dom";
 
 export default function SearchInput() {
-
+    let history = useHistory();
     const [users,setUsers] = useState([{}])
     const [inputValue,setInputValue] = useState("")
+    const [textFieldValue,setTextFieldValue] = useState("")
 
     useEffect(() => {
 
         const filters = []
-        console.log(inputValue.substr(0,1))
 
-        if (inputValue.substr(0,1) === "@") {
-            filters.push({nombre:"usuario",value:inputValue.substr(1)})
+        if (textFieldValue.substr(0,1) === "@") {
+            filters.push({nombre:"usuario",value: textFieldValue.substr(1)})
         } else {
-            filters.push({nombre:"nombre",value: inputValue})
+            filters.push({nombre:"nombre",value: textFieldValue})
         }
 
         getUsersFollow(filters)
-            .then((response)=>{console.log(response);setUsers(response.content)})
-    },[inputValue])
+            .then((response)=>{setUsers(response.content)})
+    },[textFieldValue])
 
 
-    const inputChange = (event) =>{
-        setInputValue(event.target.value)
+    const inputChange = (event,value) =>{
+        if(value){ 
+            history.push(`/home/perfil/${value.id}`);
+        }
+    }
+
+    const textFieldChange = (event) =>{
+        setTextFieldValue(event.target.value)
     }
 
     const filterOptions = createFilterOptions({
         matchFrom: 'start',
-        stringify: option => inputValue.substr(0,1)==="@"? "@"+option.usuario : option.nombre ,
+        stringify: option => textFieldValue.substr(0,1)==="@"? "@"+option.usuario : option.nombre ,
     });
 
     return (
         <>
-        {console.log(users)}
         
         <Autocomplete
             id="combo-box-demo"
             size="large"
             style={{ width: 300, backgroundColor:"whitesmoke",borderRadius:"100px",padding:"2%"}}
-            onChange={(event,value)=> console.log(value)}
-            getOptionLabel={(option) => option.nombre + " " + option.apellido}
+            getOptionLabel={(option) => `${option.nombre} ${option.apellido}`}
             options={users}
+            onChange={(event,value)=>inputChange(event,value)} 
             filterOptions={filterOptions}
             renderOption={(option) => (
                 <React.Fragment>
@@ -62,9 +68,8 @@ export default function SearchInput() {
                     {...params} 
                     placeholder="Buscar en splash" 
                     //variant="outlined" 
-                    onChange={inputChange} 
-                    value={inputValue} 
-                    
+                    value={textFieldValue} 
+                    onChange={textFieldChange} 
                 />}
         >
             <SearchIcon style={{color:"red"}}/>
