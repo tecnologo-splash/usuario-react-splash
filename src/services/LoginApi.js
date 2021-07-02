@@ -28,8 +28,8 @@ import {request,requestFormData} from './GeneralApi';
     return request('users/recovery-password',METHOD.POST,data);
   }
 
-  export function ActualizarDatosPerfilUsuario({data}){
-    return request('users/'+data.id,METHOD.PUT,data);
+  export function ActualizarDatosPerfilUsuario(id, data){
+    return requestFormData('users/'+ id , METHOD.PUT, data);
   }
 
   export function PostDenuncia(data){

@@ -61,7 +61,7 @@ useEffect(()=>{
   getDatos();
 },[])
 
-console.log("rightMenu");
+//console.log("rightMenu");
 
   return (
     <div className="col-md-4 d-flex justify-content-end">

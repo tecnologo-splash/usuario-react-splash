@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
+import { css } from "@emotion/react";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
@@ -11,30 +12,33 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import EmailIcon from "@material-ui/icons/Email";
 
+export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarDatosUsuario,mensajeActualizarDatos, setUpdate}){
+    const mensajeError=css`
+      color:#F44336;
+    `;
 
-export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarDatosUsuario,mensajeActualizarDatos}){
-    const {nombre,apellido,fecha_nacimiento,correo,biografia,id}=userData;
+    const {nombre,apellido,fecha_nacimiento,correo,biografia,id} = userData;
     const [userDataUpdate, setUserDataUpdate] = useState({nombre,apellido,fecha_nacimiento,
       correo,biografia,id});
     const onCloseModal=()=>{
         setOpenModal(false);
     }
     const handleChangeUdpate=(e)=>{
-      
         setUserDataUpdate({...userDataUpdate,[e.target.name]:e.target.value});
     }
     const handleClick=()=>{
-      console.log(userDataUpdate)
-       actualizarDatosUsuario (userDataUpdate);
+      setUpdate(true);
+      actualizarDatosUsuario (userDataUpdate);
     }
 
+  
     return (
        <>
-             <Dialog
-        open={openModal}
-        onClose={onCloseModal}
-        aria-labelledby="form-dialog-title"
-      >
+        <Dialog
+          open={openModal}
+          onClose={onCloseModal}
+          aria-labelledby="form-dialog-title"
+        >
         <DialogTitle id="form-dialog-title">Actualizar Mis Datos</DialogTitle>
         <DialogContent>
 
@@ -65,21 +69,20 @@ export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarD
               <TextField
               fullWidth
               multiline
-              value={userDataUpdate.biografia===null ?"" : userData.biografia}
+              value={userDataUpdate.biografia === null ? "" : userDataUpdate.biografia}
               rows={3}
               onChange={handleChangeUdpate}
 
                 variant="outlined"
                 label="Biografia"
                 color="primary"
-                type="date"
                 name="biografia"
                 InputLabelProps={{
                   shrink: true,
                 }}
               />
             </Grid>
-            <div className="col-md-12"><center><b></b></center></div>
+            <div className="col-md-12" css={mensajeError}><center><b>{mensajeActualizarDatos}</b></center></div>
 
             
         
@@ -88,16 +91,14 @@ export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarD
 
         <DialogActions className="pb-4 mr-4">
           <Button  color="primary" onClick={onCloseModal}>
-            Calcelar
+            Cancelar
           </Button>
           <Button color="primary" variant="contained" onClick={handleClick}>
             Guardar
           </Button>
         </DialogActions>
       </Dialog>
-
-       
-       </>
+      </>
     )
 
 }

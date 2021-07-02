@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer } from 'react';
-import { ListarPublicacionMisSegudiores,PublicarSoloTexto,EliminarPublicacion,EditarPublicacion,SubirMultimedia,PublicarEnlaceExterno } from '../services/MuroApi';
+import { ListarPublicacionMisSegudiores,PublicarSoloTexto,EliminarPublicacion,EditarPublicacion,SubirMultimedia,PublicarEnlaceExterno,GetReacciones } from '../services/MuroApi';
 import {requestPrevieURL} from '../services/GeneralApi';
 import { INITIAL_PAGE } from '../config/api/settings';
 import { ACTIONS_MURO, storeReducer, initialState } from '../contexts/StoreMuroReducer';
@@ -9,10 +9,10 @@ export function useMuroHook({ tipo_filtro = '' }) {
   const [loadingNextPage, setLoadingNextPage] = useState(false)
   const [page, setPage] = useState(INITIAL_PAGE)
   const [store, dispatch] = useReducer(storeReducer, initialState);
-  const { datos,cargando } = store;
+  const { datos,cargando,reacciones } = store;
 
   useEffect(() => {
-    console.log("1 useeffect");
+   // console.log("1 useeffect");
      if (page === INITIAL_PAGE){
       dispatch({ type: ACTIONS_MURO.CARGANDO, payload: true });
       (async () => {
@@ -26,13 +26,13 @@ export function useMuroHook({ tipo_filtro = '' }) {
   }, [tipo_filtro, page])
 
   useEffect(() => {
-    console.log("2 useffect");
+ //   console.log("2 useffect");
     if (page === INITIAL_PAGE) return
       setLoadingNextPage(true);
       (async () => {
         const response = await ListarPublicacionMisSegudiores({ page, order: "fechaCreado", by: "desc" });
         const { content } = response;
-        console.log("-->",content);
+     //   console.log("-->",content);
         dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload: datos.concat(content) });
 
       })();
@@ -121,10 +121,12 @@ export function useMuroHook({ tipo_filtro = '' }) {
 
   }
 
-  
+  const getReacciones = (id) => {
+    (async () => {
+      await GetReacciones(id).then(data => dispatch({ type: ACTIONS_MURO.OBTENER_REACCIONES, payload:data }));
+    })();
+  }
 
- 
-
-  return { loading:cargando, loadingNextPage, datos,
-     setPage,publicarSoloTexto,eliminarPublicacion,publicarImagenVideo,editarPublicacion,SubirMultimedia:upLoadMultimedia,publicarEnlaceExterno  }
+  return { loading:cargando, loadingNextPage, datos, reacciones,
+     setPage,publicarSoloTexto,eliminarPublicacion,publicarImagenVideo,editarPublicacion,SubirMultimedia:upLoadMultimedia,publicarEnlaceExterno,getReacciones }
 }

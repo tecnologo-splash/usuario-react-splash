@@ -127,19 +127,10 @@ export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
         setOpen(true);
     }
 
-    const denunciarUsuario = () => {
-        // denunciar({
-        //   "usuario_denunciado_id": otroUsuarioInfo.id,
-        //   "tipo": "CONTENIDO_INAPROPIADO"
-        // })
-    }
-    
 
     return (
         <>
-            <span>
-                <Grid container>
-                    <Grid item xs>
+          
                     {follow ?
                         <Button variant="outlined" size="small" color="secondary" className="mt-2" onClick={dejarDeSeguirUsuario}>
                             Dejar de Seguir
@@ -149,16 +140,14 @@ export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
                             Seguir
                         </Button>
                     }
-                    </Grid>
-                    <Grid item xs>
+                    <div className="col-md-12">
                     <Denunciar
                         datosUsuario = {otroUsuarioInfo}
                     >
                         Reportar
                     </Denunciar>
-                    </Grid>
-                </Grid>
-            </span>
+                    </div>
+
 
            <div className="mt-3">
                 <Button variant="contained" size="small" color="inherit"
@@ -168,6 +157,8 @@ export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
                 Enviar Mensaje
                 </Button>
         </div>
+
+
         <EnviarMensajePerfilUsuario open={open} setOpen={setOpen} title="Enviar Mensaje" usuarioIdDos={otroUsuarioInfo.id}/>
 
 
