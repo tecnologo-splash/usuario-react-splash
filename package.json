@@ -17,6 +17,7 @@
     "framer-motion": "^4.1.17",
     "intersection-observer": "0.10.0",
     "just-debounce-it": "^1.5.0",
+    "pusher-js": "^7.0.3",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
     "react-content-loader": "^6.0.3",

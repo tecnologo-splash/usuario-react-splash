@@ -4,11 +4,35 @@ import './estilos_css/Messenger.css'
 import './estilos_css/Toolbar.css'
 import './estilos_css/Message.css';
 
-
+import {useRef,useEffect,useState} from 'react';
 import {HeaderChat} from '../HeaderChat';
 import { Conversacion } from './Conversacion';
-export function ListadoConversaciones ({conversaciones=[],listarMensajesDelChat,chatIdSelected}){
-    
+import {ListaMensajes} from '../Mensajes/ListaMensajes';
+import {ChatNoSelecionado} from '../Mensajes/ChatNoSelecionado';
+import { useInfoUserHook } from '../../../hooks/useInfoUserHook';
+import { useChatHook } from '../../../hooks/chat/useChatHook';
+import {conexionPusher} from '../../../util/pusherUtil';
+import {useMensajesChat} from '../../../hooks/chat/useMensajesChat';
+
+export function ListadoConversaciones (){
+  const {conversaciones, convHeader,setearChatId} =useChatHook();
+    const {chat_id}=convHeader;
+
+  const {userInfo}=useInfoUserHook();
+
+  const [msg_pusher,setMsgPusher]=useState([]);
+
+    const pusher=conexionPusher();
+    useEffect(()=>{
+      console.log("-->",userInfo.id);
+      var channel = pusher.subscribe(`chat-usuario-${userInfo.id}`);
+      channel.bind('nuevo-mensaje', data => {
+         console.log(data);
+          setMsgPusher(data);
+      
+      }); 
+  
+  },[pusher,userInfo.id])
 
     return (
         <>
@@ -21,12 +45,30 @@ export function ListadoConversaciones ({conversaciones=[],listarMensajesDelChat,
 
             {
                 conversaciones.map((item,i)=>(
-                  <Conversacion item={item} key={i} listarMensajesDelChat={listarMensajesDelChat} chatIdSelected={chatIdSelected}/>
+                  <Conversacion item={item} key={i}
+                   setearChatId={setearChatId} 
+                   chatIdSelected={chat_id}
+                   />
                 ))
             }      
       </div>
     </div>
 
+    {
+ chat_id!==undefined
+  ?  
+  <ListaMensajes 
+  idMe={userInfo.id}
+  chatIdSelected={chat_id}
+  convHeader={convHeader}
+  msg_pusher={msg_pusher}
+
+  />
+  
+: <ChatNoSelecionado/>
+
+}
+     
         </>       
 
     )

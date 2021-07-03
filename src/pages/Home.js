@@ -8,6 +8,8 @@ import { useMuroHook } from '../hooks/useMuroHook';
 import debounce from 'just-debounce-it';
 import CrearPublicacion from '../components/Home/Publicaciones/Creacion/CreacionPublicacion';
 import { useInfoUserHook } from '../hooks/useInfoUserHook';
+import {conexionPusher} from '../util/pusherUtil';
+
 const useStyles = makeStyles(theme => ({
   content: {
     padding: theme.spacing(3),
@@ -16,6 +18,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Home() {
+  const pusher=conexionPusher();
 
   const classes = useStyles();
 
@@ -43,12 +46,26 @@ export default function Home() {
     getDatos();
   }, [])
 
+  const soundMensage = new Audio(process.env.PUBLIC_URL + '/recursos/sound.mp3');
+
+  useEffect(()=>{
+    console.log(pusher);
+
+    if(userInfo.id!==""){
+    var channel = pusher.subscribe(`chat-usuario-${userInfo.id}`);
+    channel.bind('nuevo-mensaje', data => {
+      console.log("pusher-->")
+      soundMensage.play()
+
+    });
+    }
+
+},[userInfo.id,pusher])
 
   return (
     <>
       <MenuHeader />
       <main className={classes.content}>
-
         <div className="row">
 
           <ListAmigosSugeridos />

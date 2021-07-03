@@ -1,25 +1,27 @@
-import {useEffect,useState,useReducer} from 'react';
+import {useEffect,useState} from 'react';
 import {ExisteChat,CrearChatIndividuar, EnviarMensaje, ListarConversaciones,ListarMensajes} from '../../services/ChatApi';
-import { ACTIONS, ChatoReducer, initialStateCuenta } from '../../contexts/ChatReducer';
+import { ACTIONS} from '../../contexts/ChatReducer';
+import { useStore,useDispatch } from "../../contexts/ChatContext";
 
 const INITIAL_PAGE=0;
 
 export function useChatHook(){
     const [page, setPage] = useState(INITIAL_PAGE);
     const [pageMensajes, setPageMensajes] = useState(INITIAL_PAGE);
-
-    const [store, dispatch] = useReducer(ChatoReducer, initialStateCuenta);
-      const {conversaciones,chatIdSelected,lstMensajes}=store;
-
+    const [convSelectUserData,setConvUserData]=useState(null);
+    const dispatch = useDispatch();
+    const data = useStore();
+    const {conversaciones,chatIdSelected,convHeader}=data;
+      
       useEffect(()=>{
-       obtenerConversaciones();
+      obtenerConversaciones();
       },[])
 
 const enviarMensajeChat=async(mensaje,usuarioIdDos)=>{
         const response=await ExisteChat(usuarioIdDos);
-    let chatId = response[0].chat_id;
-    console.log(chatId);
        if(response.length>0){//ingreso mensaje
+        let chatId = response[0].chat_id;
+
             console.log("ingresar mensaje")
             const data = {
                 mensaje: mensaje,
@@ -36,7 +38,7 @@ const enviarMensajeChat=async(mensaje,usuarioIdDos)=>{
                 tipo_mensaje: "TEXTO"
             }
           const response= await CrearChatIndividuar({data});
-          console.log(response)
+    //      console.log(response)
         }
 }
 
@@ -47,22 +49,37 @@ const enviarMensajeChat=async(mensaje,usuarioIdDos)=>{
         dispatch({ type: ACTIONS.CONVERSACIONES, payload: response});
   }
 
-    const listarMensajesDelChat=async(chatId)=>{
-        //setChatId(chatId);
+    const listarMensajesDelChat=async(item,chatId)=>{
+     // console.log(chatId);
+        setConvUserData(item);
         const response=await ListarMensajes({chatId,page:pageMensajes});
-      //  console.log(response);
+        console.log(response);
         dispatch({ type: ACTIONS.CHATID, payload: chatId});
+        const mensajesOrdered=[];
+        response.forEach(element => {
+          mensajesOrdered.unshift(element);
+        });
+     
+        dispatch({ type: ACTIONS.LISTAMENSAJES, payload: mensajesOrdered});
+    }
+  
 
-        dispatch({ type: ACTIONS.LISTAMENSAJES, payload: response});
+    const setearChatId=(item,chatId)=>{
+    // console.log(item)
+      dispatch({ type: ACTIONS.CONVERSACIONHEADER, payload: item});
+    //  listarMensajesDelChat(item,chatId);
+     // dispatch({ type: ACTIONS.CONVHEADER, payload: item});
 
     }
 
 return {
+  setearChatId,
     enviarMensajeChat,
     conversaciones,
     chatIdSelected,
-    lstMensajes,
-    listarMensajesDelChat
+    listarMensajesDelChat,
+    setConvUserData,
+    convHeader
 }
 
 }
