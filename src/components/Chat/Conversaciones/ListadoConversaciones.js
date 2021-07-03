@@ -15,7 +15,7 @@ import {conexionPusher} from '../../../util/pusherUtil';
 import {useMensajesChat} from '../../../hooks/chat/useMensajesChat';
 
 export function ListadoConversaciones (){
-  const {conversaciones, convHeader,setearChatId} =useChatHook();
+  const {conversaciones, convHeader,setearChatId,obtenerConversaciones} =useChatHook();
     const {chat_id}=convHeader;
 
   const {userInfo}=useInfoUserHook();
@@ -24,6 +24,7 @@ export function ListadoConversaciones (){
 
     const pusher=conexionPusher();
     useEffect(()=>{
+      obtenerConversaciones();
       console.log("-->",userInfo.id);
       var channel = pusher.subscribe(`chat-usuario-${userInfo.id}`);
       channel.bind('nuevo-mensaje', data => {
@@ -33,6 +34,16 @@ export function ListadoConversaciones (){
       }); 
   
   },[pusher,userInfo.id])
+
+  useEffect(()=>{
+    var booleanValue = conversaciones.filter((item) =>item.id===msg_pusher.chat_id).length > 0
+
+    if(!booleanValue){
+      obtenerConversaciones();
+    }
+
+  },[msg_pusher])
+
 
     return (
         <>

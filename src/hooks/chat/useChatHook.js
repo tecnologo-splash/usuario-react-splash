@@ -14,7 +14,7 @@ export function useChatHook(){
     const {conversaciones,chatIdSelected,convHeader}=data;
       
       useEffect(()=>{
-      obtenerConversaciones();
+   //   obtenerConversaciones();
       },[])
 
 const enviarMensajeChat=async(mensaje,usuarioIdDos)=>{
@@ -79,7 +79,7 @@ return {
     chatIdSelected,
     listarMensajesDelChat,
     setConvUserData,
-    convHeader
+    convHeader, obtenerConversaciones
 }
 
 }

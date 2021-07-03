@@ -8,7 +8,7 @@ export function Conversacion({item,setearChatId,chatIdSelected}){
         setearChatId(item,item.chat_id);
     }
 const estilo=css`background-color:${chatIdSelected===item.chat_id ? '#eeeef1': ''};`
-
+    
     return (
         
         <div className={"conversation-list-item border-bottom "} css={estilo} onClick={handleClick}>
