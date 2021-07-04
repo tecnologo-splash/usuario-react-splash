@@ -22,30 +22,10 @@ export default function Chat() {
       <MenuHeader />
 
       <main className={classes.content}>
-        <div className="col-md-12">
-          <center>Chat</center>
-          </div>
+        
           <div className="col-md-12 row ">
 
           <ListadoConversaciones/>
-
-      
-{/*
-  chatIdSelected!==null
-  ?     
-  <ListaMensajes 
-  chatIdSelected={chatIdSelected} 
-  idMe={userInfo.id}
-   dataMensajes={lstMensajes} 
-  sendMensajeDesdeChat={sendMensajeDesdeChat}
-  dispatchDataPusher={dispatchDataPusher}
-  convSelectUserData={convSelectUserData}
-
-  />
-
-: <ChatNoSelecionado/>
-
-*/}
      
           </div>       
 
