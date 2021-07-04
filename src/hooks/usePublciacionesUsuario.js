@@ -3,9 +3,10 @@ import { ObtenerPublicacionesPorUsuario } from '../services/MuroApi';
 import { INITIAL_PAGE } from '../config/api/settings';
 import { ACTIONS_MURO, storeReducer, initialState } from '../contexts/StoreMuroReducer';
 
-export function usePublciacionesUsuario({ tipo_filtro = '',usuarioId,otroUsuarioInfo={} }) {
+export function usePublciacionesUsuario({usuarioId,otroUsuarioInfo={} }) {
 
   const [loadingNextPage, setLoadingNextPage] = useState(false)
+  const [tipoFiltro,setTipoFiltro]=useState("fechaCreado");
   const [page, setPage] = useState(INITIAL_PAGE)
   const [store, dispatch] = useReducer(storeReducer, initialState);
   const { datos,cargando } = store;
@@ -15,14 +16,14 @@ export function usePublciacionesUsuario({ tipo_filtro = '',usuarioId,otroUsuario
      if (page === INITIAL_PAGE){
       dispatch({ type: ACTIONS_MURO.CARGANDO, payload: true });
       (async () => {
-        const response = await ObtenerPublicacionesPorUsuario({ usuarioId, page, order: "fechaCreado", by: "desc" });
+        const response = await ObtenerPublicacionesPorUsuario({ usuarioId, page, order: tipoFiltro, by: "desc" });
         const { content } = response;
         dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload: content });
         
       })();
      }
  
-  }, [tipo_filtro, page,usuarioId])
+  }, [tipoFiltro, page,usuarioId])
 
   useEffect(() => {
     console.log("2 useffect");
@@ -40,10 +41,10 @@ export function usePublciacionesUsuario({ tipo_filtro = '',usuarioId,otroUsuario
 
       })();
 
-  }, [tipo_filtro, page,usuarioId])
+  }, [tipoFiltro, page,usuarioId])
 
 
   
 
-  return { cargando, loadingNextPage, datos, setPage,page,INITIAL_PAGE  }
+  return { cargando, loadingNextPage, datos, setPage,page,INITIAL_PAGE,setTipoFiltro  }
 }

@@ -24,7 +24,7 @@ export default function PerfilAmigo() {
 
    const { id } = useParams();
    const { getDatosOtroUsuario, otroUsuarioInfo, loading,userInfo } = useInfoUserHook();
-  const { cargando, datos, setPage,page,INITIAL_PAGE } = usePublciacionesUsuario({ tipo_filtro: '',usuarioId:id,otroUsuarioInfo });
+  const { cargando, datos, setPage,page,INITIAL_PAGE,setTipoFiltro } = usePublciacionesUsuario({ usuarioId:id,otroUsuarioInfo });
   const externalRef = useRef();
   console.log("---userInfo",userInfo)
   const { isNearScreen } = useNearScreen({
@@ -66,6 +66,7 @@ export default function PerfilAmigo() {
     {otroUsuarioInfo.lo_sigo && !loading?
     <>
               <ListarMuro 
+              setTipoFiltro={setTipoFiltro}
               datos={datos} 
               loading={cargando} 
               externalRef={externalRef}

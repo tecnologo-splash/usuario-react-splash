@@ -8,6 +8,8 @@ import { useMuroHook } from '../hooks/useMuroHook';
 import debounce from 'just-debounce-it';
 import CrearPublicacion from '../components/Home/Publicaciones/Creacion/CreacionPublicacion';
 import { useInfoUserHook } from '../hooks/useInfoUserHook';
+import {conexionPusher} from '../util/pusherUtil';
+
 const useStyles = makeStyles(theme => ({
   content: {
     padding: theme.spacing(3),
@@ -16,11 +18,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Home() {
+  const pusher=conexionPusher();
 
   const classes = useStyles();
 
 
-  const { loading, datos, setPage, publicarSoloTexto, eliminarPublicacion, editarPublicacion,publicarEnlaceExterno,SubirMultimedia } = useMuroHook({ tipo_filtro: '' });
+  const { loading, datos, setPage, publicarSoloTexto, 
+    eliminarPublicacion, editarPublicacion,
+    publicarEnlaceExterno,SubirMultimedia,setTipoFiltro } 
+  = useMuroHook();
   const { userInfo, getDatos } = useInfoUserHook();
 
   const externalRef = useRef();
@@ -43,12 +49,26 @@ export default function Home() {
     getDatos();
   }, [])
 
+  const soundMensage = new Audio(process.env.PUBLIC_URL + '/recursos/sound.mp3');
+
+  useEffect(()=>{
+    console.log(pusher);
+
+    if(userInfo.id!==""){
+    var channel = pusher.subscribe(`chat-usuario-${userInfo.id}`);
+    channel.bind('nuevo-mensaje', data => {
+      console.log("pusher-->")
+      soundMensage.play()
+
+    });
+    }
+
+},[userInfo.id,pusher])
 
   return (
     <>
       <MenuHeader />
       <main className={classes.content}>
-
         <div className="row">
 
           <ListAmigosSugeridos />
@@ -64,6 +84,7 @@ export default function Home() {
               externalRef={externalRef}
               eliminarPublicacion={eliminarPublicacion}
               editarPublicacion={editarPublicacion}
+              setTipoFiltro={setTipoFiltro}
             />
 
           </div>

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch,Route } from "react-router-dom";
 import {ErrorPageNotExist} from './pages/Errors/ErrorPageNotExist';
 import {PageLoading} from './components/Loading/PageLoading';
 import { StoreLoginProvider } from "./contexts/LoginContext";
+import { ChatContextProvider } from "./contexts/ChatContext";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
 
      <Router>
      <StoreLoginProvider>
+     <ChatContextProvider>
         <Switch>
           {routes.map(route => (
             <AppRoute
@@ -27,6 +29,7 @@ function App() {
           <Route component={ErrorPageNotExist} />
 
         </Switch>
+        </ChatContextProvider>
         </StoreLoginProvider>
       </Router>
       </Suspense>

@@ -2,16 +2,18 @@ const ACTIONS = {
     LISTAMENSAJES:'lista-mensajes',
     CONVERSACIONES:'conversaciones',
     CHATID:'chat-id',
+    CONVHEADER:'conv-header',
 
 }
-const initialStateCuenta = {
+const initialState = {
 
     conversaciones: [],
     lstMensajes:[],
-    chatIdSelected:null
+    chatIdSelected:null,
+    convHeader:{}
 
 };
-const ChatoReducer = (state, action) => {
+const ChatReducer = (state, action) => {
 
     switch (action.type) {
         case ACTIONS.CONVERSACIONES:
@@ -31,9 +33,15 @@ const ChatoReducer = (state, action) => {
                 ...state,
                 chatIdSelected:action.payload,
             }
+        case ACTIONS.CONVERSACIONHEADER:
+            return{
+                ...state,
+                convHeader:action.payload,
+            }
+                   
                 
         default:
             return new Error(`Accion ${action.type} no definida`);
     }
 }
-export { ACTIONS, ChatoReducer, initialStateCuenta }
+export { ACTIONS, ChatReducer, initialState }

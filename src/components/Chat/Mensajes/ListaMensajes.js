@@ -1,73 +1,101 @@
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
+import React,{useEffect,useRef, useState,useCallback} from 'react';
 import {InputMensaje} from './InputMensaje';
 import {ButtonChatGrupal} from '../ButtonChatGrupal';
 
 import {HeaderChat} from '../HeaderChat';
 import {PerfilAvatar} from '../../Home/Perfil/PerfilAvatar';
 import {Mensaje} from './Mensaje';
+import {useMensajesChat} from '../../../hooks/chat/useMensajesChat';
+import debounce from 'just-debounce-it';
 
-export function ListaMensajes({chatIdSelected,idMe,dataMensajes}){
-console.log(dataMensajes.from_usuario_id ===idMe);
-    return(
+
+export function ListaMensajes({chatIdSelected,idMe,convHeader,msg_pusher}){
+  const messageRef = useRef(null)
+const {  lstMensajes,loading,setPage,
+  sendMensajeDesdeChat,listarMensajesDelChat,
+  dispatchDataPusher}=useMensajesChat(chatIdSelected);
+
+useEffect(() => {
+if(msg_pusher.chat_id===convHeader.chat_id){
+  console.log(msg_pusher)
+  dispatchDataPusher({data:msg_pusher});
+}
+},[msg_pusher])
+
+useEffect(() => {
+ // listarMensajesDelChat();
+  setPage(0);
+  },[chatIdSelected])
+  
+useEffect(() => {
+  if (messageRef.current) {
+    messageRef.current.scrollIntoView(
+      {
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest'
+      })
+  }
+})
+
+
+const externalRef = useRef();
+
+
+
+const debounceHandleNextPage = useCallback(debounce(
+  () =>
+    setPage(prevPage => prevPage + 1)
+  , 200), [setPage])
+const handleClick=()=>{
+  debounceHandleNextPage();
+}
+/*
+useEffect(function () {
+ // if (isNearScreen) debounceHandleNextPage()
+}, [debounceHandleNextPage, isNearScreen])
+
+*/
+
+
+  return(
         <>
     <div className="col-md-6 border p-0 ">
     <HeaderChat>
-    <div className="col-md-2">  
-                  <PerfilAvatar/>
-                            
-                </div>
+               <div className="d-flex align-items-center">
+                <PerfilAvatar img={convHeader.url_perfil}/>
 
-                <div className="d-flex align-items-center">
-                    <b> Marcelo Tizzi  @pepe rompe</b>
+                    <b> {convHeader.nombre_chat} </b>
                 </div>
       </HeaderChat>          
     <div className="message-list sidebar  custom-scrollbar border">
-  <div className="col-md-12 mb-3"></div>
-
+      <div  className="col-md-12 mb-3" ref={externalRef} onClick={handleClick}>
+        cargar mas
+      </div>
+      
         <div className="srcoll">  
                
         {
-                [...new Array(2)].map((item,i)=>(
+                
+                lstMensajes.map((item,i)=>(
                   <Mensaje key={i}
                   chatIdSelected={chatIdSelected} 
                   idMe={idMe}
-                  dataMensajes={dataMensajes}
+                  mensaje={item}
                   />
 
                 ))
             }
- 
-             
- {
-                [...new Array(2)].map((item,i)=>(
-                  <div className={' message  start mb-4 d-flex justify-content-start  d-inline-flex col-md-12   ml-2 '}>
-                     <div className="bubble-container ">
-                      <div className="bubble " style={{  wordBreak:"break-all",maxWidth:'70%' }}>
-                      { "pepe asdssssssssss "}
-                      </div>
-                      <div className="d-flex flex-row ml-2">
-                      <Typography variant="caption" display="block" gutterBottom>
-                      2020/03/2021 15:30
-      </Typography>
-                        
-                        </div>
 
-                    </div>
-                  </div>
-
-                ))
-            }
- 
-      
      </div>
-     
-      
-      </div>
-    </div>
+           
+ </div>
+</div>
     
     <ButtonChatGrupal/>
-    <InputMensaje/>
-    </>
+    <InputMensaje chatIdSelected={chatIdSelected} sendMensajeDesdeChat={sendMensajeDesdeChat}/>
+
+</>
+    
     )
 }
