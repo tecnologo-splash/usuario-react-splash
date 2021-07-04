@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
   media: {height: 190, },
 }));
 
-export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,editarPublicacion,userInfo,userUrlMe={}}) {
+export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,editarPublicacion,userInfo,userUrlMe={},setTipoFiltro}) {
  
   return (
     <>
-        <FiltroPublicacion/>
+        <FiltroPublicacion setTipoFiltro={setTipoFiltro}/>
 
       {loading && datos.length===0
         ? <div className="col-md-8 offset-md-2 mb-4">   <>

@@ -23,7 +23,10 @@ export default function Home() {
   const classes = useStyles();
 
 
-  const { loading, datos, setPage, publicarSoloTexto, eliminarPublicacion, editarPublicacion,publicarEnlaceExterno,SubirMultimedia } = useMuroHook({ tipo_filtro: '' });
+  const { loading, datos, setPage, publicarSoloTexto, 
+    eliminarPublicacion, editarPublicacion,
+    publicarEnlaceExterno,SubirMultimedia,setTipoFiltro } 
+  = useMuroHook();
   const { userInfo, getDatos } = useInfoUserHook();
 
   const externalRef = useRef();
@@ -81,6 +84,7 @@ export default function Home() {
               externalRef={externalRef}
               eliminarPublicacion={eliminarPublicacion}
               editarPublicacion={editarPublicacion}
+              setTipoFiltro={setTipoFiltro}
             />
 
           </div>

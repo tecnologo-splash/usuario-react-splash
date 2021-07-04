@@ -10,9 +10,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHandMiddleFinger } from '@fortawesome/free-solid-svg-icons';
 import { faMehRollingEyes } from '@fortawesome/free-solid-svg-icons';
 
-export function FiltroPublicacion(){
+export function FiltroPublicacion({setTipoFiltro}){
   const [show,setShow]=useState(false);
-    return (
+  const [selected,setSelected]=useState('');
+
+  const handleClick=(tipo)=>{
+    setTipoFiltro(tipo);
+    setShow(!show);
+    setSelected('');
+  }
+  const handleClickReaccopmes=(tipo)=>{
+    setTipoFiltro(tipo);
+    setSelected(tipo);
+  }
+  console.log(selected)
+
+  return (
         <div className="col-md-8 offset-md-2 mb-4 ">
 
         <div className="col mt-3">
@@ -20,19 +33,29 @@ export function FiltroPublicacion(){
           Muro Ordenado por
       </Typography>
         <Chip color={!show ? "primary" : "default"} size="small"
-         label="Fecha" className="ml-4 mr-2" icon={<DateRangeIcon />} onClick={()=>setShow(false)} />
+         label="Fecha" className="ml-4 mr-2" icon={<DateRangeIcon />} onClick={()=>handleClick('fechaCreado')} />
        { !show ? 
-       <Chip color="default" size="small" label="Reacciones" className="ml-2 mr-2" icon={<DynamicFeedIcon />} onClick={()=>setShow(true)} />
-      
-      
+       <Chip color="default" 
+       size="small" label="Reacciones"
+        className="ml-2 mr-2" icon={<DynamicFeedIcon />} onClick={()=>setShow(true)} />
+        
       :null}    {
           show ?
 <>
-<Chip color="primary" variant="outlined" size="small" label="Me Gusta" className="ml-2 mr-2" icon={<ThumbUpAltIcon />} />
-<Chip color="primary" variant="outlined"  size="small" label="No Me Gusta" className="ml-2 mr-2" icon={<ThumbDownIcon />} />
-<Chip color="primary" variant="outlined"  size="small" label="Me Divierte" className="ml-2 mr-2" icon={<EmojiEmotionsIcon />} />
-<Chip color="primary" variant="outlined"  size="small" label="Me Enoja" className="ml-2 mr-2" icon={ <FontAwesomeIcon icon={faHandMiddleFinger} />} />
-<Chip color="primary" variant="outlined"  size="small" label="No Me Interesa" className="ml-2 mr-2" icon={<FontAwesomeIcon icon={faMehRollingEyes} />} />
+<Chip color="primary"  variant={selected==="resumenReaccion.cantidadMeGusta" ? "default" :"outlined"}size="small" label="Me Gusta" className="ml-2 mr-2" icon={<ThumbUpAltIcon />}
+ onClick={()=>handleClickReaccopmes('resumenReaccion.cantidadMeGusta')}/>
+
+<Chip color="primary"  variant={selected==="resumenReaccion.cantidadNoMeGusta" ? "default" :"outlined"}  size="small" label="No Me Gusta" className="ml-2 mr-2" icon={<ThumbDownIcon />} 
+onClick={()=>handleClickReaccopmes('resumenReaccion.cantidadNoMeGusta')}/>
+
+<Chip color="primary"  variant={selected==="resumenReaccion.cantidadMeDivierte" ? "default" :"outlined"}  size="small" label="Me Divierte" className="ml-2 mr-2" icon={<EmojiEmotionsIcon />} 
+ onClick={()=>handleClickReaccopmes('resumenReaccion.cantidadMeDivierte')}/>
+
+<Chip color="primary"  variant={selected==="resumenReaccion.cantidadMeEnoja" ? "default" :"outlined"}  size="small" label="Me Enoja" className="ml-2 mr-2" icon={ <FontAwesomeIcon icon={faHandMiddleFinger} />}
+ onClick={()=>handleClickReaccopmes('resumenReaccion.cantidadMeEnoja')}/>
+
+<Chip color="primary" variant={selected==="resumenReaccion.cantidadNoMeInteresa" ? "default" :"outlined"}  size="small" label="No Me Interesa" className="ml-2 mr-2" icon={<FontAwesomeIcon icon={faMehRollingEyes} />}
+ onClick={()=>handleClickReaccopmes('resumenReaccion.cantidadNoMeInteresa')}/>
 
 </>
 :
