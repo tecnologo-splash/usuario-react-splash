@@ -53,6 +53,12 @@ export function useMuroHook() {
   }
 
 
+  const publicarEncuesta=async({encuesta})=>{
+    console.log(encuesta);
+
+  }
+
+
 
   const eliminarPublicacion=(idPublicacion)=>{
     (async () => {
@@ -97,12 +103,6 @@ export function useMuroHook() {
         dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:[responseMultimedia].concat(datos) });
 
         })();
- 
-  
-  }
-
-  const publicarImagenVideo=()=>{
-
   }
 
   const publicarEnlaceExterno=(url,t)=>{
@@ -128,5 +128,5 @@ export function useMuroHook() {
   }
 
   return { loading:cargando, loadingNextPage, datos, reacciones,setTipoFiltro,
-     setPage,publicarSoloTexto,eliminarPublicacion,publicarImagenVideo,editarPublicacion,SubirMultimedia:upLoadMultimedia,publicarEnlaceExterno,getReacciones }
+     setPage,publicarSoloTexto,eliminarPublicacion,editarPublicacion,SubirMultimedia:upLoadMultimedia,publicarEnlaceExterno,getReacciones }
 }

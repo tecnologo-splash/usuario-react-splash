@@ -40,8 +40,9 @@ export function usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia}){
           console.log("err");
         }else{
           SubirMultimedia(multimedia,textoPublicacion,cantFotos);
-
         }
+      }else if(tipoPublicacion==="encuesta"){
+
       }
     
     }

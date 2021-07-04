@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import InsertLinkIcon from "@material-ui/icons/InsertLink";
 import Typography from "@material-ui/core/Typography";
@@ -38,7 +38,7 @@ export function EnlaceExternoInput({link_externo,setUrl}){
             variant="outlined"
             onChange={(e)=>setUrl(e.target.value)}
           />
-          preview
+          
           </>
             :null
             
