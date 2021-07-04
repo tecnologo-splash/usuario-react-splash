@@ -8,7 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-export function ModalEditarFoto({userData,openModal,setOpenModal,actualizarFotoUsuario,mensajeActualizarDatos, setUpdate}){
+export function ModalEditarFoto({userData,openModal,setOpenModal,actualizarFotoUsuario,mensajeActualizarDatos, getDatos,setUpdate}){
     const mensajeError=css`
       color:#F44336;
     `;
@@ -22,7 +22,14 @@ export function ModalEditarFoto({userData,openModal,setOpenModal,actualizarFotoU
 
     const handleClick = () => {
       setUpdate(true);
-      actualizarFotoUsuario(userData.id, foto[0]);
+      if (foto && foto[0]){
+        actualizarFotoUsuario(userData.id, foto[0]).then((r) => {
+          if (r.status >= 200 && r.status < 226) {
+            getDatos();
+            setOpenModal(false);
+          }
+        })
+      }
     }
 
     const changeHandler = (event) => {     

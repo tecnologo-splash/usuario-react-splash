@@ -7,7 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-export function ModalEliminarFoto({userData,openModal,setOpenModal,eliminarFotoUsuario,mensajeActualizarDatos, setUpdate}){
+export function ModalEliminarFoto({userData,openModal,setOpenModal,eliminarFotoUsuario,mensajeActualizarDatos, getDatos,setUpdate}){
 
     const onCloseModal = () => {
         setOpenModal(false);
@@ -15,8 +15,12 @@ export function ModalEliminarFoto({userData,openModal,setOpenModal,eliminarFotoU
 
     const handleClick = () => {
       setUpdate(true);
-      eliminarFotoUsuario(userData.id);
-      setOpenModal(false);
+      eliminarFotoUsuario(userData.id).then((r) => {
+        if (r.status >= 200 && r.status < 226) {
+          getDatos();
+          setOpenModal(false);
+        }
+      });
     }
   
     return (

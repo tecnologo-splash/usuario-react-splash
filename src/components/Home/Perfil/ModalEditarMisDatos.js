@@ -12,7 +12,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import EmailIcon from "@material-ui/icons/Email";
 
-export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarDatosUsuario,mensajeActualizarDatos, setUpdate}){
+export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarDatosUsuario,mensajeActualizarDatos, setUpdate,getDatos}){
     const mensajeError=css`
       color:#F44336;
     `;
@@ -28,7 +28,12 @@ export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarD
     }
     const handleClick=()=>{
       setUpdate(true);
-      actualizarDatosUsuario (userDataUpdate);
+      actualizarDatosUsuario (userDataUpdate).then((r) => {
+        if (r.status >= 200 && r.status < 226) {
+          getDatos();
+          setOpenModal(false);
+        }
+      });
     }
 
   
@@ -46,24 +51,8 @@ export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarD
           <Grid container spacing={2}  >
           <CampoTexto Label="Nombre" Icon={<AccountCircle />}  nombre="nombre"  datos={userDataUpdate.nombre} handleChangeUdpate={handleChangeUdpate}/>
           <CampoTexto Label="Apellido" Icon={<AccountCircle />} nombre="apellido" datos={userDataUpdate.apellido} handleChangeUdpate={handleChangeUdpate}/>
-          <CampoTexto Label="Email" Icon={<EmailIcon />} Type="email" nombre="correo" datos={userDataUpdate.correo} handleChangeUdpate={handleChangeUdpate}/>
       
-          <Grid item xs={6} className="mt-3">
-              <TextField
-              fullWidth
-                variant="outlined"
-                label="Fecha Nacimiento"
-                color="primary"
-                type="date"
-                name="fecha_nacimiento"
-                onChange={handleChangeUdpate}
-                value={userDataUpdate.fecha_nacimiento}
-                required
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
+          
 
             <Grid item xs={12} className="mt-3">
               <TextField

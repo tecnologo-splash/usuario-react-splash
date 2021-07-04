@@ -137,6 +137,7 @@ export function VisualizarPerfil() {
 {
     openModal ?  <ModalEditarMisDatos 
     openModal={openModal} 
+    getDatos={getDatos}
     setOpenModal={setOpenModal}
      userData={userInfo}
      setUpdate={setPerfilUpdate}
@@ -148,6 +149,7 @@ export function VisualizarPerfil() {
 {
     openModalFoto ?  <ModalEditarFoto 
     openModal={openModalFoto} 
+    getDatos={getDatos}
     setOpenModal={setOpenModalFoto}
      userData={userInfo}
      setUpdate={setPerfilUpdate}
@@ -159,7 +161,8 @@ export function VisualizarPerfil() {
 {
     openModalEliminar ?  <ModalEliminarFoto 
     openModal={openModalEliminar} 
-    setOpenModal={setOpenModalEliminar}
+    setOpenModal={setOpenModalEliminar} 
+    getDatos={getDatos}
      userData={userInfo}
      setUpdate={setPerfilUpdate}
      eliminarFotoUsuario={eliminarFotoUsuario}
