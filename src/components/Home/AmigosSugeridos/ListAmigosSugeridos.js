@@ -45,7 +45,7 @@ border-radius: 20px;
     ))}
 
         {                         
-            datos.cantidad >SIZE_SUGERENCIAS_AMIGOS_MURO
+            datos.cantidad===SIZE_SUGERENCIAS_AMIGOS_MURO
             ?
     <div
       className="col-md-8 mb-4 border shadow-sm d-flex justify-content-center offset-md-1"

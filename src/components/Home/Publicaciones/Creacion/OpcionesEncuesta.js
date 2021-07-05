@@ -1,37 +1,46 @@
 import {useStyles} from '../../../StyleInputPublicacion';
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
-import AddIcon from '@material-ui/icons/Add';
 import InputBase from "@material-ui/core/InputBase";
-import IconButton from "@material-ui/core/IconButton";
+import TextField from "@material-ui/core/TextField";
+
 
 export function OpcionesEncuesta({ idOpcion }) {
     const classes = useStyles();
-  
+    
     return (
       <div className="col-md-12">
-        <div className="row">
-          <div className="col-md-10 offset-md-1 align-self-center pl-0 mt-3">
-            <div className={classes.inputPublicacion} >
-              <div className={classes.icon}>
-                <SpeakerNotesIcon />
-              </div>
-              <InputBase
-                className="col-md-12"
-                placeholder="Opcion 1"
-                classes={{
-                  input: classes.inputInput,
-                }}
-  
-              />
+        {[...new Array(4)].map((item,index)=>{
+          index++;
+        return <div className="col-md-10 offset-md-1 align-self-center pl-0 mt-3"  key={index}>
+          <div className={classes.inputPublicacion} >
+            <div className={classes.icon}>
+              <SpeakerNotesIcon />
             </div>
-  
-          </div>
-          <div className="col-md-1 mt-3 pl-0 ">
-            <IconButton color="primary" aria-label="upload picture" component="span">
-              <AddIcon />
-            </IconButton>
-          </div>
+            <InputBase
+              className="col-md-12"
+              placeholder={"Opcion "+index}
+              classes={{
+                input: classes.inputInput,
+                focused: classes.cssLabel,
+              }}
+              name={"opcion_"+index}
+            />
+   
+
         </div>
+      </div>
+        })}
+        <div className=" offset-md-2 mt-3">
+  <TextField
+    label="Fecha Cierre de Encuesta"
+    type="datetime-local"
+    className="col-md-10" 
+    //defaultValue={}
+    InputLabelProps={{
+      shrink: true,
+    }}
+  />
+      </div>
       </div>
     )
   }

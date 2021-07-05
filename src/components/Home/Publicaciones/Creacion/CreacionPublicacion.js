@@ -14,6 +14,7 @@ import CachedIcon from '@material-ui/icons/Cached';
 import { useInfoUserHook } from "../../../../hooks/useInfoUserHook";
 import {EnlaceExterno,EnlaceExternoInput} from './EnlaceExterno';
 import {Multimedia,Encuesta} from './ButtonsPublicacion';
+import{OpcionesEncuesta} from './OpcionesEncuesta';
 import {InputPublicacion} from '../InputPublicacion';
 import {usePublicar} from '../../../../hooks/publicar/usePublicar';
 
@@ -95,7 +96,12 @@ export default function CrearPublicacion({publicar,publicarEnlaceExterno,SubirMu
            />
            {tipoPublicacion==='multimedia'?
            cantFotos:null}
-          
+          {tipoPublicacion==='encuesta'?
+            <OpcionesEncuesta/>:null
+          }
+
+
+
           <Popover
             open={open}
             anchorEl={anchorEl}
