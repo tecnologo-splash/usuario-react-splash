@@ -35,4 +35,3 @@ import {request,requestFormData} from './GeneralApi';
   export function PostDenuncia(data){
     return request('denuncias/', METHOD.POST, data);
   }
-

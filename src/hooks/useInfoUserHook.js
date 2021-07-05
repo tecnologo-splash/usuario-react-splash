@@ -1,9 +1,8 @@
 import {useState} from 'react';
 import {UserInfo,ActualizarDatosPerfilUsuario,UserInfoOtroUsuario, PostDenuncia} from '../services/LoginApi';
+import { ListarSeguidores } from '../services/SeguidoresApi';
 import { useStoreCuenta,useDispatchCuenta } from "../contexts/LoginContext";
 import { ACTIONS as ACTIONS_CUENTA} from "../contexts/StoreCuentaReducer";
-import {isEmptyInputs} from '../util/validarCamposVacios';
-import {userOrEmail} from '../util/validarCorreo';
 import {mensajesCustomizados} from '../config/api/mensajesCustomizados';
 
 export function useInfoUserHook(){
@@ -118,6 +117,16 @@ export function useInfoUserHook(){
     return response; 
   }
 
+  const getSeguidores = async (tipo, page, params) => {
+    let query = ''
+    console.log(1111111, params)
+    if (params.filtro && params.keywords) {
+      query = `filtro=${params.filtro}&keywords=${params.keywords}`;}
+
+    const response = await ListarSeguidores(tipo, page, query);
+    return response;
+  }
+
     return {
         getDatos,
         userInfo,
@@ -128,6 +137,7 @@ export function useInfoUserHook(){
         getDatosOtroUsuario,
         crearDenunciaUsuario,
         otroUsuarioInfo,
+        getSeguidores,
         loading,
         setLoading
     }

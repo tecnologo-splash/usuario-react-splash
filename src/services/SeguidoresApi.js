@@ -14,10 +14,6 @@ import {request} from './GeneralApi';
     return request(`seguidores/dejardeseguir/${usuario_id}`,METHOD.DELETE);
   }
 
-  export function ListarUsuarioQueYoSigo({page=0}) {
-    return request(`yo-sigo?page=${page}&size=${SIZE_SEARCH_AMIGOS}`,METHOD.GET);
-  }
-
-  export function ListarUsuarioQueMeSiguen({page=0}) {
-    return request(`me-siguen?page=${page}&size=${SIZE_SEARCH_AMIGOS}`,METHOD.GET);
+  export function ListarSeguidores(tipo, page, query) {
+    return request(`users/${tipo}?page=${page}&size=100&${query}`, METHOD.GET);
   }
