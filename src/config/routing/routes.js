@@ -47,5 +47,10 @@ export const routes = [
     path: "/home/usuarios",
     isPrivate: true
   }
+  ,{
+    component: pages.AmigosSugeridos,
+    path: "/home/amigos-sugeridos",
+    isPrivate: true
+  }
 ];
   

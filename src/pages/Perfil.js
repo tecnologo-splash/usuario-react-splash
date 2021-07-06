@@ -26,7 +26,7 @@ export default function Perfil() {
   const classes = useStyles();
 const location = useLocation();
 const { userInfo, loading } = useInfoUserHook();
-const { cargando, datos, setPage } = usePublciacionesUsuario({ tipo_filtro: '',usuarioId:userInfo.id });
+const { cargando, datos, setPage,setTipoFiltro } = usePublciacionesUsuario({usuarioId:userInfo.id });
 
 const externalRef = useRef();
  
@@ -63,6 +63,7 @@ useEffect(function () {
               <>
                 <CrearPublicacion/>
                 <ListarMuro 
+                setTipoFiltro={setTipoFiltro}
                 datos={datos} 
                 loading={cargando} 
                 externalRef={externalRef}

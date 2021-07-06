@@ -9,6 +9,8 @@ import { useParams } from 'react-router';
 import { useInfoUserHook } from '../../../hooks/useInfoUserHook';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
+/** @jsxImportSource @emotion/react */
+import {  css } from "@emotion/react";
 import { StyledMenu, StyledMenuItem } from '../../StyledMenus';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -20,6 +22,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { ModalEditarMisDatos } from './ModalEditarMisDatos';
 import { ModalEliminarFoto } from './ModalEliminarFoto';
 import { ModalEditarFoto } from './ModalEditarFoto';
+import { ModalListarSeguidores } from './ModalListarSeguidores'
 
 const useStyles = makeStyles(theme => ({
     large: {
@@ -32,23 +35,37 @@ export function VisualizarPerfil() {
 
     const { id } = useParams();
     const [anchorEl, setAnchorEl] = useState(null); 
+    
+    const estilo = css`cursor:pointer;`
 
 
-    const { getDatos, userInfo,actualizarDatosUsuario,mensajeActualizarDatos,loading,setLoading, actualizarFotoUsuario, eliminarFotoUsuario,} = useInfoUserHook();
+    const { getDatos, userInfo,actualizarDatosUsuario,mensajeActualizarDatos,loading,setLoading, actualizarFotoUsuario, eliminarFotoUsuario, getSeguidores} = useInfoUserHook();
     const [openModal, setOpenModal] = useState(false);
     const [perfilUpdate, setPerfilUpdate] = useState(false);
     const [openModalFoto, setOpenModalFoto] = useState(false);
     const [openModalEliminar, setOpenModalEliminar] = useState(false);
+    const [openModalSeguidor, setOpenModalSeguidor] = useState(false);
+    const [tipoSeguidor, setTipoSeguidor] = useState('me-siguen');
+
+    const handleClickMeSiguen = () => {
+        setOpenModalSeguidor(true);
+        setTipoSeguidor('me-siguen');
+    }
+
+    const handleClickYoSigo = () => {
+        setOpenModalSeguidor(true);
+        setTipoSeguidor('yo-sigo');
+    }
 
     useEffect(() => {
-            console.log("mi perfil")
-      
-            if (userInfo.usuario === "" || perfilUpdate) {
-                getDatos();
-                setPerfilUpdate(false)
-            }else{
-                setLoading(false);
-            }
+        console.log("mi perfil")
+    
+        if (userInfo.usuario === "" || perfilUpdate) {
+            getDatos();
+            setPerfilUpdate(false)
+        }else{
+            setLoading(false);
+        }
       
     }, [id, perfilUpdate])
 
@@ -71,12 +88,13 @@ export function VisualizarPerfil() {
   }
               <hr />
                     <div className="row d-flex justify-content-around">
-                        <div >
+                        <div css={estilo} onClick={handleClickMeSiguen}>
 
                             <Typography variant="body1">
                                 <b>    Me Siguen     </b> </Typography>
                         </div>
-                        <div > <Typography variant="body1">
+                        <div css={estilo} onClick={handleClickYoSigo}> 
+                        <Typography variant="body1">
                             <b>    Yo Sigo     </b>   </Typography></div>
                     </div>
                     <div className="row d-flex justify-content-around">
@@ -88,8 +106,8 @@ export function VisualizarPerfil() {
                                 </>
                             :
                             <>
-                            <div>{userInfo.cantidad_usuarios_seguidores}</div>
-                            <div>{userInfo.cantidad_usuarios_siguiendo}</div>
+                            <div css={estilo} onClick={handleClickMeSiguen}>{userInfo.cantidad_usuarios_seguidores}</div>
+                            <div css={estilo} onClick={handleClickYoSigo}>{userInfo.cantidad_usuarios_siguiendo}</div>
                             </>
                             }
                          
@@ -125,7 +143,7 @@ export function VisualizarPerfil() {
 
                 <StyledMenuItem onClick={()=>setOpenModalFoto(true)}>
                     <AddAPhotoIcon fontSize="small" className="mr-2" />
-                        Editar Foto
+                    Editar Foto
                 </StyledMenuItem >
 
                 <StyledMenuItem onClick={()=>setOpenModalEliminar(true)}>
@@ -137,6 +155,7 @@ export function VisualizarPerfil() {
 {
     openModal ?  <ModalEditarMisDatos 
     openModal={openModal} 
+    getDatos={getDatos}
     setOpenModal={setOpenModal}
      userData={userInfo}
      setUpdate={setPerfilUpdate}
@@ -148,6 +167,7 @@ export function VisualizarPerfil() {
 {
     openModalFoto ?  <ModalEditarFoto 
     openModal={openModalFoto} 
+    getDatos={getDatos}
     setOpenModal={setOpenModalFoto}
      userData={userInfo}
      setUpdate={setPerfilUpdate}
@@ -159,12 +179,23 @@ export function VisualizarPerfil() {
 {
     openModalEliminar ?  <ModalEliminarFoto 
     openModal={openModalEliminar} 
-    setOpenModal={setOpenModalEliminar}
+    setOpenModal={setOpenModalEliminar} 
+    getDatos={getDatos}
      userData={userInfo}
      setUpdate={setPerfilUpdate}
      eliminarFotoUsuario={eliminarFotoUsuario}
      mensajeActualizarDatos={mensajeActualizarDatos}
      />
+    : null
+}
+{
+    openModalSeguidor ?  <ModalListarSeguidores
+    openModal={openModalSeguidor} 
+    setOpenModal={setOpenModalSeguidor} 
+    tipo={tipoSeguidor}
+    getSeguidores={getSeguidores}
+    cantidad={tipoSeguidor === 'yo-sigo' ? userInfo.cantidad_usuarios_siguiendo : userInfo.cantidad_usuarios_seguidores}
+    />
     : null
 }
            

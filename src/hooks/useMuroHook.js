@@ -3,9 +3,10 @@ import { ListarPublicacionMisSegudiores,PublicarSoloTexto,EliminarPublicacion,Ed
 import {requestPrevieURL} from '../services/GeneralApi';
 import { INITIAL_PAGE } from '../config/api/settings';
 import { ACTIONS_MURO, storeReducer, initialState } from '../contexts/StoreMuroReducer';
+import { TextsmsOutlined } from '@material-ui/icons';
 
-export function useMuroHook({ tipo_filtro = '' }) {
-
+export function useMuroHook() {
+  const [tipoFiltro,setTipoFiltro]=useState('fechaCreado');
   const [loadingNextPage, setLoadingNextPage] = useState(false)
   const [page, setPage] = useState(INITIAL_PAGE)
   const [store, dispatch] = useReducer(storeReducer, initialState);
@@ -16,14 +17,14 @@ export function useMuroHook({ tipo_filtro = '' }) {
      if (page === INITIAL_PAGE){
       dispatch({ type: ACTIONS_MURO.CARGANDO, payload: true });
       (async () => {
-        const response = await ListarPublicacionMisSegudiores({ page, order: "fechaCreado", by: "desc" });
+        const response = await ListarPublicacionMisSegudiores({ page, order: tipoFiltro, by: "desc" });
         const { content } = response;
         dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload: content });
         
       })();
      }
  
-  }, [tipo_filtro, page])
+  }, [tipoFiltro, page])
 
   useEffect(() => {
  //   console.log("2 useffect");
@@ -37,7 +38,7 @@ export function useMuroHook({ tipo_filtro = '' }) {
 
       })();
 
-  }, [tipo_filtro, page])
+  }, [tipoFiltro, page])
 
 
 
@@ -50,6 +51,22 @@ export function useMuroHook({ tipo_filtro = '' }) {
         dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:[response].concat(datos) });
         
     })();
+  }
+
+
+  const publicarEncuesta=async(texto,encuesta,tiempo)=>{
+    //unidad MINUTES   
+    const data={
+      texto:texto,
+      encuesta:{
+        duracion:tiempo,
+        unidad:'MINUTES',
+        opciones:encuesta
+      }
+    };
+    const response=await PublicarSoloTexto({data});
+    dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:[response].concat(datos) });
+  
   }
 
 
@@ -97,12 +114,6 @@ export function useMuroHook({ tipo_filtro = '' }) {
         dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:[responseMultimedia].concat(datos) });
 
         })();
- 
-  
-  }
-
-  const publicarImagenVideo=()=>{
-
   }
 
   const publicarEnlaceExterno=(url,t)=>{
@@ -127,6 +138,6 @@ export function useMuroHook({ tipo_filtro = '' }) {
     })();
   }
 
-  return { loading:cargando, loadingNextPage, datos, reacciones,
-     setPage,publicarSoloTexto,eliminarPublicacion,publicarImagenVideo,editarPublicacion,SubirMultimedia:upLoadMultimedia,publicarEnlaceExterno,getReacciones }
+  return { loading:cargando, loadingNextPage, datos, reacciones,setTipoFiltro,
+     setPage,publicarSoloTexto,eliminarPublicacion,editarPublicacion,SubirMultimedia:upLoadMultimedia,publicarEnlaceExterno,getReacciones,publicarEncuesta }
 }

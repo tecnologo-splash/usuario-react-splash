@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.1.5",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
@@ -17,6 +20,7 @@
     "framer-motion": "^4.1.17",
     "intersection-observer": "0.10.0",
     "just-debounce-it": "^1.5.0",
+    "pusher-js": "^7.0.3",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
     "react-content-loader": "^6.0.3",

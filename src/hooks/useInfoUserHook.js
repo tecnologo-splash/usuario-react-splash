@@ -1,9 +1,8 @@
 import {useState} from 'react';
 import {UserInfo,ActualizarDatosPerfilUsuario,UserInfoOtroUsuario, PostDenuncia} from '../services/LoginApi';
+import { ListarSeguidores } from '../services/SeguidoresApi';
 import { useStoreCuenta,useDispatchCuenta } from "../contexts/LoginContext";
 import { ACTIONS as ACTIONS_CUENTA} from "../contexts/StoreCuentaReducer";
-import {isEmptyInputs} from '../util/validarCamposVacios';
-import {userOrEmail} from '../util/validarCorreo';
 import {mensajesCustomizados} from '../config/api/mensajesCustomizados';
 
 export function useInfoUserHook(){
@@ -14,48 +13,45 @@ export function useInfoUserHook(){
 
   //  const [actualizado, setActualizado]=useState(false);
     
-    const actualizarDatosUsuario=(datosActualizar, foto)=>{
-        if(isEmptyInputs(datosActualizar)){
+    const actualizarDatosUsuario= async (datosActualizar)=>{
+        let response = {};
+        if(!datosActualizar.nombre || !datosActualizar.apellido){
             dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: "Debe Ingresar los Campos Obligatorios" });
-          }else if(!userOrEmail(datosActualizar.correo)){
-            dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: "Error, correo inválido" });
+            response.status = 400;
           }else{
             dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' });
-            (async () => {
+ 
 
-              //nombre,apellido,fecha_nacimiento, correo,biografia,id
+            //nombre,apellido,fecha_nacimiento, correo,biografia,id
 
-                const fd = new FormData();
-                fd.append('nombre', datosActualizar.nombre);
-                fd.append('apellido', datosActualizar.apellido);
-                fd.append('fecha_nacimiento', datosActualizar.fecha_nacimiento);
-                fd.append('correo', datosActualizar.correo);
-                fd.append('biografia', datosActualizar.biografia);
-                if (datosActualizar.borrarFotoActual) fd.append('borrarFotoActual', true);
-                if (foto) {
-                  fd.append('fotoDePerfil', foto);
-                }
+              const fd = new FormData();
+              fd.append('nombre', datosActualizar.nombre);
+              fd.append('apellido', datosActualizar.apellido);
+              if (datosActualizar.biografia) fd.append('biografia', datosActualizar.biografia);
+              else fd.append('biografia', "\u200b");
 
-                const response=await ActualizarDatosPerfilUsuario(datosActualizar.id, fd);
-                if(response.status >=200 && response.status<=226){
-                  dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: 'Editado correctamente' });
-                  setTimeout(() => {dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' })}, 2000)
-                }else{
-                  dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: mensajesCustomizados(response.error_code) });
-                }
-              })()
+              response= await ActualizarDatosPerfilUsuario(datosActualizar.id, fd);
+              if(response.status >=200 && response.status<=226){
+                dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: 'Editado correctamente' });
+                setTimeout(() => {dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' })}, 2000)
+              }else{
+                dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: mensajesCustomizados(response.error_code) });
+              }
+                
           }
+          return response;
     }
 
-    const actualizarFotoUsuario = (id, foto) => {
-      (async () => {
+    const actualizarFotoUsuario = async (id, foto) => {
+      let response = {};
+
 
         if (/image\/(png|gif|jpg|jpeg)/g.test(foto.type)) {
           const fd = new FormData();
           fd.append('fotoDePerfil', foto);
 
 
-          const response=await ActualizarDatosPerfilUsuario(id, fd);
+          response= await ActualizarDatosPerfilUsuario(id, fd);
           if(response.status >=200 && response.status<=226){
             dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: 'Editado correctamente' });
             setTimeout(() => {dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' })}, 2000)
@@ -64,14 +60,15 @@ export function useInfoUserHook(){
             setTimeout(() => {dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' })}, 2000)
           }
         } else {
+          response.status = 400;
           dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: 'Tipo de archivo no soportado' });
           setTimeout(() => {dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: '' })}, 2000)
         }
-      })()
+
+      return response;
     }
 
-    const eliminarFotoUsuario = (id) => {
-      (async () => {
+    const eliminarFotoUsuario = async (id) => {
 
         const fd = new FormData();
         fd.append('borrarFotoActual', true);
@@ -83,7 +80,7 @@ export function useInfoUserHook(){
         } else {
           dispatch({ type: ACTIONS_CUENTA.MENSAJE_ACTUALIZAR_DATOS, payload: mensajesCustomizados(response.error_code) });
         }
-      })()
+        return response;
     }
 
     const getDatos=()=>{
@@ -120,6 +117,16 @@ export function useInfoUserHook(){
     return response; 
   }
 
+  const getSeguidores = async (tipo, page, params) => {
+    let query = ''
+    console.log(1111111, params)
+    if (params.filtro && params.keywords) {
+      query = `filtro=${params.filtro}&keywords=${params.keywords}`;}
+
+    const response = await ListarSeguidores(tipo, page, query);
+    return response;
+  }
+
     return {
         getDatos,
         userInfo,
@@ -130,6 +137,7 @@ export function useInfoUserHook(){
         getDatosOtroUsuario,
         crearDenunciaUsuario,
         otroUsuarioInfo,
+        getSeguidores,
         loading,
         setLoading
     }

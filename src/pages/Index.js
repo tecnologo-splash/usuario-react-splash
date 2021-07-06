@@ -12,6 +12,9 @@ const Chat = lazy(() => import("./Chat"));
 
 const Config = lazy(() => import("./Config"));
 
+const AmigosSugeridos = lazy(() => import("./AmigosSugeridos"));
+
 const Usuarios = lazy(() => import("./Usuarios"));
 
-export const pages={Login,Home,MiPerfil,PerfilAmigo,Chat,Config,Usuarios};
+
+export const pages={Login,Home,MiPerfil,PerfilAmigo,Chat,Config,AmigosSugeridos,Usuarios};
