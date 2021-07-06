@@ -23,7 +23,6 @@ export function FiltroPublicacion({setTipoFiltro}){
     setTipoFiltro(tipo);
     setSelected(tipo);
   }
-  console.log(selected)
 
   return (
         <div className="col-md-8 offset-md-2 mb-4 ">

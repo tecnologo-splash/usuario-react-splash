@@ -3,6 +3,7 @@ import { ListarPublicacionMisSegudiores,PublicarSoloTexto,EliminarPublicacion,Ed
 import {requestPrevieURL} from '../services/GeneralApi';
 import { INITIAL_PAGE } from '../config/api/settings';
 import { ACTIONS_MURO, storeReducer, initialState } from '../contexts/StoreMuroReducer';
+import { TextsmsOutlined } from '@material-ui/icons';
 
 export function useMuroHook() {
   const [tipoFiltro,setTipoFiltro]=useState('fechaCreado');
@@ -53,9 +54,19 @@ export function useMuroHook() {
   }
 
 
-  const publicarEncuesta=async({encuesta})=>{
-    console.log(encuesta);
-
+  const publicarEncuesta=async(texto,encuesta,tiempo)=>{
+    //unidad MINUTES   
+    const data={
+      texto:texto,
+      encuesta:{
+        duracion:tiempo,
+        unidad:'MINUTES',
+        opciones:encuesta
+      }
+    };
+    const response=await PublicarSoloTexto({data});
+    dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:[response].concat(datos) });
+  
   }
 
 
@@ -128,5 +139,5 @@ export function useMuroHook() {
   }
 
   return { loading:cargando, loadingNextPage, datos, reacciones,setTipoFiltro,
-     setPage,publicarSoloTexto,eliminarPublicacion,editarPublicacion,SubirMultimedia:upLoadMultimedia,publicarEnlaceExterno,getReacciones }
+     setPage,publicarSoloTexto,eliminarPublicacion,editarPublicacion,SubirMultimedia:upLoadMultimedia,publicarEnlaceExterno,getReacciones,publicarEncuesta }
 }

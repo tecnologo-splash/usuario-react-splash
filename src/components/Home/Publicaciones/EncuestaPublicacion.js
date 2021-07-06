@@ -2,10 +2,22 @@ import React, { useState, useEffect,useCallback } from "react";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+const selectorCheck = css`
+.MuiRadio-colorSecondary.Mui-checked{
+  color:#592393;
+}
+`;
 
 export default function EncuestaPublicacion({ publicacionData= []}) {
   const { encuesta } = publicacionData;
-  //console.log(encuesta);
+  console.log(encuesta);
   const [totalVotos, setVotos] = useState(0);
   const [encuestaActiva, setEstadoEnc] = useState({
     estado:null,
@@ -16,24 +28,22 @@ export default function EncuestaPublicacion({ publicacionData= []}) {
     ()=>{
       let today = new Date();
       let fechaCierre = new Date(encuesta.fecha_cierre);
-      let dd = String(fechaCierre.getDate()).padStart(2, '0');
-      let mm = String(fechaCierre.getMonth() + 1).padStart(2, '0'); //January is 0!
-      let yyyy = fechaCierre.getFullYear();
-      fechaCierre = dd + '/' +  mm + '/' + yyyy;
-      let parts = fechaCierre.match(/(\d+)/g);
-      let   fechaCierre2=   new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
-      
-      if(today.getTime()>fechaCierre2.getTime()){
-        setEstadoEnc({
-          estado:false,
-          fechaCierre:"Cerrada "+fechaCierre
-        });
-      }else{
-        setEstadoEnc({
-         estado:true,
-        fechaCierre:"Activa hasta el: "+fechaCierre
-        });
+      var dateStr =
+        ("00" + (fechaCierre.getMonth() + 1)).slice(-2) + "/" +
+        ("00" + fechaCierre.getDate()).slice(-2) + "/" +
+        fechaCierre.getFullYear() + " " +
+        ("00" + fechaCierre.getHours()).slice(-2) + ":" +
+        ("00" + fechaCierre.getMinutes()).slice(-2);
+
+        let est=true;
+      if(fechaCierre<today){
+        est=false;
       }
+      setEstadoEnc({
+        estado:est,
+       fechaCierre:"Activa hasta el: "+dateStr
+       });
+
     },[encuesta.fecha_cierre]
   
   )
@@ -64,15 +74,20 @@ export default function EncuestaPublicacion({ publicacionData= []}) {
   );
 }
 
-export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada }) {//C4CFD6
+export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada,encuestaActiva }) {//C4CFD6
   return (
     <>
+      
       <div className="col-md-1 align-self-center"> 
       {
-        opcion_id_votada!=null ? <CheckCircleOutlineIcon /> :""
+        opcion_id_votada!=null ? <CheckCircleOutlineIcon /> : encuestaActiva.estado ? 
+        <FormControlLabel control={<Radio />} css={selectorCheck}  />
+    :""
       }
      </div>
-      <div className="col-md-1 align-self-center">
+      
+
+      <div className="col-md-1 align-self-center pb-2">
         
         {totalVotos===0 ? "0" : opcion.cantidad_votos*100/totalVotos}%
         

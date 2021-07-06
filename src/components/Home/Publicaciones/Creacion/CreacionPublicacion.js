@@ -18,7 +18,7 @@ import{OpcionesEncuesta} from './OpcionesEncuesta';
 import {InputPublicacion} from '../InputPublicacion';
 import {usePublicar} from '../../../../hooks/publicar/usePublicar';
 
-export default function CrearPublicacion({publicar,publicarEnlaceExterno,SubirMultimedia}) {
+export default function CrearPublicacion({publicar,publicarEnlaceExterno,SubirMultimedia,publicarEncuesta}) {
   const {userInfo}=useInfoUserHook();
   const {  refresh,
     handleClickPublicar,
@@ -34,8 +34,11 @@ export default function CrearPublicacion({publicar,publicarEnlaceExterno,SubirMu
     open,
     cantFotos,
     setMultimedia,
-    setCantFotos
-  }=usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia});
+    setCantFotos,
+    opcionesEncuesta,
+    setOpcionesEncuesta,
+    mensajeError
+  }=usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia,publicarEncuesta});
   
   
 
@@ -65,6 +68,12 @@ export default function CrearPublicacion({publicar,publicarEnlaceExterno,SubirMu
             ""
           )}
           {/* <Emoji emoji=':santa:' size={32} />*/}
+           
+           <center>
+            <Typography variant="button" display="block" gutterBottom  color="secondary">
+             {mensajeError}
+            </Typography>
+          </center>
           <Divider className="mb-3" />
 
 
@@ -97,7 +106,7 @@ export default function CrearPublicacion({publicar,publicarEnlaceExterno,SubirMu
            {tipoPublicacion==='multimedia'?
            cantFotos:null}
           {tipoPublicacion==='encuesta'?
-            <OpcionesEncuesta/>:null
+            <OpcionesEncuesta  opcionesEncuesta={opcionesEncuesta}  setOpcionesEncuesta={setOpcionesEncuesta}/>:null
           }
 
 

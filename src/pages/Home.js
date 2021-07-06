@@ -25,7 +25,7 @@ export default function Home() {
 
   const { loading, datos, setPage, publicarSoloTexto, 
     eliminarPublicacion, editarPublicacion,
-    publicarEnlaceExterno,SubirMultimedia,setTipoFiltro } 
+    publicarEnlaceExterno,SubirMultimedia,setTipoFiltro,publicarEncuesta } 
   = useMuroHook();
   const { userInfo, getDatos } = useInfoUserHook();
 
@@ -75,7 +75,12 @@ export default function Home() {
 
 
           <div className="col-md-9">
-            <CrearPublicacion publicar={publicarSoloTexto} publicarEnlaceExterno={publicarEnlaceExterno} SubirMultimedia={SubirMultimedia}/>
+            <CrearPublicacion
+             publicar={publicarSoloTexto}
+              publicarEnlaceExterno={publicarEnlaceExterno}
+               SubirMultimedia={SubirMultimedia}
+               publicarEncuesta={publicarEncuesta}
+               />
 
             <ListarMuro
              userInfo={userInfo}

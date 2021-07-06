@@ -1,6 +1,7 @@
 import  {useState} from 'react';
+import { Encuesta } from '../../components/Home/Publicaciones/Creacion/ButtonsPublicacion';
 
-export function usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia}){
+export function usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia,publicarEncuesta}){
     
     const [visible, setVisible] = useState(false);
     const [url, setUrl] = useState("");
@@ -12,10 +13,12 @@ export function usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia}){
     const [tipoPublicacion,setTipooPublicacion]=useState('texto');
     const [multimedia,setMultimedia]=useState(null);
     const [cantFotos, setCantFotos] = useState(0);
+    const [opcionesEncuesta,setOpcionesEncuesta]=useState(null);
+    const [mensajeError,setMensajeError]=useState('');
 
     const refresh=()=>{
-    setTipooPublicacion("texto");
-  }
+      setTipooPublicacion("texto");
+    }
   
     const pepe = (emoji, e) => {
       console.log(emoji, e);
@@ -26,25 +29,66 @@ export function usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia}){
     };
   
     const handleClickPublicar=()=>{
-      console.log(tipoPublicacion);
-
-      if(tipoPublicacion==="link_externo"){
-        console.log(url,textoPublicacion);
-        publicarEnlaceExterno(url,textoPublicacion);
-      }else if(tipoPublicacion==="texto"){
-        publicar(textoPublicacion);
-      }else if(tipoPublicacion==="multimedia"){
-        console.log("multimedia")
-        console.log(multimedia);
-        if(cantFotos>4 && cantFotos<1){
-          console.log("err");
+        if(textoPublicacion!==""){        
+          if(tipoPublicacion==="link_externo"){
+            if(url===""){
+              setMensajeError('Error debe ingresar el link externo');
+            }else{
+              publicarEnlaceExterno(url,textoPublicacion);
+              setMensajeError('');
+            }
+           
+          }else if(tipoPublicacion==="texto"){
+            publicar(textoPublicacion);
+          }else if(tipoPublicacion==="multimedia"){
+            console.log(multimedia);
+            if(cantFotos>4 && cantFotos<1){
+              setMensajeError('Error, Debe ingresar al menos un elemento de multimedia');
+            }else{
+              SubirMultimedia(multimedia,textoPublicacion,cantFotos);
+              setMensajeError('');
+            }
+          }else if(tipoPublicacion==="encuesta"){
+            validacionEncuesta();
+          }
         }else{
-          SubirMultimedia(multimedia,textoPublicacion,cantFotos);
-        }
-      }else if(tipoPublicacion==="encuesta"){
+          setMensajeError('Error, Debe ingresar al menos un texto');
 
+        }
+    }
+
+
+    const validacionEncuesta=()=>{
+      if(opcionesEncuesta['opcion_1']==='' || opcionesEncuesta['opcion_2']==='' || opcionesEncuesta['fecha_cierre_encuesta']===''){
+        setMensajeError('Error, Debe ingresar datos Obligatorios');
+      }else if(new Date(opcionesEncuesta['fecha_cierre_encuesta'])>new Date()){
+        let diffInMilliSeconds = Math.abs(new Date(opcionesEncuesta['fecha_cierre_encuesta'])- new Date()) / 1000;
+        const days = Math.floor(diffInMilliSeconds / 86400);
+        diffInMilliSeconds -= days * 86400;
+      //  console.log('calculated days', days);
+
+        
+        const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
+        diffInMilliSeconds -= hours * 3600;
+        //console.log('calculated hours', hours);
+
+        
+        const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
+        diffInMilliSeconds -= minutes * 60;
+        //console.log('minutes', minutes);//MINUTES
+          const opciones=[];
+          for (var key in opcionesEncuesta) {
+            if (opcionesEncuesta[key] !== "" && key!=='fecha_cierre_encuesta'){
+                opciones.push({texto:opcionesEncuesta[key]});
+            } 
+          }
+          const valorMinutoTotal=minutes+(hours*60)+(days*24*60);
+        //  console.log(valorMinutoTotal);
+          publicarEncuesta(textoPublicacion,opciones,valorMinutoTotal);
+          setMensajeError('');
+      }else{
+        setMensajeError('Error, Fecha Hora de cierre anterior a la actual');
       }
-    
     }
 
     return {
@@ -65,7 +109,10 @@ export function usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia}){
         multimedia,
         setMultimedia,
         cantFotos,
-        setCantFotos
+        setCantFotos,
+        opcionesEncuesta,
+        setOpcionesEncuesta,
+        mensajeError
     }
   
 }
