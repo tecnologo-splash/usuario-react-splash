@@ -41,6 +41,11 @@ export const routes = [
     component: pages.Config,
     path: "/home/mi-perfil/:idPublicacion",
     isPrivate: true
+  },
+  {
+    component: pages.Usuarios ,
+    path: "/home/usuarios",
+    isPrivate: true
   }
 ];
   
