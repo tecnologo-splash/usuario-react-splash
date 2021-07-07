@@ -11,14 +11,14 @@ import { css } from "@emotion/react";
 import {useComentarioHook} from '../../../../hooks/comentarios/useComentarioHook';
 import { Divider } from "@material-ui/core";
 
-export function ListComentarios({expanded, publicacionId,comentarios,userInfo,idOtroUsuario}) {
+export function ListComentarios({expanded, publicacionId,comentarios,userInfo,idOtroUsuario,setCantidadComentarios,cantidadComentarios}) {
 
   const estilo=css`input:focus {
         background-color: white;
         }`;
     const estiloCursor=css`cursor:pointer;`;
-    const {ingresarComentario,eliminarComentario,setComentarios,
-        handleChangeTextComentario,coments,ingresarRespuesta}=useComentarioHook({comentarios,publicacionId});
+    const {ingresarComentario,eliminarComentario,
+        handleChangeTextComentario,coments,ingresarRespuesta,texto}=useComentarioHook({comentarios,publicacionId,setCantidadComentarios,cantidadComentarios});
         //useMemo here
 
 return (
@@ -56,6 +56,7 @@ return (
             size="small"
             variant="outlined"
             css={estilo}
+            value={texto}
             onChange={(e)=>handleChangeTextComentario(e)}
             InputProps={{
                 endAdornment: (

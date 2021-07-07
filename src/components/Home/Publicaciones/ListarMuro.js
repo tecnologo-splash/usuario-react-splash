@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
   media: {height: 190, },
 }));
 
-export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,editarPublicacion,userInfo,userUrlMe={},setTipoFiltro}) {
- 
+export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,editarPublicacion,userInfo,setTipoFiltro}) {
+ console.log(userInfo,datos);
   return (
     <>
         <FiltroPublicacion setTipoFiltro={setTipoFiltro}/>
@@ -45,7 +45,7 @@ export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,edi
                   editarPublicacion={editarPublicacion}
                   textoEdicion={item.texto}
                 />
-                {Publicaciones({ item })}
+                <Publicaciones item={item} id={item.usuario_comun.id}  meId={userInfo.id}/>
 
                 <Acciones resumen_reaccion={item.resumen_reaccion} publicacionId={item.id} 
                 comentarios={item.comentarios}  userInfo={userInfo}
@@ -69,10 +69,10 @@ export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,edi
   )
 }
 
-export function Publicaciones({ item }) {
+export function Publicaciones({ item,id,idMe }) {
 
   if (item.encuesta !== null) {//es necuesta
-    return <EncuestaPublicacion publicacionData={item} />;
+    return <EncuestaPublicacion publicacionData={item} id={id} idMe={idMe}/>;
   } else if (item.enlace_externo.length > 0) {//es enlace externo
     return <LinkExternoPublicacion publicacionData={item} />;
   } else if (item.multimedia.length > 0) {//es multimedia  ver si es carrusel o no

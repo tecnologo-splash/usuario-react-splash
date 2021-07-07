@@ -13,9 +13,9 @@ const selectorCheck = css`
 }
 `;
 
-export default function EncuestaPublicacion({ publicacionData= []}) {
+export default function EncuestaPublicacion({ publicacionData= [],id,idMe}) {
   const { encuesta } = publicacionData;
-
+  console.log(encuesta);
   const {
     votarPublicacion,votar,
     enc,setEncuesta,
@@ -72,6 +72,8 @@ export default function EncuestaPublicacion({ publicacionData= []}) {
               votarPublicacion={votarPublicacion} 
               votar={votar}
               idPublicacion={publicacionData.id}
+              id={id}
+              idMe={idMe}
               />
             ))}
           </div> 
@@ -81,14 +83,15 @@ export default function EncuestaPublicacion({ publicacionData= []}) {
   );
 }
 
-export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada,encuestaActiva,votarPublicacion,votar,idPublicacion }) {//C4CFD6
+export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada,encuestaActiva,votarPublicacion,votar,idPublicacion,id,idMe }) {//C4CFD6
  
   return (
     <>
       
       <div className="col-md-1 align-self-center"> 
       {
-        opcion_id_votada!=null && opcion_id_votada===opcion.id ? <CheckCircleOutlineIcon /> : encuestaActiva.estado && !votar && opcion_id_votada==null ? 
+        opcion_id_votada!=null && opcion_id_votada===opcion.id ? <CheckCircleOutlineIcon /> : 
+        encuestaActiva.estado && !votar && opcion_id_votada==null && id!==idMe ? 
         <FormControlLabel control={<Radio />} css={selectorCheck} onClick={()=>votarPublicacion(opcion.id,idPublicacion)} />
     :""
       }

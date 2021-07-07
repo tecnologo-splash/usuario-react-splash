@@ -2,7 +2,7 @@ import { useEffect, useState,useReducer} from "react";
 import {PublicarComentario,ResponderAComentario,EliminarComentario,EliminarRespuestaAComentario} from '../../services/MuroApi';
 import {ACTIONS, ComentarioReducer, initialStateCuenta } from '../../contexts/ComentarioReducer';
 
-export function useComentarioHook({comentarios,publicacionId}){
+export function useComentarioHook({comentarios,publicacionId,setCantidadComentarios,cantidadComentarios}){
     const [texto,setTexto]=useState("");
     const [store, dispatch] = useReducer(ComentarioReducer, initialStateCuenta);
     const {coments}=store;
@@ -20,6 +20,8 @@ export function useComentarioHook({comentarios,publicacionId}){
            const {comentarios}=response;
            let c=comentarios;
            //setComentarios(comentarios);
+           setTexto('');
+           setCantidadComentarios(cantidadComentarios=>cantidadComentarios+1)
            dispatch({ type: ACTIONS.COMENTARIOS, payload: c});
 
     }
@@ -29,14 +31,13 @@ export function useComentarioHook({comentarios,publicacionId}){
        const response=await ResponderAComentario({publicacionId,comentarioId,data});
         const {comentarios}=response;
            //setComentarios(comentarios);
-      dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios});
+        dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios});
 
     }
     const eliminarComentario= async(comentarioId)=>{
 
        const response=await EliminarComentario({publicacionId,comentarioId});
        const resp= coments.find(x => x.id === comentarioId).respuestas;
-
        if(resp.length>0){//tiene respuestas
         const {comentarios}=response;
         dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios });
@@ -47,9 +48,8 @@ export function useComentarioHook({comentarios,publicacionId}){
             coments.splice(index, 1);
         }
         dispatch({ type: ACTIONS.COMENTARIOS, payload: coments });
-
-
        }
+       setCantidadComentarios(cantidadComentarios=>cantidadComentarios-1)
     }
     const eliminarRespuestaAComentario= ()=>{
 
@@ -60,6 +60,7 @@ export function useComentarioHook({comentarios,publicacionId}){
         handleChangeTextComentario,
         eliminarComentario,
         ingresarRespuesta,
-        coments
+        coments,
+        texto
     }
 }

@@ -17,6 +17,7 @@ import { ListComentarios } from "../Comentarios/ListComentarios";
 import { css } from "@emotion/react";
 import { ReaccionarAPublicacion,BorrarReaccionarAPublicacion,Publicacion } from '../../../../services/MuroApi';
 import { PublicacionReaccionada } from './PublicacioReaccionada';
+import { NaturePeopleOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   elementsHover: {
@@ -41,9 +42,8 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [reacciones, setReacciones] = useState([]);
-
   const [openReact, setOpenReact] = useState(false);
-
+  const [cantidadComentarios,setCantidadComentarios]=useState(comentarios.length);
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
@@ -62,17 +62,13 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
 
   },[resumen_reaccion])
 
-  const openReaccion=(e)=>{
+  const openReaccion= async(e)=>{
     if(reacciones.mi_reaccion!=null){
-      (async () => {
-      const response=await BorrarReaccionarAPublicacion({ publicacionId });
-      console.log(response);
-      })();
-      (async () => {
-          const response=await Publicacion({publicacionId});
-          const {resumen_reaccion}=response;
-          setReacciones(resumen_reaccion);
-        })()
+      await BorrarReaccionarAPublicacion({ publicacionId });
+     const r=await Publicacion({publicacionId});
+     const {resumen_reaccion}=r;
+      setReacciones(resumen_reaccion);
+
     }else{
       setAnchorEl(e.currentTarget) 
     }
@@ -98,7 +94,7 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
 <div className="col-md-12 d-flex flex-row-reverse">
 
 <Typography variant="caption"gutterBottom className=" d-flex flex-row-reverse">
-{comentarios.length} Comentarios
+{cantidadComentarios} Comentarios
   </Typography>
   </div>
   
@@ -109,7 +105,6 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
       <CardActions className="d-flex bd-highlight">
 
         <Button style={{ textTransform: 'none', color: reacciones.mi_reaccion === null ? 'grey' : '#6F32C1' }} className="flex-fill bd-highlight"
-          /* onMouseEnter={handlePopoverOpen}  */
           onClick={openReaccion}
         >
           <EmojiEmotionsIcon className="mr-2" />  <Typography> Reacionar</Typography>
@@ -162,14 +157,17 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
 
       </CardActions>
 
-
-
       <ListComentarios expanded={expanded}
-       comentarios={comentarios}
-       userInfo={userInfo}
-        publicacionId={publicacionId}
-        idOtroUsuario={idOtroUsuario}
-      />
+      comentarios={comentarios}
+      userInfo={userInfo}
+       publicacionId={publicacionId}
+       idOtroUsuario={idOtroUsuario}
+       setCantidadComentarios={setCantidadComentarios}
+       cantidadComentarios={cantidadComentarios}
+     />
+    
+ 
+    
 
     </>
   )
@@ -179,7 +177,6 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
 export function EmojiAction({ url, titulo, setAnchorEl, index, enumEmoji, publicacionId,setReacciones }) {
   const classes = useStyles();
   const handleClick = () => {
-    console.log("reaccionar " + enumEmoji);
     (async () => {
       const data = { emoji: enumEmoji };
     const response=  await ReaccionarAPublicacion({ publicacionId, data })
