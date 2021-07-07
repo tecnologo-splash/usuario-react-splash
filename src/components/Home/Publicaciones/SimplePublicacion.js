@@ -18,7 +18,7 @@ export default function SimplePublicacion({publicacionData}) {
       <CardMedia
       component={valor}
      src={URL_BASE_FILE_STORAGE+multimedia[0].url}
-      title='title'
+      title=''
       controls
       />    
     

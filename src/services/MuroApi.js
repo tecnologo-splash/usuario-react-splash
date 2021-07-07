@@ -36,10 +36,15 @@ export function Publicacion({ publicacionId }) {
 export function PublicarSoloTexto({ data }) {
   return request(`posts/`, METHOD.POST, data);
 }
-
 export function PublicarEnlaceExterno({ data }) {
   return request(`posts/`, METHOD.POST, data);
 }
+
+export function VotarEncuesta({ publicacionId,opcionIdEncuesta }) {
+  return request(`posts/${publicacionId}/opciones/${opcionIdEncuesta}`, METHOD.POST);
+}
+
+
 
 //comentarios
 export function PublicarComentario({ publicacionId, data }) {

@@ -64,7 +64,7 @@ export default function Home() {
     }
 
 },[userInfo.id,pusher])
-
+console.log("muro")
   return (
     <>
       <MenuHeader />

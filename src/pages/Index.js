@@ -16,5 +16,7 @@ const AmigosSugeridos = lazy(() => import("./AmigosSugeridos"));
 
 const Usuarios = lazy(() => import("./Usuarios"));
 
+const NotificacionPublicacion = lazy(() => import("./NotificacionPublicacion"));
 
-export const pages={Login,Home,MiPerfil,PerfilAmigo,Chat,Config,AmigosSugeridos,Usuarios};
+
+export const pages={Login,Home,MiPerfil,PerfilAmigo,Chat,Config,AmigosSugeridos,Usuarios,NotificacionPublicacion};

@@ -1,4 +1,4 @@
-export const SIZE_SUGERENCIAS_AMIGOS_MURO=3;
+export const SIZE_SUGERENCIAS_AMIGOS_MURO=2;
 export const SIZE_SEARCH_AMIGOS=8; 
 export const SIZE_MURO=15; 
 export const SIZE_CONVERSACIONES_CHAT=10; 

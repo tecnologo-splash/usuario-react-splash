@@ -3,12 +3,10 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { useVotarEncuestaHook } from "../../../hooks/publicar/useVotarEncuestaHook";
 const selectorCheck = css`
 .MuiRadio-colorSecondary.Mui-checked{
   color:#592393;
@@ -17,17 +15,19 @@ const selectorCheck = css`
 
 export default function EncuestaPublicacion({ publicacionData= []}) {
   const { encuesta } = publicacionData;
-  console.log(encuesta);
-  const [totalVotos, setVotos] = useState(0);
-  const [encuestaActiva, setEstadoEnc] = useState({
-    estado:null,
-    fechaCierre:null
-  });
- 
+
+  const {
+    votarPublicacion,votar,
+    enc,setEncuesta,
+    setEstadoEnc,setVotos,
+    encuestaActiva,totalVotos
+  }=useVotarEncuestaHook({encuesta});
+
+  console.log(enc);
   const validarCierreEncuesta=useCallback(
     ()=>{
       let today = new Date();
-      let fechaCierre = new Date(encuesta.fecha_cierre);
+      let fechaCierre = new Date(enc.fecha_cierre);
       var dateStr =
         ("00" + (fechaCierre.getMonth() + 1)).slice(-2) + "/" +
         ("00" + fechaCierre.getDate()).slice(-2) + "/" +
@@ -44,46 +44,55 @@ export default function EncuestaPublicacion({ publicacionData= []}) {
        fechaCierre:"Activa hasta el: "+dateStr
        });
 
-    },[encuesta.fecha_cierre]
+    },[enc.fecha_cierre]
   
   )
   useEffect(() => {
     let total=0;
-    encuesta.opciones.forEach(element => {
+    enc.opciones.forEach(element => {
      total+=element.cantidad_votos;
     });
     setVotos(total);
     validarCierreEncuesta();
    
-  }, [encuesta.opciones,validarCierreEncuesta]);
+  }, [enc.opciones,validarCierreEncuesta,votar]);
 
   return (
 
         <CardContent>
           <Typography paragraph>{publicacionData.texto}</Typography>
           <div className="row">
-            {encuesta.opciones.map((item,index)=>(
-              < Opciones opcion={item} key={index} totalVotos={totalVotos} 
-              opcion_id_votada={encuesta.opcion_id_votada}
-              encuestaActiva={encuestaActiva}/>
+            {enc.opciones.map((item,index)=>(
+              < Opciones 
+              opcion={item}
+               key={index} 
+              totalVotos={totalVotos} 
+              opcion_id_votada={enc.opcion_id_votada}
+              encuestaActiva={encuestaActiva}
+              votarPublicacion={votarPublicacion} 
+              votar={votar}
+              idPublicacion={publicacionData.id}
+              />
             ))}
           </div> 
-     <small className="d-flex flex-row-reverse mt-1">     Estado: {encuestaActiva.fechaCierre}</small>
+     <small className="d-flex flex-row-reverse mt-1"> {encuestaActiva.fechaCierre}</small>
         </CardContent>
 
   );
 }
 
-export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada,encuestaActiva }) {//C4CFD6
+export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada,encuestaActiva,votarPublicacion,votar,idPublicacion }) {//C4CFD6
+ 
   return (
     <>
       
       <div className="col-md-1 align-self-center"> 
       {
-        opcion_id_votada!=null ? <CheckCircleOutlineIcon /> : encuestaActiva.estado ? 
-        <FormControlLabel control={<Radio />} css={selectorCheck}  />
+        opcion_id_votada!=null && opcion_id_votada===opcion.id ? <CheckCircleOutlineIcon /> : encuestaActiva.estado && !votar && opcion_id_votada==null ? 
+        <FormControlLabel control={<Radio />} css={selectorCheck} onClick={()=>votarPublicacion(opcion.id,idPublicacion)} />
     :""
       }
+ 
      </div>
       
 
@@ -108,4 +117,9 @@ export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada,encuestaActiv
       </div>
     </>
   )
+}
+
+export function Votaciones({opcion_id_votada,opcionId,votarPublicacion,idPublicacion,votar,encuestaActivaEstado}){
+
+
 }

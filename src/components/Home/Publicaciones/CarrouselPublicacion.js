@@ -31,7 +31,7 @@ export default function CarrouselPublicacion({publicacionData}) {
           <CardMedia
           component={item.tipo.toLowerCase()==='foto'? "img" : "video"}
         src={URL_BASE_FILE_STORAGE+item.url}
-          title='title'
+          title=''
           controls
           />  
     </Carousel.Item>

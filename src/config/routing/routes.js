@@ -38,8 +38,8 @@ export const routes = [
     isPrivate: true
   }
   ,{
-    component: pages.Config,
-    path: "/home/mi-perfil/:idPublicacion",
+    component: pages.NotificacionPublicacion,
+    path: "/home/mi-perfil/publicacion/:id",
     isPrivate: true
   },
   {

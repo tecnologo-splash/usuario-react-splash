@@ -139,5 +139,6 @@ export function useMuroHook() {
   }
 
   return { loading:cargando, loadingNextPage, datos, reacciones,setTipoFiltro,
-     setPage,publicarSoloTexto,eliminarPublicacion,editarPublicacion,SubirMultimedia:upLoadMultimedia,publicarEnlaceExterno,getReacciones,publicarEncuesta }
+     setPage,publicarSoloTexto,eliminarPublicacion,editarPublicacion,SubirMultimedia:upLoadMultimedia,
+     publicarEnlaceExterno,getReacciones,publicarEncuesta }
 }

@@ -1,5 +1,4 @@
-import React,{useState} from "react";
-import "emoji-mart/css/emoji-mart.css";
+import React,{useEffect} from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
@@ -9,6 +8,7 @@ import {PerfilAvatar} from '../Perfil/PerfilAvatar';
 import { css } from "@emotion/react";
 import {useAmigosSugeridosHook} from '../../../hooks/useAmigosSugeridosHook';
 import {SIZE_SUGERENCIAS_AMIGOS_MURO} from '../../../config/api/settings';
+import { useHistory } from "react-router-dom";
 
 export function ListAmigosSugeridos() {
 const divStyle=css`
@@ -20,10 +20,16 @@ border-radius: 20px;
   transition: transform .1s;
 }
 `;
-  const {datos,obtenerAmigosSugeridos,seguirUsuario}=useAmigosSugeridosHook();
-  useState(()=>{
- obtenerAmigosSugeridos();
-  },[])
+  const {amigos,seguirUsuario}=useAmigosSugeridosHook();
+  console.log(amigos);
+  const cantidad=Object.keys(amigos).length;
+
+  let history = useHistory();
+
+  const handleClick=()=>{
+    history.push("/home/amigos-sugeridos");
+  }
+
 
  return (
 
@@ -34,7 +40,7 @@ border-radius: 20px;
     Amigos Sugeridos
   </Typography>
 
-    {datos.data.map((item, index) => (
+    {amigos.map((item, index) => (
       <div
         key={index}
         className="col-md-8 mb-4 border shadow-sm d-inline-flex p-2 offset-md-1 nav"
@@ -45,13 +51,13 @@ border-radius: 20px;
     ))}
 
         {                         
-            datos.cantidad===SIZE_SUGERENCIAS_AMIGOS_MURO
+            cantidad===SIZE_SUGERENCIAS_AMIGOS_MURO
             ?
     <div
       className="col-md-8 mb-4 border shadow-sm d-flex justify-content-center offset-md-1"
       css={divStyle}
     >
-      <Link component="button" variant="body2">
+      <Link component="button" variant="body2" onClick={handleClick}>
         Ver Más
       </Link>
       </div>

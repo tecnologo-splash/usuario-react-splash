@@ -1,7 +1,6 @@
 import React,{useEffect,useRef,useCallback} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {MenuHeader} from '../components/Menu/MenuHeader';
-import {FiltroPublicacion} from '../components/Home/Publicaciones/FiltroPublicaciones';
 import {VisualizarPerfilOtroUsuario} from '../components/Home/Perfil/VisualizarPerfilOtroUsuario';
 import { useParams } from 'react-router';
 import {useInfoUserHook} from '../hooks/useInfoUserHook';
