@@ -10,25 +10,30 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
     useEffect(()=>{
         setReacciones(resumen_reaccion);
     },[resumen_reaccion])
+
+    useEffect(()=>{
+       
+    },[reacciones])
+    
+
     const open = Boolean(anchorEl);
 
     const handlePopoverClose = () => {
         setAnchorEl(null);
-      };
+    };
     
-      const handleExpandClick = () => {
+    const handleExpandClick = () => {
         setExpanded(!expanded);
-      };
-    
+    };
+
       const handleClick = () => {
         setOpenReact(true)
       }
 
       const openReaccion= async(e)=>{
+        console.log(reacciones);
         if(reacciones.mi_reaccion!==null){
-          console.log("here");
          await BorrarReaccionarAPublicacion({ publicacionId });
-         console.log("accaaaa")
          reacciones.mi_reaccion=null
          console.log(reacciones);
          setReacciones(reacciones);
@@ -41,7 +46,6 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
     const response=  await ReaccionarAPublicacion({ publicacionId, data })
       console.log(response);
       setReacciones(response.resumen_reaccion);
-   //   setMiReaccion(enumEmoji);
       setAnchorEl(null);
   }
 
