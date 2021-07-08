@@ -5,8 +5,10 @@ import { ListAmigosSugeridos } from '../components/Home/AmigosSugeridos/ListAmig
 import { ListarMuro } from '../components/Home/Publicaciones/ListarMuro';
 import CrearPublicacion from '../components/Home/Publicaciones/Creacion/CreacionPublicacion';
 import { useInfoUserHook } from '../hooks/useInfoUserHook';
-import {conexionPusher} from '../util/pusherUtil';
-
+import Pusher from 'pusher-js';
+let pusher = new Pusher('1f2a6fe63e0652eb4139', {
+  cluster: 'us2'
+});
 const useStyles = makeStyles(theme => ({
   content: {
     padding: theme.spacing(3),
@@ -15,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Home() {
-  const pusher=conexionPusher();
+ // const pusher=conexionPusher();
   const classes = useStyles();
   const { userInfo, getDatos } = useInfoUserHook();
 
