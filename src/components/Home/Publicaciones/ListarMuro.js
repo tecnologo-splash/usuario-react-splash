@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useCallback, useRef } from 'react';
 import { PublicacionHeader } from './PublicacionHeader';
 import { Acciones } from './Acciones/Acciones';
 import Card from "@material-ui/core/Card";
@@ -12,16 +12,39 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {FiltroPublicacion} from '../Publicaciones/FiltroPublicaciones';
+import debounce from 'just-debounce-it';
+import useNearScreen from '../../../hooks/useNearScreen';
+import { useMuroHook } from '../../../hooks/useMuroHook';
 
 const useStyles = makeStyles((theme) => ({
   media: {height: 190, },
 }));
 
-export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,editarPublicacion,userInfo,setTipoFiltro}) {
- console.log(userInfo,datos);
+export function ListarMuro({userInfo}) {
+  const externalRef = useRef();
+
+  const { loading, datos, setPage, 
+    eliminarPublicacion, editarPublicacion,setTipoFiltro }   = useMuroHook();
+    
+  const { isNearScreen } = useNearScreen({
+    externalRef: loading ? null : externalRef,
+    once: false
+  })
+
+  const debounceHandleNextPage = useCallback(debounce(
+    () =>
+      setPage(prevPage => prevPage + 1)
+    , 200), [setPage])
+
+  useEffect(function () {
+    if (isNearScreen) debounceHandleNextPage()
+  }, [debounceHandleNextPage, isNearScreen])
+
+
   return (
     <>
         <FiltroPublicacion setTipoFiltro={setTipoFiltro}/>
+    
 
       {loading && datos.length===0
         ? <div className="col-md-8 offset-md-2 mb-4">   <>

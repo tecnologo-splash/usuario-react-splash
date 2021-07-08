@@ -6,10 +6,6 @@ export function useVotarEncuestaHook({encuesta=[]}){
     const [votar,setVotar]=useState(false);
     const [enc,setEncuesta]=useState(encuesta);
 
-    useEffect(()=>{
-
-    },[votar])
-
     const votarPublicacion= async(opcionIdEncuesta,publicacionId)=>{
         console.log(opcionIdEncuesta,publicacionId);
         const response=await VotarEncuesta({publicacionId,opcionIdEncuesta});

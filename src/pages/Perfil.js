@@ -59,7 +59,7 @@ useEffect(function () {
               <MisAmigos/>
               :
               <>
-                <CrearPublicacion/>
+                <CrearPublicacion  userInfo={userInfo}/>
                 <ListarMuro 
                 setTipoFiltro={setTipoFiltro}
                 datos={datos} 

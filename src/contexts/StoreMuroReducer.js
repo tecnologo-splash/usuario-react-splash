@@ -38,6 +38,7 @@ const storeReducer = (state, action) => {
                 ...state,
                 reacciones: action.payload
             }
+     
     
         default:
             return new Error(`Accion ${action.type} no definida`);

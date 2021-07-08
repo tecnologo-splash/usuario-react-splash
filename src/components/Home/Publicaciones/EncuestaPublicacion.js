@@ -15,7 +15,7 @@ const selectorCheck = css`
 
 export default function EncuestaPublicacion({ publicacionData= [],id,idMe}) {
   const { encuesta } = publicacionData;
-  console.log(encuesta);
+  //console.log(encuesta);
   const {
     votarPublicacion,votar,
     enc,setEncuesta,
@@ -23,7 +23,6 @@ export default function EncuestaPublicacion({ publicacionData= [],id,idMe}) {
     encuestaActiva,totalVotos
   }=useVotarEncuestaHook({encuesta});
 
-  console.log(enc);
   const validarCierreEncuesta=useCallback(
     ()=>{
       let today = new Date();
@@ -55,7 +54,7 @@ export default function EncuestaPublicacion({ publicacionData= [],id,idMe}) {
     setVotos(total);
     validarCierreEncuesta();
    
-  }, [enc.opciones,validarCierreEncuesta,votar]);
+  }, []);
 
   return (
 

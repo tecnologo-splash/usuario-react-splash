@@ -22,7 +22,7 @@ import {Notificacion} from './Notificaciones/Notificacion';
 export default function RightMenuItems() {
   const estiloColor=css`color:white !important;`;
   let history = useHistory();
-
+  
   const logOut=()=>{
     logoutSplash();
     history.push("/");         

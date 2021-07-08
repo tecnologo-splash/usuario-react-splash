@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, {useEffect } from 'react';
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
@@ -15,9 +15,8 @@ import { Divider } from "@material-ui/core";
 import { ListComentarios } from "../Comentarios/ListComentarios";
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { ReaccionarAPublicacion,BorrarReaccionarAPublicacion,Publicacion } from '../../../../services/MuroApi';
 import { PublicacionReaccionada } from './PublicacioReaccionada';
-import { NaturePeopleOutlined } from '@material-ui/icons';
+import {useAccionesHook} from './useAccionesHook';
 
 const useStyles = makeStyles((theme) => ({
   elementsHover: {
@@ -39,40 +38,21 @@ const emjis = [
 ];
 
 export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,userInfo,idOtroUsuario }) {
-  const [expanded, setExpanded] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [reacciones, setReacciones] = useState([]);
-  const [openReact, setOpenReact] = useState(false);
-  const [cantidadComentarios,setCantidadComentarios]=useState(comentarios.length);
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-  const open = Boolean(anchorEl);
 
-  const handleExpandClick = () => {
-      setExpanded(!expanded);
-  };
+  const { handleClick,
+          handleExpandClick,
+          handlePopoverClose,
+          setOpenReact,
+          openReaccion,
+          open,
+          anchorEl,
+          setAnchorEl,
+          expanded,
+          openReact,setReacciones,reacciones,handleClickAgregarReaccion,
+          cantidadComentarios,setCantidadComentarios,setMiReaccion 
+        }=useAccionesHook({resumen_reaccion, publicacionId,comentarios,userInfo,idOtroUsuario});
 
-  const handleClick = () => {
-    setOpenReact(true)
-  }
-  
-  useEffect(()=>{
-    setReacciones(resumen_reaccion)
-
-  },[resumen_reaccion])
-
-  const openReaccion= async(e)=>{
-    if(reacciones.mi_reaccion!=null){
-      await BorrarReaccionarAPublicacion({ publicacionId });
-     const r=await Publicacion({publicacionId});
-     const {resumen_reaccion}=r;
-      setReacciones(resumen_reaccion);
-
-    }else{
-      setAnchorEl(e.currentTarget) 
-    }
-  }
+console.log("re render "+reacciones.mi_reaccion);
   return (
     <>
   {
@@ -82,29 +62,25 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
       openModal = {openReact}
       setOpenModal = {setOpenReact}
     />
-    
     : null
   }
 
 <div className="col-md-12 mb-1" onClick={handleClick}> 
-
     <PublicacionReaccionada resumen_reaccion={reacciones} />
-
 </div>
-<div className="col-md-12 d-flex flex-row-reverse">
 
-<Typography variant="caption"gutterBottom className=" d-flex flex-row-reverse">
-{cantidadComentarios} Comentarios
-  </Typography>
+  <div className="col-md-12 d-flex flex-row-reverse">
+    <Typography variant="caption"gutterBottom className=" d-flex flex-row-reverse">
+        {cantidadComentarios} Comentarios
+    </Typography>
   </div>
   
       <div className="col-md-12"><Divider /></div>
 
-  
-
       <CardActions className="d-flex bd-highlight">
 
-        <Button style={{ textTransform: 'none', color: reacciones.mi_reaccion === null ? 'grey' : '#6F32C1' }} className="flex-fill bd-highlight"
+        <Button style={{ textTransform: 'none', color: reacciones.mi_reaccion === null ? 'grey' : '#6F32C1' }}
+         className="flex-fill bd-highlight"
           onClick={openReaccion}
         >
           <EmojiEmotionsIcon className="mr-2" />  <Typography> Reacionar</Typography>
@@ -134,6 +110,8 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
                 publicacionId={publicacionId}
                 setAnchorEl={setAnchorEl}
                 setReacciones={setReacciones}
+                setMiReaccion={setMiReaccion}
+                handleClickAgregarReaccion={handleClickAgregarReaccion}
               />
             ))
           }
@@ -164,31 +142,19 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
        idOtroUsuario={idOtroUsuario}
        setCantidadComentarios={setCantidadComentarios}
        cantidadComentarios={cantidadComentarios}
-     />
-    
- 
-    
+     />  
 
     </>
   )
 
 }
 
-export function EmojiAction({ url, titulo, setAnchorEl, index, enumEmoji, publicacionId,setReacciones }) {
+export function EmojiAction({ url, titulo, setAnchorEl, enumEmoji, publicacionId,setReacciones,setMiReaccion,handleClickAgregarReaccion }) {
   const classes = useStyles();
-  const handleClick = () => {
-    (async () => {
-      const data = { emoji: enumEmoji };
-    const response=  await ReaccionarAPublicacion({ publicacionId, data })
-      console.log(response);
-      setReacciones(response.resumen_reaccion);
-    })()
 
-    setAnchorEl(null);
-  }
   return (
-    <Tooltip title={titulo} key={index}>
-      <IconButton variant="contained" className="mr-2" onClick={handleClick}>
+    <Tooltip title={titulo}>
+      <IconButton variant="contained" className="mr-2" onClick={()=>handleClickAgregarReaccion(enumEmoji)}>
         <img src={process.env.PUBLIC_URL + url} alt="" width="45" className={classes.elementsHover} />
       </IconButton>
     </Tooltip>

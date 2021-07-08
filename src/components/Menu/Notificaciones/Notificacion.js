@@ -19,7 +19,7 @@ const estiloColor=css`color:white !important;`;
 
 export  function Notificacion() {
   const [anchorEl, setAnchorEl] = useState(null);
-    const {data,verMasNotis}=useNotificacionHook();
+    const {data,verMasNotis,cantNotis}=useNotificacionHook();
     let history = useHistory();
 
   const handleClick = (event) => {
@@ -52,7 +52,7 @@ const handleGoToNoti=(item)=>{
           onClick={handleClick}
         >
           <Box boxShadow={1} borderRadius={16}>
-            <Badge badgeContent={Object.keys(data).length} color="secondary">
+            <Badge badgeContent={cantNotis} color="secondary">
               <NotificationsIcon fontSize="large" />
             </Badge>
           </Box>
