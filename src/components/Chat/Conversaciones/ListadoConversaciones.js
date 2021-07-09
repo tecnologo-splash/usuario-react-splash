@@ -11,9 +11,11 @@ import {ListaMensajes} from '../Mensajes/ListaMensajes';
 import {ChatNoSelecionado} from '../Mensajes/ChatNoSelecionado';
 import { useInfoUserHook } from '../../../hooks/useInfoUserHook';
 import { useChatHook } from '../../../hooks/chat/useChatHook';
-import {conexionPusher} from '../../../util/pusherUtil';
 import {useMensajesChat} from '../../../hooks/chat/useMensajesChat';
-
+import Pusher from 'pusher-js';
+let pusher = new Pusher('1f2a6fe63e0652eb4139', {
+  cluster: 'us2'
+});
 export function ListadoConversaciones (){
   const {conversaciones, convHeader,setearChatId,obtenerConversaciones} =useChatHook();
     const {chat_id}=convHeader;
@@ -22,7 +24,6 @@ export function ListadoConversaciones (){
 
   const [msg_pusher,setMsgPusher]=useState([]);
 
-    const pusher=conexionPusher();
     useEffect(()=>{
       obtenerConversaciones();
       console.log("-->",userInfo.id);
