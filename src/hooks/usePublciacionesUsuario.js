@@ -1,10 +1,10 @@
 import { useState, useEffect, useReducer } from 'react';
-import { ObtenerPublicacionesPorUsuario } from '../services/MuroApi';
+import { ObtenerPublicacionesPorUsuario,EditarPublicacion,EliminarPublicacion } from '../services/MuroApi';
 import { INITIAL_PAGE } from '../config/api/settings';
 import { ACTIONS_MURO, storeReducer, initialState } from '../contexts/StoreMuroReducer';
 
 export function usePublciacionesUsuario({usuarioId,otroUsuarioInfo={} }) {
-
+  console.log(usuarioId);
   const [loadingNextPage, setLoadingNextPage] = useState(false)
   const [tipoFiltro,setTipoFiltro]=useState("fechaCreado");
   const [page, setPage] = useState(INITIAL_PAGE)
@@ -44,7 +44,29 @@ export function usePublciacionesUsuario({usuarioId,otroUsuarioInfo={} }) {
   }, [tipoFiltro, page,usuarioId])
 
 
-  
+  const eliminarPublicacion=(idPublicacion)=>{
+    (async () => {
+       await EliminarPublicacion({data:idPublicacion}) ;
+        let index = datos.map((item) => item.id).indexOf(idPublicacion);
+        if (index > -1) {
+          datos.splice(index, 1);
+        }
+        dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:datos });
+        
+    })();
+  }
 
-  return { cargando, loadingNextPage, datos, setPage,page,INITIAL_PAGE,setTipoFiltro  }
+  const editarPublicacion=(publicacionId,t)=>{
+    (async () => {
+      const data={texto:t};
+     await EditarPublicacion({publicacionId,data}) ;
+      let index = datos.map((item) => item.id).indexOf(publicacionId);
+       datos[index].texto=t;
+        dispatch({ type: ACTIONS_MURO.OBTENER_DATOS, payload:datos });
+        
+    })();
+  }
+
+
+  return { cargando, loadingNextPage, datos, setPage,page,INITIAL_PAGE,setTipoFiltro,editarPublicacion,eliminarPublicacion  }
 }

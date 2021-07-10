@@ -65,7 +65,6 @@ export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,fecha_p
 
   <StyledMenu
       disableScrollLock 
-      id="customized-menu"
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: 'top',

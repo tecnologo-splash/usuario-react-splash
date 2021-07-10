@@ -13,10 +13,9 @@ import Avatar from '@material-ui/core/Avatar';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { useHistory } from "react-router-dom";
 import SearchInput from './SearchInput';
-
-
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+
 export function MenuHeader(){
 
   let history = useHistory();

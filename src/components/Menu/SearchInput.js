@@ -66,7 +66,7 @@ export default function SearchInput() {
         {console.log(location.pathname.includes("/home/usuarios/"))}
             <Autocomplete
                 id="combo-box-demo"
-                size="large"
+                
                 style={{ width: 300, backgroundColor:"whitesmoke",borderRadius:"100px",padding:"2%"}}
                 getOptionLabel={(option) => `${option.nombre} ${option.apellido}`}
                 options={usuarios}

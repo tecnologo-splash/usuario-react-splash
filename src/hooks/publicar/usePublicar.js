@@ -1,8 +1,13 @@
 import  {useState} from 'react';
-import { Encuesta } from '../../components/Home/Publicaciones/Creacion/ButtonsPublicacion';
+import {useFuncionesDelMuro} from '../../hooks/useMuroHook';
 
-export function usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia,publicarEncuesta}){
-    
+export function usePublicar(){
+  const {
+    publicarEnlaceExterno,
+    upLoadMultimedia,
+    publicarEncuesta,
+    publicarSoloTexto}=useFuncionesDelMuro();
+
     const [visible, setVisible] = useState(false);
     const [url, setUrl] = useState("");
 
@@ -39,13 +44,14 @@ export function usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia,publ
             }
            
           }else if(tipoPublicacion==="texto"){
-            publicar(textoPublicacion);
+            //publicar(textoPublicacion);
+            publicarSoloTexto(textoPublicacion);
           }else if(tipoPublicacion==="multimedia"){
             console.log(multimedia);
             if(cantFotos>4 && cantFotos<1){
               setMensajeError('Error, Debe ingresar al menos un elemento de multimedia');
             }else{
-              SubirMultimedia(multimedia,textoPublicacion,cantFotos);
+              upLoadMultimedia(multimedia,textoPublicacion,cantFotos);
               setMensajeError('');
             }
           }else if(tipoPublicacion==="encuesta"){

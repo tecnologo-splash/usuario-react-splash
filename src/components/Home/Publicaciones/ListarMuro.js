@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useCallback, useRef } from 'react';
 import { PublicacionHeader } from './PublicacionHeader';
 import { Acciones } from './Acciones/Acciones';
 import Card from "@material-ui/core/Card";
@@ -12,16 +12,38 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {FiltroPublicacion} from '../Publicaciones/FiltroPublicaciones';
+import debounce from 'just-debounce-it';
+import useNearScreen from '../../../hooks/useNearScreen';
+import { useMuroHook } from '../../../hooks/useMuroHook';
 
 const useStyles = makeStyles((theme) => ({
   media: {height: 190, },
 }));
 
-export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,editarPublicacion,userInfo,userUrlMe={},setTipoFiltro}) {
- 
+export function ListarMuro({userInfo,loading, datos=[], setPage, 
+  eliminarPublicacion, editarPublicacion,setTipoFiltro }) {
+  const externalRef = useRef();
+
+    
+  const { isNearScreen } = useNearScreen({
+    externalRef: loading ? null : externalRef,
+    once: false
+  })
+
+  const debounceHandleNextPage = useCallback(debounce(
+    () =>
+      setPage(prevPage => prevPage + 1)
+    , 200), [setPage])
+
+  useEffect(function () {
+    if (isNearScreen) debounceHandleNextPage()
+  }, [debounceHandleNextPage, isNearScreen])
+
+
   return (
     <>
         <FiltroPublicacion setTipoFiltro={setTipoFiltro}/>
+    
 
       {loading && datos.length===0
         ? <div className="col-md-8 offset-md-2 mb-4">   <>
@@ -45,7 +67,7 @@ export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,edi
                   editarPublicacion={editarPublicacion}
                   textoEdicion={item.texto}
                 />
-                {Publicaciones({ item })}
+                <Publicaciones item={item} id={item.usuario_comun.id}  meId={userInfo.id}/>
 
                 <Acciones resumen_reaccion={item.resumen_reaccion} publicacionId={item.id} 
                 comentarios={item.comentarios}  userInfo={userInfo}
@@ -69,10 +91,10 @@ export function ListarMuro({datos=[],loading,externalRef,eliminarPublicacion,edi
   )
 }
 
-export function Publicaciones({ item }) {
+export function Publicaciones({ item,id,idMe }) {
 
   if (item.encuesta !== null) {//es necuesta
-    return <EncuestaPublicacion publicacionData={item} />;
+    return <EncuestaPublicacion publicacionData={item} id={id} idMe={idMe}/>;
   } else if (item.enlace_externo.length > 0) {//es enlace externo
     return <LinkExternoPublicacion publicacionData={item} />;
   } else if (item.multimedia.length > 0) {//es multimedia  ver si es carrusel o no

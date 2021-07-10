@@ -10,16 +10,14 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import NearMeIcon from '@material-ui/icons/NearMe';
 import CachedIcon from '@material-ui/icons/Cached';
-
-import { useInfoUserHook } from "../../../../hooks/useInfoUserHook";
 import {EnlaceExterno,EnlaceExternoInput} from './EnlaceExterno';
 import {Multimedia,Encuesta} from './ButtonsPublicacion';
 import{OpcionesEncuesta} from './OpcionesEncuesta';
 import {InputPublicacion} from '../InputPublicacion';
 import {usePublicar} from '../../../../hooks/publicar/usePublicar';
 
-export default function CrearPublicacion({publicar,publicarEnlaceExterno,SubirMultimedia,publicarEncuesta}) {
-  const {userInfo}=useInfoUserHook();
+export default function CrearPublicacion({publicar,userInfo}) {
+
   const {  refresh,
     handleClickPublicar,
     handlePopoverClose,
@@ -38,7 +36,7 @@ export default function CrearPublicacion({publicar,publicarEnlaceExterno,SubirMu
     opcionesEncuesta,
     setOpcionesEncuesta,
     mensajeError
-  }=usePublicar({publicar,publicarEnlaceExterno,SubirMultimedia,publicarEncuesta});
+  }=usePublicar();
   
   
 

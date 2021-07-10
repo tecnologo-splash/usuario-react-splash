@@ -1,27 +1,32 @@
-import {useState} from 'react';
+import {useState,useEffect,useReducer} from 'react';
 import {SegurenciasDeSeguidores,ComenzarASeguir,DejarDeSeguir} from '../services/SeguidoresApi';
-
-const INITIAL_PAGE=0;
+import { ACTIONS, SugerenciasAmigosReducer, initialStateAmigos } from '../contexts/SugerenciasAmigosReducer';
 export function useAmigosSugeridosHook(){
-    const [datos=[],setDatos]=useState({
-        data:[],
-        cantidad:0
-    });
 
-    const obtenerAmigosSugeridos=()=>{
-        (async () => {
-            const response=await SegurenciasDeSeguidores({page:INITIAL_PAGE});
-         //   console.log(response);
-            setDatos({data:response,cantidad:Object.keys(response).length});
-        })()
+    const [store, dispatch] = useReducer(SugerenciasAmigosReducer, initialStateAmigos);
+    const {amigos,paginacion}=store;
+
+    useEffect(()=>{
+        obtenerAmigosSugeridos();
+      },[paginacion])
+
+    const obtenerAmigosSugeridos= async()=>{
+        const response=await SegurenciasDeSeguidores({page:paginacion});
+        console.log(response);
+        dispatch({ type: ACTIONS.AMIGOS, payload:  amigos.concat(response) });
     }
+
 
     const seguirUsuario=(usuario_id)=>{
         (async () => {
             const response=await ComenzarASeguir({usuario_id});
             if(response.status >=200 && response.status <227){
-                obtenerAmigosSugeridos();
-                //setDatos({data:datos.data.filter(prop => prop.usuario_id !== usuario_id)})
+                let index = amigos.map((item) => item.usuario_id).indexOf(usuario_id);
+                if (index > -1) {
+                    amigos.splice(index, 1);
+                }
+                dispatch({ type: ACTIONS.AMIGOS, payload:amigos });
+
             }else{
                 console.log("Error de algun tipo");
             }
@@ -42,11 +47,17 @@ export function useAmigosSugeridosHook(){
         })()
     }
 
+    const obtenerMasAmigos=()=>{
+        dispatch({ type: ACTIONS.PAGINACION, payload: paginacion+1 });
+      //  obtenerAmigosSugeridos();
+    }   
+
     return {
         obtenerAmigosSugeridos,
-        datos,
+        amigos,
         seguirUsuario,
-        dejarDeSeguir
+        dejarDeSeguir,
+        obtenerMasAmigos
     }
 
 }
