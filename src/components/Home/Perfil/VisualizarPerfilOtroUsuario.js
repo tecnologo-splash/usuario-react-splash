@@ -94,7 +94,7 @@ export function PerfilLateral({ uInfo }) {
         <>
             <Zoom zoomMargin={150}>
                 <Avatar alt="Profile"
-                    src={URL_BASE_FILE_STORAGE + uInfo.url_perfil}
+                    src={uInfo.url_perfil != null && uInfo.url_pefil !== '' ? URL_BASE_FILE_STORAGE + uInfo.url_perfil : process.env.PUBLIC_URL + '/recursos/svg/perfil_sin_imagen.svg'}
                     className={classes.large} />
             </Zoom>
 
