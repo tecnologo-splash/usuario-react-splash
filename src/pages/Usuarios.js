@@ -11,6 +11,9 @@ import Avatar from '@material-ui/core/Avatar';
 import { URL_BASE_FILE_STORAGE } from "../config/api/settings";
 import debounce from 'just-debounce-it';
 import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router';
+import { useAmigosSugeridosHook } from '../hooks/useAmigosSugeridosHook';
+import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -18,13 +21,14 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function Usuarios() {
-    const classes = useStyles();
-    const history = useHistory();
     const [users, setUsers] = useState([]);
     const [page, setPage] = useState(INITIAL_PAGE);
     const [loading, setLoading] = useState(false);
     const externalRef = useRef();
     const [totalElements, setTotalElements] = useState(0);
+    const [ cambia, setCambia ] = useState("");
+
+    let { cadena } = useParams();
 
     const { isNearScreen } = useNearScreen({
         externalRef: loading ? null : externalRef,
@@ -37,12 +41,46 @@ export default function Usuarios() {
         , 200), [setPage])
 
     useEffect(()=>{
-        listarUsuariosASeguir({page}).then((data)=>{
-            setTotalElements(data.total_elements);
-            setUsers(users => [...users, ...data.content])
+        setUsers([])
+        setTotalElements(0)
+        setPage(0)
+    },[])
+
+    useEffect(()=>{
+        let totalElementos = 0;
+        let usuarios = [];
+        listarUsuariosASeguir({page,cadena,filtro:"nombre"}).then((data)=>{
+            totalElementos = totalElementos + data.total_elements;
+            usuarios = usuarios.concat(data.content)
             setLoading(false)
+        }).then(() => {
+            listarUsuariosASeguir({page,cadena,filtro:"apellido"}).then((data)=>{
+                totalElementos = totalElementos + data.total_elements;
+                usuarios = usuarios.concat(data.content)
+                setLoading(false)
+            }).then(()=>{
+                let listUsuarios = users.concat(usuarios)
+                let hash = {}
+                let result = listUsuarios.filter((item)=>{
+                    let exists = !hash[item.id];
+                    hash[item.id] = true;
+                    return exists;
+                })
+                
+                setUsers(result)
+            })
         })
-    },[page])
+        setTotalElements(totalElementos);
+    },[page,cambia])
+
+    useEffect(()=>{
+        for (let i=users.length ; i > 0 ; i-- ){
+            users.pop()
+        }
+        setPage(0)
+        setCambia(cadena)
+    },[cadena])
+
 
     useEffect(function () {
         if (isNearScreen) debounceHandleNextPage()
@@ -51,7 +89,6 @@ export default function Usuarios() {
     return(
         <>
             <MenuHeader />
-            {console.log(users)}
             <div className="col-md-8 offset-md-2 mb-4">
                 {loading && users.length===0
                 ? 
@@ -66,21 +103,8 @@ export default function Usuarios() {
                     <>
 
                         {
-                            
                             users.map((user,index)=>(
-                            
-                                <Card className={classes.card} style={{cursor:"pointer"}} onClick={()=>history.push(`/home/perfil/${user.id}`)}>
-                                    <CardHeader
-                                        avatar={
-                                            // <Skeleton animation="wave" variant="circle" width={40} height={40} />
-                                            <Avatar style={{width:"70px",height:"70px"}} className="m-1" large src={URL_BASE_FILE_STORAGE+user.url_perfil} />
-                                        }
-                                        title={user.nombre + " " + user.apellido}
-                                        subheader={"@" + user.usuario}
-                                    />
-                                </Card>
-
-
+                                <CardUser key={user.id} user={user} />
                             ))
                         }
 
@@ -100,11 +124,43 @@ export default function Usuarios() {
 
 }
 
+export function CardUser({user}) {
+    const classes = useStyles();
+    const history = useHistory();
+
+    return(
+        <Card className={classes.card}>
+            <CardHeader
+            
+                avatar={
+                    <Avatar  
+                        style={{cursor:"pointer"}} 
+                        onClick={()=>history.push(`/home/perfil/${user.id}`)} 
+                        style={{width:"70px",height:"70px"}} 
+                        className="m-1" 
+                        large 
+                        src={URL_BASE_FILE_STORAGE+user.url_perfil} 
+                    /> 
+                }
+                action={
+                    <SeguirDejarDeSeguir 
+                        losigo={user.lo_sigo} 
+                        id={user.id} 
+                    />
+                }
+                title={user.nombre + " " + user.apellido}
+                subheader={"@" + user.usuario}
+            />
+        </Card>
+    )
+
+}
+
 
 
 export function CargandoUser() {
     const classes = useStyles();
-      return (
+    return (
         <Card className={classes.card}>
             <CardHeader
                 avatar={ <Skeleton animation="wave" variant="circle" width={70} height={70} /> }
@@ -113,4 +169,36 @@ export function CargandoUser() {
             />
         </Card>
     );
-  }
+}
+
+
+  
+
+export function SeguirDejarDeSeguir({ losigo, id }) {
+    const [follow, setFollow] = useState(losigo);
+    const { dejarDeSeguir, seguirUsuario } = useAmigosSugeridosHook();
+
+    const comenzarASeguir = () => {
+        seguirUsuario(id);
+        setFollow(true);
+    }
+
+    const dejarDeSeguirUsuario = () => {
+        dejarDeSeguir(id);
+        setFollow(false);
+    }
+    
+    return (
+        <>
+            {follow ?
+                <Button variant="outlined" size="small" color="secondary" className="mt-2" onClick={dejarDeSeguirUsuario}>
+                    Dejar de Seguir
+                </Button>
+                :
+                <Button variant="contained" size="small" color="primary" className="mt-2" onClick={comenzarASeguir}>
+                    Seguir
+                </Button>
+            }
+        </>
+    )
+}

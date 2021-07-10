@@ -44,7 +44,7 @@ export const routes = [
   },
   {
     component: pages.Usuarios ,
-    path: "/home/usuarios",
+    path: "/home/usuarios/:cadena?",
     isPrivate: true
   }
   ,{

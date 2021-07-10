@@ -43,7 +43,7 @@ export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading }) {
                             <SeguirDejarDeSeguir otroUsuarioInfo={otroUsuarioInfo} />
                         }
 
-
+                        
                         <hr />
                         <div className="row d-flex justify-content-around">
                             <div >
@@ -116,8 +116,8 @@ export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
     const comenzarASeguir = () => {
         seguirUsuario(otroUsuarioInfo.id);
         setFollow(true);
-
     }
+    
     const dejarDeSeguirUsuario = () => {
         dejarDeSeguir(otroUsuarioInfo.id);
         setFollow(false);
