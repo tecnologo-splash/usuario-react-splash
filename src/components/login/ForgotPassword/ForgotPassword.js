@@ -47,7 +47,7 @@ export function ForgotPassword() {
   return (
     <div>
       <Link component="button" variant="body2" onClick={handleClickOpen}>
-        ¿Olvidastes tu contraseña?
+        ¿Olvidaste tu contraseña?
       </Link>
       <Dialog
         open={open}

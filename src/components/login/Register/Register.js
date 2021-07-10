@@ -143,7 +143,7 @@ export function GeneroRadio({valueCombo,handleChangeRegister}){
 `;
   return (
 <>
-    <FormLabel component="legend">Genero</FormLabel>
+    <FormLabel component="legend">Género</FormLabel>
 
     <RadioGroup row value={valueCombo} css={selectorCheck} onChange={handleChangeRegister}>
       <FormControlLabel
@@ -175,17 +175,17 @@ export function TextoDeRegistro(){
        <Grid item xs={12}> 
 
 <Typography variant="caption">
-       * Campos obligatirios</Typography>
+       * Campos obligatorios</Typography>
  </Grid>
 
  <Grid item xs={12}> 
  <Typography variant="caption" display="block" gutterBottom>
-Al hacer clic en Registrarte,
+Al hacer clic en Registrarte, aceptas las&nbsp;
 
 <Link href="#">
-    aceptas las Condiciones, la Política de datos  
+    condiciones y política de datos
  </Link>
- del servicio en cuestion
+ &nbsp;del servicio en cuestión.
 </Typography>
  
 </Grid>

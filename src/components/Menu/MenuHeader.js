@@ -67,7 +67,7 @@ export function MenuHeader(){
 
   const [data,setData]=useState([""]);
 
-  const estiloCursor=css`cursor:pointer;`;
+  const estiloCursor=css`cursor:pointer; border-radius: 10px`;
 
   const goToHome=()=>{
     history.push("/home");
@@ -78,7 +78,7 @@ export function MenuHeader(){
           <Toolbar style={{ height:'65px' }} >
 
             <div className="col-md-8 d-flex justify-content-start">
-              <img  src={process.env.PUBLIC_URL + '/recursos/icon_light.png'} alt="Logo Splash" width="50"
+              <img  src={process.env.PUBLIC_URL + '/recursos/svg/icon_dark.svg'} alt="Logo Splash" width="50"
                 css={estiloCursor}
                 onClick={goToHome} 
               />

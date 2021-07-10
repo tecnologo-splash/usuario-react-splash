@@ -28,7 +28,7 @@ export function MisDatosPersonales({ data,loading }) {
                 </Badge>
             </Typography>
             <div className="col-md-12 row mb-2">
-                <Typography variant="body2" gutterBottom > <b>Fecha Nacimiento:</b> { loading ?<Skeleton width={50}  height={20} />:data.fecha_nacimiento}
+                <Typography variant="body2" gutterBottom > <b>Fecha de nacimiento:</b> { loading ?<Skeleton width={50}  height={20} />:data.fecha_nacimiento}
                 </Typography>
             </div>
             <div className="col-md-12 row mb-2">
