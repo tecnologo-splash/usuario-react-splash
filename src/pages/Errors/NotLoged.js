@@ -37,11 +37,11 @@ export function NotLogin(){
             <div className="container">
         <div className="row align-items-center justify-content-center vh-100">
             <div className="col-md-12 d-flex justify-content-center">
-            <WhiteTextTypography variant="h5">No puede acceder si no esta logeado</WhiteTextTypography>
+            <WhiteTextTypography variant="h5">No puede acceder si no está logeado</WhiteTextTypography>
                 </div>
                 <div className="col-md-12 d-flex justify-content-center">  <img src={process.env.PUBLIC_URL + '/recursos/notloged.png'} alt="not loged"/>        </div>
              <div className="col-md-12 d-flex justify-content-center">
-                 <WhiteTextTypography variant="h6">Por favor iniciar sesion en el sistema para poder continuar
+                 <WhiteTextTypography variant="h6">Por favor iniciar sesión en el sistema para poder continuar.
                 </WhiteTextTypography>
 
                  </div>

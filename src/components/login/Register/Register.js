@@ -89,7 +89,7 @@ export function Register() {
 
         <DialogActions className="pb-4 mr-4">
           <Button onClick={handleModalRegister} color="primary">
-            Calcelar
+            Cancelar
           </Button>
           <Button onClick={onClickRegister} color="primary" variant="contained" disabled={disabledButton}>
             Registrarme
@@ -99,8 +99,8 @@ export function Register() {
 
       <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlertExito}>
         <Alert onClose={handleCloseAlertExito} variant="outlined" style={{color:'black', backgroundColor:'white' }}>
-         ¡Registrado con exito!<br/>
-         Para activar su cuenta dirigiase a su email
+         ¡Registrado con éxito!<br/>
+         Para activar su cuenta diríjase a su email
         </Alert>
       </Snackbar>
 

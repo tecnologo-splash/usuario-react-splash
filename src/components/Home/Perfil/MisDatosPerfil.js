@@ -11,7 +11,7 @@ export function MisDatosPersonales({ data,loading }) {
         <div >
             <hr />
             <Typography variant="h6" className="d-flex justify-content-center mb-3">
-                ¿Quien soy?
+                ¿Quién soy?
          </Typography>
             <div>
                 {loading ?   <Skeleton width={350}  height={100} />:data.biografia}
@@ -37,7 +37,7 @@ export function MisDatosPersonales({ data,loading }) {
                 </Typography>
             </div>
             <div className="col-md-12 row mb-2">
-                <Typography variant="body2" gutterBottom><b> Genero: </b>
+                <Typography variant="body2" gutterBottom><b> Género: </b>
                 {
                     loading ? <Skeleton width={50}  height={20} />
                     :

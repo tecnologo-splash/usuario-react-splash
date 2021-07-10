@@ -41,7 +41,7 @@ export default function Login() {
               Bienvenido a Splash
             </WhiteTextTypography>
             <WhiteTextTypography variant="body1" gutterBottom className="mt-1">
-              Una red social para disfrutar plenamente diviritiendote con tus
+              Una red social para disfrutar plenamente divirtiéndote con tus
               amigos y los nuevos por conocer.
             </WhiteTextTypography>
           </div>
