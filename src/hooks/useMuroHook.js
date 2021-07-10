@@ -51,7 +51,7 @@ const { getReacciones,
   return { loading:cargando, loadingNextPage, datos, reacciones,setTipoFiltro,
      setPage,publicarSoloTexto,eliminarPublicacion,editarPublicacion,SubirMultimedia:upLoadMultimedia,
      publicarEnlaceExterno,getReacciones,publicarEncuesta }
-}
+  }
 
 export function useFuncionesDelMuro(){
   const dispatch=useDispatch();

@@ -5,6 +5,9 @@ import { ListAmigosSugeridos } from '../components/Home/AmigosSugeridos/ListAmig
 import { ListarMuro } from '../components/Home/Publicaciones/ListarMuro';
 import CrearPublicacion from '../components/Home/Publicaciones/Creacion/CreacionPublicacion';
 import { useInfoUserHook } from '../hooks/useInfoUserHook';
+import { useMuroHook } from '../hooks/useMuroHook';
+
+
 import Pusher from 'pusher-js';
 let pusher = new Pusher('1f2a6fe63e0652eb4139', {
   cluster: 'us2'
@@ -21,7 +24,8 @@ export default function Home() {
   const classes = useStyles();
   const { userInfo, getDatos } = useInfoUserHook();
 
-
+  const { loading, datos, setPage, 
+    eliminarPublicacion, editarPublicacion,setTipoFiltro }   = useMuroHook();
 
   useEffect(function () {
    getDatos();
@@ -59,6 +63,12 @@ console.log("muro")
 
             <ListarMuro
              userInfo={userInfo}
+             loading={loading}
+              datos={datos}
+             setPage={setPage} 
+             eliminarPublicacion={eliminarPublicacion}
+             editarPublicacion={editarPublicacion}
+             setTipoFiltro={setTipoFiltro}
             />
 
           </div>

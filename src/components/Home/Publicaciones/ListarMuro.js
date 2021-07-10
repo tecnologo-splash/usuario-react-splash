@@ -20,11 +20,10 @@ const useStyles = makeStyles((theme) => ({
   media: {height: 190, },
 }));
 
-export function ListarMuro({userInfo}) {
+export function ListarMuro({userInfo,loading, datos=[], setPage, 
+  eliminarPublicacion, editarPublicacion,setTipoFiltro }) {
   const externalRef = useRef();
 
-  const { loading, datos, setPage, 
-    eliminarPublicacion, editarPublicacion,setTipoFiltro }   = useMuroHook();
     
   const { isNearScreen } = useNearScreen({
     externalRef: loading ? null : externalRef,
