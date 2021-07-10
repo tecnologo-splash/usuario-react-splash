@@ -39,7 +39,7 @@ export default function AmigosSugeridos(){
         <div className="container ">
         <center>
   <Typography variant="h5" className="mb-3 pl-3">
-    Amigos Sugeridos
+    Usuarios Sugeridos
   </Typography>
   </center>
           <div className="row">
@@ -64,7 +64,7 @@ export default function AmigosSugeridos(){
     >
 
       <Link component="button" variant="body2">
-        Cargar Más Amigos
+        Cargar más sugerencias
       </Link>
  
       </div>

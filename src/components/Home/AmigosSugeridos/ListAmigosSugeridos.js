@@ -37,7 +37,7 @@ border-radius: 20px;
   <div className="sticky-top" style={{ top:'80px' }}>
         
   <Typography variant="h5" className="mb-3 pl-3">
-    Amigos Sugeridos
+    Usuarios Sugeridos
   </Typography>
 
     {amigos.map((item, index) => (

@@ -48,10 +48,10 @@ export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading }) {
                         <div className="row d-flex justify-content-around">
                             <div >
                                 <Typography variant="body1">
-                                    <b>    Me Siguen     </b> </Typography>
+                                    <b>    Seguidores     </b> </Typography>
                             </div>
                             <div > <Typography variant="body1">
-                                <b>    Yo Sigo     </b>   </Typography></div>
+                                <b>    Siguiendo     </b>   </Typography></div>
                         </div>
                         <div className="row d-flex justify-content-around">
                             {
@@ -70,7 +70,7 @@ export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading }) {
                         </div>
                         <hr />
                         <Typography variant="h6" className="d-flex justify-content-center mb-3">
-                            ¿Quien soy?
+                            ¿Quién soy?
                         </Typography>
                         <div>
                             {loading ?
