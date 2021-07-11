@@ -41,18 +41,20 @@ export function useComentarioHook({comentarios,publicacionId,setCantidadComentar
        if(resp.length>0){//tiene respuestas
         const {comentarios}=response;
         dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios });
-
        }else{//no tiene respuesta
-        let index = coments.map((item) => item.id).indexOf(comentarioId);
-        if (index > -1) {
-            coments.splice(index, 1);
-        }
-        dispatch({ type: ACTIONS.COMENTARIOS, payload: coments });
+            let index = coments.map((item) => item.id).indexOf(comentarioId);
+            if (index > -1) {
+                coments.splice(index, 1);
+            }
+            dispatch({ type: ACTIONS.COMENTARIOS, payload: coments });
        }
        setCantidadComentarios(cantidadComentarios=>cantidadComentarios-1)
     }
-    const eliminarRespuestaAComentario= ()=>{
-
+    const eliminarRespuestaAComentario= async(comentarioId,respuestaId)=>{
+        const response=await EliminarRespuestaAComentario({publicacionId,comentarioId,respuestaId});
+        const {comentarios}=response;
+         dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios });
+        
     }
 
     return {
@@ -60,6 +62,7 @@ export function useComentarioHook({comentarios,publicacionId,setCantidadComentar
         handleChangeTextComentario,
         eliminarComentario,
         ingresarRespuesta,
+        eliminarRespuestaAComentario,
         coments,
         texto
     }

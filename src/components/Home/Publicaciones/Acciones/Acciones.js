@@ -52,7 +52,7 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
           cantidadComentarios,setCantidadComentarios,setMiReaccion 
         }=useAccionesHook({resumen_reaccion, publicacionId,comentarios,userInfo,idOtroUsuario});
 
-console.log("re render "+reacciones.mi_reaccion);
+
   return (
     <>
   {

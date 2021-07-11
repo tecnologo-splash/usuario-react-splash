@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { MenuHeader } from '../components/Menu/MenuHeader';
 import { ListAmigosSugeridos } from '../components/Home/AmigosSugeridos/ListAmigosSugeridos';
@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Home() {
- // const pusher=conexionPusher();
   const classes = useStyles();
   const { userInfo, getDatos } = useInfoUserHook();
 

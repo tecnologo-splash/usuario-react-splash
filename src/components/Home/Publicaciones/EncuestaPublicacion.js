@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useCallback } from "react";
+import React from "react";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -13,77 +13,48 @@ const selectorCheck = css`
 }
 `;
 
-export default function EncuestaPublicacion({ publicacionData= [],id,idMe}) {
-  const { encuesta } = publicacionData;
-  //console.log(encuesta);
+export default function EncuestaPublicacion({ encuestaPublicacion= [],textoPublicacion=[],id,idMe,publicacionId}) {
   const {
     votarPublicacion,votar,
-    enc,setEncuesta,
-    setEstadoEnc,setVotos,
-    encuestaActiva,totalVotos
-  }=useVotarEncuestaHook({encuesta});
-
-  const validarCierreEncuesta=useCallback(
-    ()=>{
-      let today = new Date();
-      let fechaCierre = new Date(enc.fecha_cierre);
-      var dateStr =
-        ("00" + (fechaCierre.getMonth() + 1)).slice(-2) + "/" +
-        ("00" + fechaCierre.getDate()).slice(-2) + "/" +
-        fechaCierre.getFullYear() + " " +
-        ("00" + fechaCierre.getHours()).slice(-2) + ":" +
-        ("00" + fechaCierre.getMinutes()).slice(-2);
-
-        let est=true;
-      if(fechaCierre<today){
-        est=false;
-      }
-      setEstadoEnc({
-        estado:est,
-       fechaCierre:"Activa hasta el: "+dateStr
-       });
-
-    },[enc.fecha_cierre]
-  
-  )
-  useEffect(() => {
-    let total=0;
-    enc.opciones.forEach(element => {
-     total+=element.cantidad_votos;
-    });
-    setVotos(total);
-    validarCierreEncuesta();
-   
-  }, []);
+    enc,loading
+  }=useVotarEncuestaHook({encuestaPublicacion});
 
   return (
 
         <CardContent>
-          <Typography paragraph>{publicacionData.texto}</Typography>
+          <Typography paragraph>{textoPublicacion}</Typography>
           <div className="row">
-            {enc.opciones.map((item,index)=>(
+            { !loading ? enc.opciones.map((item,index)=>(
               < Opciones 
               opcion={item}
                key={index} 
-              totalVotos={totalVotos} 
+              totalVotos={enc.totalVotos} 
               opcion_id_votada={enc.opcion_id_votada}
-              encuestaActiva={encuestaActiva}
+              encuestaActiva={enc}
               votarPublicacion={votarPublicacion} 
               votar={votar}
-              idPublicacion={publicacionData.id}
+              idPublicacion={publicacionId}
               id={id}
               idMe={idMe}
               />
-            ))}
+            ))
+            :null
+            }
+         
           </div> 
-     <small className="d-flex flex-row-reverse mt-1"> {encuestaActiva.fechaCierre}</small>
+          {
+            !loading ?      <small className="d-flex flex-row-reverse mt-1"> {enc.fechaCierre}</small>
+            :null
+          }
         </CardContent>
 
   );
 }
 
-export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada,encuestaActiva,votarPublicacion,votar,idPublicacion,id,idMe }) {//C4CFD6
- 
+export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada,encuestaActiva,votarPublicacion,votar,idPublicacion,id,idMe }) {
+ // console.log("total "+totalVotos);
+//  console.log("cantidad "+opcion.cantidad_votos);
+
   return (
     <>
       

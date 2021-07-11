@@ -5,7 +5,7 @@ import CrearPublicacion from '../components/Home/Publicaciones/Creacion/Creacion
 import {MisAmigos} from '../components/Home/Perfil/MisAmigos';
 import {VisualizarPerfil} from '../components/Home/Perfil/VisualizarPerfil';
 import { useLocation } from 'react-router-dom'
-import {ListarMuro} from '../components/Home/Publicaciones/ListarMuro';
+import {ListarMuro,CargandoPublicacion} from '../components/Home/Publicaciones/ListarMuro';
 import {useInfoUserHook} from '../hooks/useInfoUserHook';
 import { usePublciacionesUsuario } from '../hooks/usePublciacionesUsuario';
 
@@ -19,11 +19,11 @@ const useStyles = makeStyles(theme => ({
 export default function Perfil() {
 
 
-  const classes = useStyles();
+ const classes = useStyles();
 const location = useLocation();
 const { userInfo, loading,getDatos } = useInfoUserHook();
-const {  cargando, loadingNextPage, datos, setPage,page,INITIAL_PAGE,setTipoFiltro,editarPublicacion,eliminarPublicacion } 
-  = usePublciacionesUsuario({usuarioId:userInfo.id});
+const {  datos, setPage,setTipoFiltro,editarPublicacion,eliminarPublicacion } 
+  = usePublciacionesUsuario({usuarioId:userInfo.id,tipo:'yo'});
 
 useEffect(function () {
   getDatos();
@@ -47,15 +47,21 @@ useEffect(function () {
               :
               <>
                 <CrearPublicacion  userInfo={userInfo}/>
-                <ListarMuro 
-                userInfo={userInfo} 
-              loading={loading}
-                datos={datos}
-              setPage={setPage} 
-              eliminarPublicacion={eliminarPublicacion}
-              editarPublicacion={editarPublicacion}
-              setTipoFiltro={setTipoFiltro}
-                  />
+                {!loading ?
+                  <ListarMuro 
+                  userInfo={userInfo} 
+                loading={loading}
+                  datos={datos}
+                setPage={setPage} 
+                eliminarPublicacion={eliminarPublicacion}
+                editarPublicacion={editarPublicacion}
+                setTipoFiltro={setTipoFiltro}
+                    />
+                    : <div className="col-md-8 offset-md-2 mb-4">   <>
+                    <CargandoPublicacion /><br/><CargandoPublicacion /></>
+                     </div>
+                }
+              
 
               </>
             }

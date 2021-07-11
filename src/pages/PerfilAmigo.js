@@ -4,9 +4,9 @@ import {MenuHeader} from '../components/Menu/MenuHeader';
 import {VisualizarPerfilOtroUsuario} from '../components/Home/Perfil/VisualizarPerfilOtroUsuario';
 import { useParams } from 'react-router';
 import {useInfoUserHook} from '../hooks/useInfoUserHook';
+import {FuncionesAmigos} from '../hooks/useAmigosSugeridosHook';
+
 import {usePublciacionesUsuario} from '../hooks/usePublciacionesUsuario';
-import useNearScreen from '../hooks/useNearScreen';
-import debounce from 'just-debounce-it';
 import {ListarMuro, CargandoPublicacion} from '../components/Home/Publicaciones/ListarMuro';
 import Typography from '@material-ui/core/Typography';
 
@@ -23,35 +23,19 @@ export default function PerfilAmigo() {
 
    const { id } = useParams();
    const { getDatosOtroUsuario, otroUsuarioInfo, loading,userInfo } = useInfoUserHook();
-  const { cargando, datos, setPage,page,INITIAL_PAGE,setTipoFiltro } = usePublciacionesUsuario({ usuarioId:id,otroUsuarioInfo });
-  const externalRef = useRef();
+  const { cargando, datos,setTipoFiltro,setPage,obtenerPublicacionesAmigo } = usePublciacionesUsuario({ usuarioId:id,tipo:'amigo' });
   console.log("---userInfo",userInfo)
-  const { isNearScreen } = useNearScreen({
-    externalRef: loading ? null : externalRef,
-    once: false
-  })
- 
-  const debounceHandleNextPage = useCallback(debounce(
-    () =>
-      setPage(prevPage => prevPage + 1)
-    , 200), [setPage])
- 
-  useEffect(function () {
-    if (isNearScreen ) debounceHandleNextPage()
-  }, [debounceHandleNextPage, isNearScreen])
- 
-
-
+  const { dejarDeSeguir, comensarASeguir,lo_sigo } = FuncionesAmigos();
   useEffect(() => {
-    if(INITIAL_PAGE===page){
-      console.log("otro perfil")
       getDatosOtroUsuario(id);
-    }
-  
-   }, [id])
+   }, [])
 
-   console.log(otroUsuarioInfo)
-   console.log("carngado " + loading)
+   useEffect(()=>{
+     if(typeof  datos==="undefined" && lo_sigo){
+      obtenerPublicacionesAmigo();
+     }
+   },[lo_sigo,datos])
+
   return (
       <>
       <MenuHeader/>
@@ -59,33 +43,19 @@ export default function PerfilAmigo() {
           <div className="row">
             <VisualizarPerfilOtroUsuario 
             otroUsuarioInfo={otroUsuarioInfo} loading={loading}
+            dejarDeSeguir={dejarDeSeguir} comensarASeguir={comensarASeguir}
             />
           <div className="col-md-9">
 
-    {otroUsuarioInfo.lo_sigo && !loading?
-    <>
-              <ListarMuro 
-              setTipoFiltro={setTipoFiltro}
-              datos={datos} 
-              loading={cargando} 
-              externalRef={externalRef}
-               userInfo={otroUsuarioInfo} 
-               userUrlMe={userInfo.url_perfil}
-               />
-      </>
-  :   loading ?
-  <div className="col-md-8 offset-md-2 mb-4"> 
-<CargandoPublicacion/><br/>
-<CargandoPublicacion/>
-  </div>
-     
-      :
-      <div className="col-md-8 offset-md-2 mb-4"> 
-      <Typography variant="h4" gutterBottom>
-       Debes seguir al usuario para ver sus publicaciones
-     </Typography>
-     </div>
-  }
+
+        <DevolucionMuro loading={loading}
+        lo_sigo={lo_sigo}
+        otroUsuarioInfo={otroUsuarioInfo}
+        setTipoFiltro={setTipoFiltro}
+        datos={datos}
+        cargando={cargando}
+        userInfo={userInfo}
+        setPage={setPage} />
 
           </div>
  
@@ -97,4 +67,41 @@ export default function PerfilAmigo() {
   );
 
 }
+
+export function DevolucionMuro({loading,lo_sigo,otroUsuarioInfo,setTipoFiltro,datos,cargando,userInfo,setPage}){
+  console.log("-->",lo_sigo);
+  if(loading ){
+  return   <div className="col-md-8 offset-md-2 mb-4"> 
+    <CargandoPublicacion/><br/>
+    <CargandoPublicacion/>
+      </div>
+  }else if(otroUsuarioInfo.lo_sigo && lo_sigo==null  && !loading){
+    return    <ListarMuro 
+    setTipoFiltro={setTipoFiltro}
+    datos={datos} 
+    loading={cargando} 
+     userInfo={userInfo} 
+     setPage={setPage}
+     />
+  }else if(lo_sigo===true && !loading && typeof  datos!=="undefined"){
+    return    <ListarMuro 
+    setTipoFiltro={setTipoFiltro}
+    datos={datos} 
+    loading={cargando} 
+     userInfo={userInfo} 
+     setPage={setPage}
+     />
+  }else if(lo_sigo===false || lo_sigo===null){
+    return    <div className="col-md-8 offset-md-2 mb-4"> 
+    <Typography variant="h4" gutterBottom>
+     Debes seguir al usuario para ver sus publicaciones
+     <center><img src="https://media1.giphy.com/media/zCpYQh5YVhdI1rVYpE/giphy.gif" className="mt-1" alt="asd"/></center>
+   </Typography>
+   </div>
+  }else{
+    return <div className="col-md-8 offset-md-2 mb-4"> 
+    <CargandoPublicacion /><br/><CargandoPublicacion />
+     </div>
+  }
+} 
 

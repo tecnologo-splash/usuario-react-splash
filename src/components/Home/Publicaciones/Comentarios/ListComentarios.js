@@ -18,7 +18,7 @@ export function ListComentarios({expanded, publicacionId,comentarios,userInfo,id
         }`;
     const estiloCursor=css`cursor:pointer;`;
     const {ingresarComentario,eliminarComentario,
-        handleChangeTextComentario,coments,ingresarRespuesta,texto}=useComentarioHook({comentarios,publicacionId,setCantidadComentarios,cantidadComentarios});
+        handleChangeTextComentario,coments,ingresarRespuesta,texto,eliminarRespuestaAComentario}=useComentarioHook({comentarios,publicacionId,setCantidadComentarios,cantidadComentarios});
         //useMemo here
 
 return (
@@ -34,6 +34,7 @@ return (
                 idMe={userInfo.id}
                 eliminarComentario={eliminarComentario}
                 ingresarRespuesta={ingresarRespuesta}
+                eliminarRespuestaAComentario={eliminarRespuestaAComentario}
                   />
             ))}
         </CardContent>

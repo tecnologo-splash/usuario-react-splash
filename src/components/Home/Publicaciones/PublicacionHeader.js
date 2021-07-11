@@ -17,7 +17,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {InputPublicacion} from './InputPublicacion';
 
 
-export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,fecha_publicacion,meId,publicacionId,eliminarPublicacion,textoEdicion,editarPublicacion}){
+export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,
+  fecha_publicacion,meId,publicacionId,eliminarPublicacion,textoEdicion,editarPublicacion}){
+    
   const [anchorEl, setAnchorEl] = useState(null);
   let history = useHistory();
   const [open, setOpen] = useState(false);

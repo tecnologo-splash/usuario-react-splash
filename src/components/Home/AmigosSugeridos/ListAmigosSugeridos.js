@@ -21,7 +21,6 @@ border-radius: 20px;
 }
 `;
   const {amigos,seguirUsuario}=useAmigosSugeridosHook();
-  console.log(amigos);
   const cantidad=Object.keys(amigos).length;
 
   let history = useHistory();
@@ -29,7 +28,10 @@ border-radius: 20px;
   const handleClick=()=>{
     history.push("/home/amigos-sugeridos");
   }
+const handleClickGoToPerfil=(userId)=>{
+  history.push("/home/perfil/"+userId);
 
+}
 
  return (
 
@@ -37,7 +39,7 @@ border-radius: 20px;
   <div className="sticky-top" style={{ top:'80px' }}>
         
   <Typography variant="h5" className="mb-3 pl-3">
-    Usuarios Sugeridos
+    Amigos Sugeridos
   </Typography>
 
     {amigos.map((item, index) => (
@@ -45,6 +47,7 @@ border-radius: 20px;
         key={index}
         className="col-md-8 mb-4 border shadow-sm d-inline-flex p-2 offset-md-1 nav"
         css={divStyle}
+        onClick={()=>handleClickGoToPerfil(item.usuario_id)}
       >
        <CardAmigos userData={item} seguirUsuario={seguirUsuario}/>
       </div>

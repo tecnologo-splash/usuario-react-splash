@@ -2,14 +2,34 @@ import {useState,useEffect,useReducer} from 'react';
 import {SegurenciasDeSeguidores,ComenzarASeguir,DejarDeSeguir} from '../services/SeguidoresApi';
 import { ACTIONS, SugerenciasAmigosReducer, initialStateAmigos } from '../contexts/SugerenciasAmigosReducer';
 export function useAmigosSugeridosHook(){
-
-    const [store, dispatch] = useReducer(SugerenciasAmigosReducer, initialStateAmigos);
-    const {amigos,paginacion}=store;
+    const {
+        amigos,
+        paginacion,
+        obtenerMasAmigos,
+        dejarDeSeguir,
+        seguirUsuario,
+        obtenerAmigosSugeridos,comensarASeguir}=FuncionesAmigos();
 
     useEffect(()=>{
         obtenerAmigosSugeridos();
       },[paginacion])
+   
 
+    return {
+        obtenerAmigosSugeridos,
+        amigos,
+        seguirUsuario,
+        dejarDeSeguir,
+        obtenerMasAmigos,comensarASeguir
+    }
+
+}
+
+export function FuncionesAmigos(){
+    
+    const [store, dispatch] = useReducer(SugerenciasAmigosReducer, initialStateAmigos);
+    const {amigos,paginacion,lo_sigo}=store;
+    console.log(lo_sigo);
     const obtenerAmigosSugeridos= async()=>{
         const response=await SegurenciasDeSeguidores({page:paginacion});
         console.log(response);
@@ -17,47 +37,38 @@ export function useAmigosSugeridosHook(){
     }
 
 
-    const seguirUsuario=(usuario_id)=>{
-        (async () => {
-            const response=await ComenzarASeguir({usuario_id});
-            if(response.status >=200 && response.status <227){
-                let index = amigos.map((item) => item.usuario_id).indexOf(usuario_id);
-                if (index > -1) {
-                    amigos.splice(index, 1);
-                }
-                dispatch({ type: ACTIONS.AMIGOS, payload:amigos });
-
-            }else{
-                console.log("Error de algun tipo");
-            }
-        
-        })()
+    const seguirUsuario=async(usuario_id)=>{
+        await ComenzarASeguir({usuario_id});
+        let index = amigos.map((item) => item.usuario_id).indexOf(usuario_id);
+        if (index > -1) {
+            amigos.splice(index, 1);
+        }
+        dispatch({ type: ACTIONS.AMIGOS, payload:amigos });
     }
 
-    const dejarDeSeguir=(usuario_id)=>{
-        (async () => {
-            const response=await DejarDeSeguir({usuario_id});
-            console.log(response)
-            if(response.status >=200 && response.status <227){
-                //setDatos({data:datos.data.filter(prop => prop.usuario_id !== usuario_id)})
-            }else{
-                console.log("Error de algun tipo");
-            }
-        
-        })()
+    const dejarDeSeguir=async(usuario_id)=>{
+       await DejarDeSeguir({usuario_id});
+       dispatch({ type: ACTIONS.FOLLOW, payload:false });
+
+    }
+
+    const comensarASeguir=async(usuario_id)=>{
+        await ComenzarASeguir({usuario_id});
+        dispatch({ type: ACTIONS.FOLLOW, payload:true });
     }
 
     const obtenerMasAmigos=()=>{
         dispatch({ type: ACTIONS.PAGINACION, payload: paginacion+1 });
       //  obtenerAmigosSugeridos();
     }   
-
     return {
-        obtenerAmigosSugeridos,
+        lo_sigo,
         amigos,
-        seguirUsuario,
+        paginacion,
+        obtenerMasAmigos,
         dejarDeSeguir,
-        obtenerMasAmigos
+        seguirUsuario,
+        obtenerAmigosSugeridos,
+        comensarASeguir
     }
-
 }

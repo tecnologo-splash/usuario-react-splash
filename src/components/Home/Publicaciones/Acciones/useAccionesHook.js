@@ -1,20 +1,19 @@
-import {useState,useEffect} from 'react';
+import {useState,useEffect,useReducer} from 'react';
 import { ReaccionarAPublicacion,BorrarReaccionarAPublicacion,Publicacion } from '../../../../services/MuroApi';
+import { ACTIONS, AccionesReducer, initialStateCuenta } from '../../../../contexts/AccionesReducer';
 
 export function useAccionesHook({resumen_reaccion = [], publicacionId,comentarios,userInfo,idOtroUsuario}){
     const [expanded, setExpanded] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [reacciones, setReacciones] = useState(resumen_reaccion);
+    //const [reacciones, setReacciones] = useState(resumen_reaccion);
     const [openReact, setOpenReact] = useState(false);
     const [cantidadComentarios,setCantidadComentarios]=useState(comentarios.length);
+    const [store,dispatch]=useReducer(AccionesReducer,initialStateCuenta);
+    const {reacciones}=store;
     useEffect(()=>{
-        setReacciones(resumen_reaccion);
+        //setReacciones(prev=>prev=resumen_reaccion);
+        dispatch({ type: ACTIONS.REACCIONAR, payload: resumen_reaccion});
     },[resumen_reaccion])
-
-    useEffect(()=>{
-       
-    },[reacciones])
-    
 
     const open = Boolean(anchorEl);
 
@@ -31,12 +30,12 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
       }
 
       const openReaccion= async(e)=>{
-        console.log(reacciones);
+        console.log(reacciones.mi_reaccion);
         if(reacciones.mi_reaccion!==null){
          await BorrarReaccionarAPublicacion({ publicacionId });
          reacciones.mi_reaccion=null
          console.log(reacciones);
-         setReacciones(reacciones);
+         dispatch({ type: ACTIONS.REACCIONAR, payload: resumen_reaccion});
         }else{
           setAnchorEl(e.currentTarget) 
         }
@@ -45,7 +44,7 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
     const data = { emoji: enumEmoji };
     const response=  await ReaccionarAPublicacion({ publicacionId, data })
       console.log(response);
-      setReacciones(response.resumen_reaccion);
+      dispatch({ type: ACTIONS.REACCIONAR, payload: response.resumen_reaccion});
       setAnchorEl(null);
   }
 
@@ -53,7 +52,7 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
 return {
     handleClick,handleExpandClick,
     handlePopoverClose,openReaccion,
-    open,expanded,openReact,setOpenReact,anchorEl,setAnchorEl,setReacciones,reacciones,
+    open,expanded,openReact,setOpenReact,anchorEl,setAnchorEl,reacciones,
     cantidadComentarios,setCantidadComentarios,handleClickAgregarReaccion
 
 }

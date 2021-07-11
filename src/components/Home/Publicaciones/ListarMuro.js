@@ -14,7 +14,6 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import {FiltroPublicacion} from '../Publicaciones/FiltroPublicaciones';
 import debounce from 'just-debounce-it';
 import useNearScreen from '../../../hooks/useNearScreen';
-import { useMuroHook } from '../../../hooks/useMuroHook';
 
 const useStyles = makeStyles((theme) => ({
   media: {height: 190, },
@@ -24,7 +23,8 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
   eliminarPublicacion, editarPublicacion,setTipoFiltro }) {
   const externalRef = useRef();
 
-    
+      console.log(datos);
+      console.log(loading);
   const { isNearScreen } = useNearScreen({
     externalRef: loading ? null : externalRef,
     once: false
@@ -39,18 +39,17 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
     if (isNearScreen) debounceHandleNextPage()
   }, [debounceHandleNextPage, isNearScreen])
 
-
   return (
     <>
         <FiltroPublicacion setTipoFiltro={setTipoFiltro}/>
     
 
-      {loading && datos.length===0
+      {loading 
         ? <div className="col-md-8 offset-md-2 mb-4">   <>
        <CargandoPublicacion /><br/><CargandoPublicacion /></>
         </div>
-        : <>
-
+        :datos.length===0 && !loading ? <div className="col-md-8 offset-md-2 mb-4"> Sin Publicaciones que mostrar</div> :
+        <>
           {datos.map((item, index) => (
             <div className="col-md-8 offset-md-2 mb-4" key={index}>
               <Card >
@@ -67,8 +66,8 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
                   editarPublicacion={editarPublicacion}
                   textoEdicion={item.texto}
                 />
-                <Publicaciones item={item} id={item.usuario_comun.id}  meId={userInfo.id}/>
-
+                <Publicaciones item={item} id={item.usuario_comun.id}  idMe={userInfo.id}/>
+              
                 <Acciones resumen_reaccion={item.resumen_reaccion} publicacionId={item.id} 
                 comentarios={item.comentarios}  userInfo={userInfo}
                 idOtroUsuario={item.usuario_comun.id}
@@ -86,7 +85,6 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
         </>
       }
 
-
     </>
   )
 }
@@ -94,7 +92,7 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
 export function Publicaciones({ item,id,idMe }) {
 
   if (item.encuesta !== null) {//es necuesta
-    return <EncuestaPublicacion publicacionData={item} id={id} idMe={idMe}/>;
+    return <EncuestaPublicacion textoPublicacion={item.texto} encuestaPublicacion={item.encuesta} id={id} idMe={idMe} publicacionId={item.id}/>;
   } else if (item.enlace_externo.length > 0) {//es enlace externo
     return <LinkExternoPublicacion publicacionData={item} />;
   } else if (item.multimedia.length > 0) {//es multimedia  ver si es carrusel o no

@@ -18,25 +18,26 @@ import {StyledMenu,StyledMenuItem} from '../StyledMenus';
 import { useInfoUserHook } from "../../hooks/useInfoUserHook";
 import ForumIcon from '@material-ui/icons/Forum';
 import {Notificacion} from './Notificaciones/Notificacion';
+import { useDispatch } from "../../contexts/LoginContext";
+import { ACTIONS as ACTIONS_LOGIN} from "../../contexts/StoreLoginReducer";
 
 export default function RightMenuItems() {
   const estiloColor=css`color:white !important;`;
   let history = useHistory();
-  
+  const dispatchLogin = useDispatch();    
+
   const logOut=()=>{
+    dispatchLogin({ type: ACTIONS_LOGIN.LOGIN_EXITOSO, payload: '' });
     logoutSplash();
     history.push("/");         
   }
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [anchorEl2, setAnchorEl2] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClick2 = (event) => {
-    setAnchorEl2(event.currentTarget);
-  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -54,9 +55,12 @@ const irAConfig = () => {
 }
 
 const {userInfo,getDatos}=useInfoUserHook();
+
 const irAlChat=()=>{
   history.push("/home/chat");
 }
+
+
 useEffect(()=>{
   getDatos();
 },[])

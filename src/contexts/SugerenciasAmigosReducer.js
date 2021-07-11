@@ -1,14 +1,16 @@
 const ACTIONS = {
     AMIGOS:'amigos',
     CARGANDO:'carando',
-    PAGINACION:'pagiancion'
+    PAGINACION:'pagiancion',
+    FOLLOW:'follow'
 
 }
 const initialStateAmigos = {
 
     amigos: [],
     paginacion:0,
-    cargando:true
+    cargando:true,
+    lo_sigo:null
 };
 const SugerenciasAmigosReducer = (state, action) => {
 
@@ -30,6 +32,11 @@ const SugerenciasAmigosReducer = (state, action) => {
                     ...state,
                     cargando:action.payload,
                 }
+              case ACTIONS.FOLLOW:
+                    return{
+                        ...state,
+                        lo_sigo:action.payload,
+             }
         default:
             return new Error(`Accion ${action.type} no definida`);
     }

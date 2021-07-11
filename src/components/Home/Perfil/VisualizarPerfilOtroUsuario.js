@@ -9,11 +9,8 @@ import 'react-medium-image-zoom/dist/styles.css';
 import Button from '@material-ui/core/Button';
 import PerfilDataLoading from '../../Loading/PerfilDataLoading';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { useAmigosSugeridosHook } from '../../../hooks/useAmigosSugeridosHook';
 import ChatIcon from '@material-ui/icons/Chat';
 import {EnviarMensajePerfilUsuario} from '../../Chat/EnviarMensajePerfilUsuario';
-import ReportIcon from '@material-ui/icons/Report';
-import Grid from '@material-ui/core/Grid';
 import { Denunciar } from './Denunciar';
 
 const useStyles = makeStyles(theme => ({
@@ -23,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading }) {
+export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading,dejarDeSeguir, comensarASeguir  }) {
 
     console.log(otroUsuarioInfo)
     console.log("carngado " + loading)
@@ -40,18 +37,19 @@ export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading }) {
 
                         {loading ? <Skeleton width={150} height={50} />
                             :
-                            <SeguirDejarDeSeguir otroUsuarioInfo={otroUsuarioInfo} />
+                            <SeguirDejarDeSeguir otroUsuarioInfo={otroUsuarioInfo}
+                            dejarDeSeguir={dejarDeSeguir} comensarASeguir={comensarASeguir} />
                         }
 
-                        
+
                         <hr />
                         <div className="row d-flex justify-content-around">
                             <div >
                                 <Typography variant="body1">
-                                    <b>    Seguidores     </b> </Typography>
+                                    <b>    Me Siguen     </b> </Typography>
                             </div>
                             <div > <Typography variant="body1">
-                                <b>    Siguiendo     </b>   </Typography></div>
+                                <b>    Yo Sigo     </b>   </Typography></div>
                         </div>
                         <div className="row d-flex justify-content-around">
                             {
@@ -70,7 +68,7 @@ export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading }) {
                         </div>
                         <hr />
                         <Typography variant="h6" className="d-flex justify-content-center mb-3">
-                            ¿Quién soy?
+                            ¿Quien soy?
                         </Typography>
                         <div>
                             {loading ?
@@ -90,11 +88,13 @@ export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading }) {
 
 export function PerfilLateral({ uInfo }) {
     const classes = useStyles();
+    const img_perfil_sin_imagen=process.env.PUBLIC_URL + '/recursos/svg/perfil_sin_imagen.svg';
+   const img= uInfo.url_perfil===null ? img_perfil_sin_imagen : URL_BASE_FILE_STORAGE+uInfo.url_perfil;
     return (
         <>
             <Zoom zoomMargin={150}>
                 <Avatar alt="Profile"
-                    src={uInfo.url_perfil != null && uInfo.url_pefil !== '' ? URL_BASE_FILE_STORAGE + uInfo.url_perfil : process.env.PUBLIC_URL + '/recursos/svg/perfil_sin_imagen.svg'}
+                    src={img}
                     className={classes.large} />
             </Zoom>
 
@@ -106,18 +106,16 @@ export function PerfilLateral({ uInfo }) {
     )
 }
 
-export function SeguirDejarDeSeguir({ otroUsuarioInfo }) {
+export function SeguirDejarDeSeguir({ otroUsuarioInfo,dejarDeSeguir, comensarASeguir  }) {
     const [follow, setFollow] = useState(otroUsuarioInfo.lo_sigo);
-    const { dejarDeSeguir, seguirUsuario } = useAmigosSugeridosHook();
     const [open,setOpen]=useState(false);
 
-    const [openModal, setOpenModal] = useState(false);
 
     const comenzarASeguir = () => {
-        seguirUsuario(otroUsuarioInfo.id);
+        comensarASeguir(otroUsuarioInfo.id);
         setFollow(true);
+
     }
-    
     const dejarDeSeguirUsuario = () => {
         dejarDeSeguir(otroUsuarioInfo.id);
         setFollow(false);

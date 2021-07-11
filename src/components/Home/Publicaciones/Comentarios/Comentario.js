@@ -18,24 +18,29 @@ const useStyles = makeStyles((theme) => ({
   },      
 }));
 
-export function Comentario({data,idOtroUsuario,idMe,eliminarComentario,ingresarRespuesta}) {
+export function Comentario({data,idOtroUsuario,idMe,eliminarComentario,ingresarRespuesta,eliminarRespuestaAComentario}) {
 const {respuestas}=data;
 
 return (
 
 <>
-{/* Comentarios*/}
+{/* Comentario*/}
       <Coment data={data}  
       idOtroUsuario={idOtroUsuario}
       eliminarComentario={eliminarComentario}
       idMe={idMe}
       ingresarRespuesta={ingresarRespuesta}
       />
-  {/*Respuestas */}
+  {/*Respuesta */}
         {respuestas.map((item,index)=>(
-        <Coment key={index} data={item} 
+        <Coment 
+        comentarioId={data.id}
+        key={index}
+         data={item} 
          size='offset-md-1'
          tipo='respuesta' 
+         idRespuesta={item.id}
+         eliminarRespuestaAComentario={eliminarRespuestaAComentario}
          idOtroUsuario={idOtroUsuario}
          idMe={idMe}
         />
@@ -47,13 +52,14 @@ return (
 
 }
 
-export function Coment({data,size='', tipo='comentario',idOtroUsuario,idMe,eliminarComentario,ingresarRespuesta}){
+export function Coment({data,size='', tipo='comentario',idOtroUsuario,idMe,eliminarComentario,ingresarRespuesta,
+eliminarRespuestaAComentario,idRespuesta,comentarioId}){
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleDelete=()=>{
     if(tipo==="respuesta"){
-
+     eliminarRespuestaAComentario(comentarioId,idRespuesta);
     }else{
       eliminarComentario(data.id);
     }
