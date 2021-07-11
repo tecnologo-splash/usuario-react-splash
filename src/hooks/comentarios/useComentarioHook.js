@@ -8,7 +8,7 @@ export function useComentarioHook({comentarios,publicacionId,setCantidadComentar
     const {coments}=store;
     useEffect(()=>{
         dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios });
-    },[])
+    },[comentarios])
 
     const handleChangeTextComentario=(e)=>{
         setTexto(e.target.value);

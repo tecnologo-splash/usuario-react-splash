@@ -127,10 +127,7 @@ export default function CrearPublicacion({publicar,userInfo}) {
               onClick={(emoji, event) => pepe(emoji, event)}
             />
           </Popover>
-          {/* <OpcionesEncuesta/>
-
-          <OpcionesEncuesta/> */}
-
+ 
         </CardContent>
       </Card>
 

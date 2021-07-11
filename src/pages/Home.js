@@ -2,7 +2,7 @@ import React, { useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { MenuHeader } from '../components/Menu/MenuHeader';
 import { ListAmigosSugeridos } from '../components/Home/AmigosSugeridos/ListAmigosSugeridos';
-import { ListarMuro } from '../components/Home/Publicaciones/ListarMuro';
+import { ListarMuro,CargandoPublicacion } from '../components/Home/Publicaciones/ListarMuro';
 import CrearPublicacion from '../components/Home/Publicaciones/Creacion/CreacionPublicacion';
 import { useInfoUserHook } from '../hooks/useInfoUserHook';
 import { useMuroHook } from '../hooks/useMuroHook';
@@ -59,17 +59,23 @@ console.log("muro")
 
           <div className="col-md-9">
             <CrearPublicacion userInfo={userInfo}/>
+    {
+      !loading ? 
+      <ListarMuro
+      userInfo={userInfo}
+      loading={loading}
+       datos={datos}
+      setPage={setPage} 
+      eliminarPublicacion={eliminarPublicacion}
+      editarPublicacion={editarPublicacion}
+      setTipoFiltro={setTipoFiltro}
+     />
 
-            <ListarMuro
-             userInfo={userInfo}
-             loading={loading}
-              datos={datos}
-             setPage={setPage} 
-             eliminarPublicacion={eliminarPublicacion}
-             editarPublicacion={editarPublicacion}
-             setTipoFiltro={setTipoFiltro}
-            />
-
+      : <div className="col-md-8 offset-md-2 mb-4">   <>
+      <CargandoPublicacion /><br/><CargandoPublicacion /></>
+       </div>
+    }
+           
           </div>
 
         </div>

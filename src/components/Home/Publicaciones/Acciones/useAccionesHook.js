@@ -7,13 +7,14 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
     const [anchorEl, setAnchorEl] = useState(null);
     //const [reacciones, setReacciones] = useState(resumen_reaccion);
     const [openReact, setOpenReact] = useState(false);
-    const [cantidadComentarios,setCantidadComentarios]=useState(comentarios.length);
+    const [cantidadComentarios,setCantidadComentarios]=useState(0);
     const [store,dispatch]=useReducer(AccionesReducer,initialStateCuenta);
     const {reacciones}=store;
     useEffect(()=>{
         //setReacciones(prev=>prev=resumen_reaccion);
+        setCantidadComentarios(comentarios.length);
         dispatch({ type: ACTIONS.REACCIONAR, payload: resumen_reaccion});
-    },[resumen_reaccion])
+    },[resumen_reaccion,publicacionId])
 
     const open = Boolean(anchorEl);
 
