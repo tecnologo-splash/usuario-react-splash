@@ -25,8 +25,8 @@ export function useRegisterHook(){
       dispatch({ type: ACTIONS.MENSAJE_ERROR_REGISTRO, payload: "Debe Ingresar los Campos Obligatorios" });
     }else if(!userOrEmail(registro.correo)){
       dispatch({ type: ACTIONS.MENSAJE_ERROR_REGISTRO, payload: "Error, correo invalido" });
-    }else if(mayoriaEdadFecha()<18){
-      dispatch({ type: ACTIONS.MENSAJE_ERROR_REGISTRO, payload: "Error, debse ser mayor de edad para registrarse" });
+    }else if(mayoriaEdadFecha()<13){
+      dispatch({ type: ACTIONS.MENSAJE_ERROR_REGISTRO, payload: "Error, debse ser mayor a 13 años para registrarse" });
 
     }else{
       setButton(true);
