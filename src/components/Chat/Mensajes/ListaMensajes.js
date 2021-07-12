@@ -70,7 +70,7 @@ useEffect(function () {
       </HeaderChat>          
     <div className="message-list sidebar  custom-scrollbar border">
       <div  className="col-md-12 mb-3" ref={externalRef} onClick={handleClick}>
-        cargar mas
+        <center>Cargar más mensajes</center>
       </div>
       
         <div className="srcoll">  

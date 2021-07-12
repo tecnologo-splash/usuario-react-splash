@@ -74,7 +74,7 @@ const handleGoToNoti=(item)=>{
     <StyledMenuItem key={i} onClick={()=>handleGoToNoti(item)}>
           <ListItemIcon>
         
-          <PerfilAvatar size='small' img={item.url_perfil || ''}/>
+          <PerfilAvatar size='small' img={item.referencia_notificacion.url_perfil || ''}/>
 
           </ListItemIcon>
           <ListItemText>

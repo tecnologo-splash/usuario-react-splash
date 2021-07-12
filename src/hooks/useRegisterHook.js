@@ -25,6 +25,9 @@ export function useRegisterHook(){
       dispatch({ type: ACTIONS.MENSAJE_ERROR_REGISTRO, payload: "Debe Ingresar los Campos Obligatorios" });
     }else if(!userOrEmail(registro.correo)){
       dispatch({ type: ACTIONS.MENSAJE_ERROR_REGISTRO, payload: "Error, correo invalido" });
+    }else if(mayoriaEdadFecha()<18){
+      dispatch({ type: ACTIONS.MENSAJE_ERROR_REGISTRO, payload: "Error, debse ser mayor de edad para registrarse" });
+
     }else{
       setButton(true);
       dispatch({ type: ACTIONS.MENSAJE_ERROR_REGISTRO, payload:'' });
@@ -40,6 +43,7 @@ export function useRegisterHook(){
         }
         setButton(false);
       })()
+     
     }
    }
 
@@ -55,6 +59,18 @@ export function useRegisterHook(){
     setOpenAlert(!openAlert);
   };
 
+const mayoriaEdadFecha=()=>{
+  let years = new Date().getFullYear() - new Date(registro.fecha_nacimiento).getFullYear();
+  let month = new Date().getMonth() - new Date(registro.fecha_nacimiento).getMonth();
+  let dateDiff = new Date().getDay() - new Date(registro.fecha_nacimiento).getDay();
+  if (dateDiff < 0) {
+      month -= 1;
+  }
+  if (month < 0) {
+      years -= 1;
+  }
+ return years;
+}
 
     return {
       handleCloseAlertExito,
