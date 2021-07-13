@@ -14,6 +14,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import {FiltroPublicacion} from '../Publicaciones/FiltroPublicaciones';
 import debounce from 'just-debounce-it';
 import useNearScreen from '../../../hooks/useNearScreen';
+import {PublicacionHeaderCompartida} from './PublicacionHeaderCompartida';
 
 const useStyles = makeStyles((theme) => ({
   media: {height: 190, },
@@ -65,17 +66,20 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
                   eliminarPublicacion={eliminarPublicacion}
                   editarPublicacion={editarPublicacion}
                   textoEdicion={item.texto}
-                  publicacionCompartida={item.publicacion_compartida}
+                  publicacionCompartida={item.publicacion_compartida!==null ? " - Publicacion compartida":""}
                 />
                    <Publicaciones item={item} id={item.usuario_comun.id}  idMe={userInfo.id}/>
-                 {item.publicacion_compartida!==null ? <PublicacionCompartida item={item.publicacion_compartida}/>
+                 {item.publicacion_compartida!==null ? <PublicacionCompartida
+                  item={item.publicacion_compartida} 
+                  meId={userInfo.id}
+                  />
                       :
                      null
                  }
                  
                  <Acciones resumen_reaccion={item.resumen_reaccion} publicacionId={item.id} 
                 comentarios={item.comentarios}  userInfo={userInfo}
-                idOtroUsuario={item.usuario_comun.id}
+                idOtroUsuario={item.usuario_comun.id} compartir={item.publicacion_compartida}
                 />
 
               </Card>
@@ -143,13 +147,27 @@ export function CargandoPublicacion() {
   );
 }
 
-export function PublicacionCompartida({item}){
+export function PublicacionCompartida({item,meId}){
+  console.log(  item.publicacion);
   return (
     <div className="border border-light rounded">
      {
        item.publicacion!==null
-       ?item.publicacion.usuario_comun.nombre
-       :"Publciacion Borrada"
+       ?
+       <>
+       <PublicacionHeaderCompartida
+       nombre={item.publicacion.usuario_comun.nombre}
+       apellido={item.publicacion.usuario_comun.apellido}
+       usuario={"@"+item.publicacion.usuario_comun.usuario}
+       url_perfil={item.publicacion.usuario_comun.url_perfil}
+       id={item.publicacion.usuario_comun.id}
+       fecha_publicacion={item.publicacion.fecha_creado}
+       meId={meId}
+       />
+
+       <Publicaciones item={item.publicacion} id={item.publicacion.usuario_comun.id}  idMe={meId}/>
+      </>
+       :<center>Publciacion Borrada por el creador de la misma</center>
      }
 
   </div>

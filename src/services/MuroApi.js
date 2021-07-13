@@ -44,7 +44,10 @@ export function VotarEncuesta({ publicacionId,opcionIdEncuesta }) {
   return request(`posts/${publicacionId}/opciones/${opcionIdEncuesta}`, METHOD.POST);
 }
 
+export function CompartirPublicacion({}){
+//  return request(`posts/${publicacionId}/opciones/${opcionIdEncuesta}`, METHOD.POST);
 
+}
 
 //comentarios
 export function PublicarComentario({ publicacionId, data }) {

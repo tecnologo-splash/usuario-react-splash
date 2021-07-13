@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react';
+import React, {useEffect,useState } from 'react';
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
@@ -17,6 +17,7 @@ import { ListComentarios } from "../Comentarios/ListComentarios";
 import { css } from "@emotion/react";
 import { PublicacionReaccionada } from './PublicacioReaccionada';
 import {useAccionesHook} from './useAccionesHook';
+import {ModalCompartirPublicacion} from './ModalCompartirPublicacion';
 
 const useStyles = makeStyles((theme) => ({
   elementsHover: {
@@ -37,7 +38,7 @@ const emjis = [
   { img: '/recursos/reaciones/64px/woman_shrugging.gif', nameEmoji: 'No Me Interesa', enumEmoji: 'NO_ME_INTERESA' }
 ];
 
-export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,userInfo,idOtroUsuario }) {
+export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,userInfo,idOtroUsuario,compartir }) {
 
   const { handleClick,
           handleExpandClick,
@@ -51,9 +52,13 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
           openReact,setReacciones,reacciones,handleClickAgregarReaccion,
           cantidadComentarios,setCantidadComentarios,setMiReaccion 
         }=useAccionesHook({resumen_reaccion, publicacionId,comentarios,userInfo,idOtroUsuario});
+const [openModal,setOpenModal]=useState(false);
 
+const handleClickCompartir=()=>{
+  setOpenModal(true);
+}
 
-  return (
+return (
     <>
   {
     openReact ? 
@@ -83,7 +88,7 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
          className="flex-fill bd-highlight"
           onClick={openReaccion}
         >
-          <EmojiEmotionsIcon className="mr-2" />  <Typography> Reacionar</Typography>
+          <EmojiEmotionsIcon className="mr-2" />  <Typography> Reaccionar</Typography>
         </Button>
 
         <Popover
@@ -126,12 +131,18 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
           <Typography> Comentarios</Typography>
         </Button>
 
-        <Button
-          className="flex-fill bd-highlight"
-          style={{ textTransform: 'none', color: 'grey' }}
-        >
-          <ShareIcon className="mr-2" />  <Typography>Compartir</Typography>
-        </Button>
+{
+  compartir===null ?<Button
+  className="flex-fill bd-highlight"
+  style={{ textTransform: 'none', color: 'grey' }}
+  onClick={handleClickCompartir}
+>
+  <ShareIcon className="mr-2"/>  <Typography>Compartir</Typography>
+</Button>
+  : null
+
+}
+        
 
       </CardActions>
 
@@ -143,7 +154,10 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
        setCantidadComentarios={setCantidadComentarios}
        cantidadComentarios={cantidadComentarios}
      />  
-
+{openModal ?
+  <ModalCompartirPublicacion open={true} setOpen={setOpenModal}/>
+:null
+}
     </>
   )
 

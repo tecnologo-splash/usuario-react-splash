@@ -47,9 +47,8 @@ const handleClickGoToPerfil=(userId)=>{
         key={index}
         className="col-md-8 mb-4 border shadow-sm d-inline-flex p-2 offset-md-1 nav"
         css={divStyle}
-        onClick={()=>handleClickGoToPerfil(item.usuario_id)}
       >
-       <CardAmigos userData={item} seguirUsuario={seguirUsuario}/>
+       <CardAmigos userData={item} seguirUsuario={seguirUsuario}  clickPerfil={handleClickGoToPerfil}/>
       </div>
     ))}
 
@@ -74,11 +73,11 @@ const handleClickGoToPerfil=(userId)=>{
   );
 }
 
-export function CardAmigos({userData,seguirUsuario}){
+export function CardAmigos({userData,seguirUsuario,clickPerfil}){
 
   return(
     <>
-    <PerfilAvatar img={userData.url_perfil}/>
+    <PerfilAvatar img={userData.url_perfil} onClick={()=>clickPerfil(userData.usuario_id)}/>
 
     <div className="col flex-nowrap">
     <Typography variant="body1">{userData.nombre} {userData.apellido}</Typography>

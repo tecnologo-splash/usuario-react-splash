@@ -18,12 +18,11 @@ import {InputPublicacion} from './InputPublicacion';
 
 
 export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,
-  fecha_publicacion,meId,publicacionId,eliminarPublicacion,textoEdicion,editarPublicacion, publicacionCompartida={}}){
+  fecha_publicacion,meId,publicacionId,eliminarPublicacion,textoEdicion,editarPublicacion,publicacionCompartida}){
 
     const [anchorEl, setAnchorEl] = useState(null);
   let history = useHistory();
   const [open, setOpen] = useState(false);
-  const [textoPublicacion,setTextoPublicacion]=useState('');
   const goToPerfil=()=>{
     if(id===meId){
       history.push("/home/mi-perfil/");
@@ -42,22 +41,14 @@ export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,
     setAnchorEl(null);
   };
 
-  useEffect(()=>{
-    if(publicacionCompartida!==null){
-      if(publicacionCompartida.publicacion!==null){
-        const {usuario_comun}=publicacionCompartida.publicacion;
-        setTextoPublicacion(usuario_comun.nombre+" "+usuario_comun.apellido);
-      }
-    }
- 
-  },[publicacionCompartida])
+
 
   return (
     <CardHeader
     avatar={
       <PerfilAvatar img={url_perfil}  onClick={goToPerfil}/>
     }
-    title={nombre +" "+apellido+" "+textoPublicacion}
+    title={nombre +" "+apellido+publicacionCompartida}
     subheader={usuario+"- "+fecha_publicacion}
           action={
       <>

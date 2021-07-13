@@ -95,6 +95,9 @@ export function DevolucionMuro({loading,lo_sigo,otroUsuarioInfo,setTipoFiltro,da
     return    <div className="col-md-8 offset-md-2 mb-4"> 
     <Typography variant="h4" gutterBottom>
      Debes seguir al usuario para ver sus publicaciones
+     <br/>
+     <img src={process.env.PUBLIC_URL+"/recursos/404_2.png"} className="img-fluid" alt="Error "/>
+
    </Typography>
    </div>
   }else{
