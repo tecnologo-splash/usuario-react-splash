@@ -51,7 +51,7 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
         :datos.length===0 && !loading ? <div className="col-md-8 offset-md-2 mb-4"> Sin Publicaciones que mostrar</div> :
         <>
           {datos.map((item, index) => (
-            <div className="col-md-8 offset-md-2 mb-4" key={index}>
+            <div className="col-md-8 offset-md-2 mb-4 p-2" key={index}>
               <Card >
                 <PublicacionHeader
                   nombre={item.usuario_comun.nombre}
@@ -65,10 +65,15 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
                   eliminarPublicacion={eliminarPublicacion}
                   editarPublicacion={editarPublicacion}
                   textoEdicion={item.texto}
+                  publicacionCompartida={item.publicacion_compartida}
                 />
-                <Publicaciones item={item} id={item.usuario_comun.id}  idMe={userInfo.id}/>
-              
-                <Acciones resumen_reaccion={item.resumen_reaccion} publicacionId={item.id} 
+                   <Publicaciones item={item} id={item.usuario_comun.id}  idMe={userInfo.id}/>
+                 {item.publicacion_compartida!==null ? <PublicacionCompartida item={item.publicacion_compartida}/>
+                      :
+                     null
+                 }
+                 
+                 <Acciones resumen_reaccion={item.resumen_reaccion} publicacionId={item.id} 
                 comentarios={item.comentarios}  userInfo={userInfo}
                 idOtroUsuario={item.usuario_comun.id}
                 />
@@ -136,4 +141,17 @@ export function CargandoPublicacion() {
     </Card>
 
   );
+}
+
+export function PublicacionCompartida({item}){
+  return (
+    <div className="border border-light rounded">
+     {
+       item.publicacion!==null
+       ?item.publicacion.usuario_comun.nombre
+       :"Publciacion Borrada"
+     }
+
+  </div>
+  )
 }

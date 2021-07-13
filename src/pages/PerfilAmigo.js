@@ -95,7 +95,6 @@ export function DevolucionMuro({loading,lo_sigo,otroUsuarioInfo,setTipoFiltro,da
     return    <div className="col-md-8 offset-md-2 mb-4"> 
     <Typography variant="h4" gutterBottom>
      Debes seguir al usuario para ver sus publicaciones
-     <center><img src="https://media1.giphy.com/media/zCpYQh5YVhdI1rVYpE/giphy.gif" className="mt-1" alt="asd"/></center>
    </Typography>
    </div>
   }else{
