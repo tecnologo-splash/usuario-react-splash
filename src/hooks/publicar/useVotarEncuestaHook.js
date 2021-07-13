@@ -4,8 +4,9 @@ import {ACTIONS,EncuestaVotacionReducer,initialState} from '../../contexts/Encue
 
 export function useVotarEncuestaHook({encuestaPublicacion=[]}){
     const [store,dispatch]=useReducer(EncuestaVotacionReducer,initialState);
-    const{encuestaActiva,votada,totalVotos,encuesta}=store;
+    const{encuestaActiva,votada,totalVotos,encuesta,mensajeError}=store;
     const [loading,setLoading]=useState(true);
+console.log("here")
     useEffect(() => {
       setLoading(true);
       const votosTotales=totalVotosEncuesta(encuestaPublicacion);
@@ -33,16 +34,22 @@ export function useVotarEncuestaHook({encuestaPublicacion=[]}){
        const response=await VotarEncuesta({publicacionId,opcionIdEncuesta});
       console.log(response);
       console.log(encuesta);
-
+    if(typeof response.status==="undefined"){//ok
       encuesta.opcion_id_votada=opcionIdEncuesta;
-        encuesta.opciones.map((i)=>{
-          if(i.id===opcionIdEncuesta){
-              i.cantidad_votos++;
-          }
-        })
-        console.log(encuesta);
-        encuesta.totalVotos=encuesta.totalVotos+1;
-      dispatch({ type: ACTIONS.DATOS_ENCUESTA, payload:encuesta });
+      encuesta.opciones.map((i)=>{
+        if(i.id===opcionIdEncuesta){
+            i.cantidad_votos++;
+        }
+      })
+      console.log(encuesta);
+      encuesta.totalVotos=encuesta.totalVotos+1;
+     dispatch({ type: ACTIONS.DATOS_ENCUESTA, payload:encuesta });
+    }else{
+      dispatch({ type: ACTIONS.MENSAJE_ERROR, payload:response.message});
+
+      
+    }
+   
 
     }
     const validarCierreEncuesta=(fecha_cierre)=>{
@@ -72,7 +79,8 @@ export function useVotarEncuestaHook({encuestaPublicacion=[]}){
         totalVotos,
         totalVotosEncuesta,
         validarCierreEncuesta,
-        loading
+        loading,
+        mensajeError
         
     }
   

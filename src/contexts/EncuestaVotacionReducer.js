@@ -1,7 +1,8 @@
 const ACTIONS = {
     VOTAR:'votar',
     ESTADO_ENCUESTA:'estado_encuesta',
-    DATOS_ENCUESTA:'datos_encuesta'
+    DATOS_ENCUESTA:'datos_encuesta',
+    MENSAJE_ERROR:'mensaje_error'
 
 }
 const initialState= {
@@ -13,7 +14,8 @@ const initialState= {
     encuestaActiva:{
         estado:null,
         fechaCierre:null
-    }
+    },
+    mensajeError:''
 };
 const EncuestaVotacionReducer = (state, action) => {
    // console.log("-->",action.payload);
@@ -34,7 +36,14 @@ const EncuestaVotacionReducer = (state, action) => {
                 return{
                     ...state,
                     encuesta:action.payload,
+                    mensajeError:''
              }
+             case ACTIONS.MENSAJE_ERROR:
+                return{
+                    ...state,
+                    mensajeError:action.payload,
+             }
+             
         default:
             return new Error(`Accion ${action.type} no definida`);
     }

@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import CardHeader from "@material-ui/core/CardHeader";
 import {PerfilAvatar} from '../Perfil/PerfilAvatar';
 import IconButton from "@material-ui/core/IconButton";

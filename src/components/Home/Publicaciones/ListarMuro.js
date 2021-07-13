@@ -69,11 +69,12 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
                   publicacionCompartida={item.publicacion_compartida!==null ? " - Publicacion compartida":""}
                 />
                    <Publicaciones item={item} id={item.usuario_comun.id}  idMe={userInfo.id}/>
-                 {item.publicacion_compartida!==null ? <PublicacionCompartida
-                  item={item.publicacion_compartida} 
-                  meId={userInfo.id}
-                  />
-                      :
+                 {item.publicacion_compartida!==null ?
+                    <PublicacionCompartida
+                    item={item.publicacion_compartida} 
+                    meId={userInfo.id}
+                    />
+                    :
                      null
                  }
                  
@@ -148,7 +149,6 @@ export function CargandoPublicacion() {
 }
 
 export function PublicacionCompartida({item,meId}){
-  console.log(  item.publicacion);
   return (
     <div className="border border-light rounded">
      {
@@ -164,7 +164,6 @@ export function PublicacionCompartida({item,meId}){
        fecha_publicacion={item.publicacion.fecha_creado}
        meId={meId}
        />
-
        <Publicaciones item={item.publicacion} id={item.publicacion.usuario_comun.id}  idMe={meId}/>
       </>
        :<center>Publciacion Borrada por el creador de la misma</center>

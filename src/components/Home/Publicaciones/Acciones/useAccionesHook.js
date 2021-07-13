@@ -1,5 +1,5 @@
 import {useState,useEffect,useReducer} from 'react';
-import { ReaccionarAPublicacion,BorrarReaccionarAPublicacion,Publicacion } from '../../../../services/MuroApi';
+import { ReaccionarAPublicacion,BorrarReaccionarAPublicacion } from '../../../../services/MuroApi';
 import { ACTIONS, AccionesReducer, initialStateCuenta } from '../../../../contexts/AccionesReducer';
 
 export function useAccionesHook({resumen_reaccion = [], publicacionId,comentarios,userInfo,idOtroUsuario}){
@@ -49,7 +49,7 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
       setAnchorEl(null);
   }
 
-      
+
 return {
     handleClick,handleExpandClick,
     handlePopoverClose,openReaccion,

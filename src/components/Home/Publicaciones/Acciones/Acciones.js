@@ -50,8 +50,9 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
           setAnchorEl,
           expanded,
           openReact,setReacciones,reacciones,handleClickAgregarReaccion,
-          cantidadComentarios,setCantidadComentarios,setMiReaccion 
+          cantidadComentarios,setCantidadComentarios,setMiReaccion
         }=useAccionesHook({resumen_reaccion, publicacionId,comentarios,userInfo,idOtroUsuario});
+
 const [openModal,setOpenModal]=useState(false);
 
 const handleClickCompartir=()=>{
@@ -132,7 +133,7 @@ return (
         </Button>
 
 {
-  compartir===null ?<Button
+  compartir===null && userInfo.id!==idOtroUsuario?<Button
   className="flex-fill bd-highlight"
   style={{ textTransform: 'none', color: 'grey' }}
   onClick={handleClickCompartir}
@@ -155,7 +156,7 @@ return (
        cantidadComentarios={cantidadComentarios}
      />  
 {openModal ?
-  <ModalCompartirPublicacion open={true} setOpen={setOpenModal}/>
+  <ModalCompartirPublicacion open={true} setOpen={setOpenModal} publicacionId={publicacionId}/>
 :null
 }
     </>

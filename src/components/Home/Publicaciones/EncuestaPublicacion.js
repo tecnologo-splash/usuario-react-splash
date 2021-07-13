@@ -16,9 +16,9 @@ const selectorCheck = css`
 export default function EncuestaPublicacion({ encuestaPublicacion= [],textoPublicacion=[],id,idMe,publicacionId}) {
   const {
     votarPublicacion,votar,
-    enc,loading
+    enc,loading,mensajeError
   }=useVotarEncuestaHook({encuestaPublicacion});
-
+console.log(enc);
   return (
 
         <CardContent>
@@ -46,6 +46,16 @@ export default function EncuestaPublicacion({ encuestaPublicacion= [],textoPubli
             !loading ?      <small className="d-flex flex-row-reverse mt-1"> {enc.fechaCierre}</small>
             :null
           }
+          {
+            mensajeError!=='' ?
+            <center>
+            <Typography variant="button" display="block" color="secondary">
+             {mensajeError}
+            </Typography>
+          </center>
+            :null
+          }
+      
         </CardContent>
 
   );
@@ -69,12 +79,12 @@ export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada,encuestaActiv
      </div>
       
 
-      <div className="col-md-1 align-self-center pb-2">
+      <div className="col-md-2  pb-2 d-inline-flex pr-0">
         
-        {totalVotos===0 ? "0" : opcion.cantidad_votos*100/totalVotos}%
+        {totalVotos===0 ? "0" :Math.round(opcion.cantidad_votos*100/totalVotos * 10) / 10} %
         
          </div>
-      <div className="col-md-10">
+      <div className="col-md-9 pl-0">
 
         <div className="progress position-relative border mb-1" style={{ height: "35px", backgroundColor: '#FFFFFF' }}>
 
@@ -90,9 +100,4 @@ export function Opciones({ opcion=[],totalVotos=0,opcion_id_votada,encuestaActiv
       </div>
     </>
   )
-}
-
-export function Votaciones({opcion_id_votada,opcionId,votarPublicacion,idPublicacion,votar,encuestaActivaEstado}){
-
-
 }
