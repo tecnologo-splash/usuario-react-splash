@@ -1,7 +1,8 @@
 import React,{useEffect,useRef, useState,useCallback} from 'react';
 import {InputMensaje} from './InputMensaje';
 import {ButtonChatGrupal} from '../ButtonChatGrupal';
-
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import {HeaderChat} from '../HeaderChat';
 import {PerfilAvatar} from '../../Home/Perfil/PerfilAvatar';
 import {Mensaje} from './Mensaje';
@@ -10,6 +11,7 @@ import debounce from 'just-debounce-it';
 
 
 export function ListaMensajes({chatIdSelected,idMe,convHeader,msg_pusher}){
+  const estiloCursor=css`cursor:pointer; margin-right:20px`;
 
   const messagesEndRef = useRef(null)
   const [enviado,setEnviado]=useState(true);
@@ -21,9 +23,22 @@ export function ListaMensajes({chatIdSelected,idMe,convHeader,msg_pusher}){
 useEffect(() => {
 if(msg_pusher.chat_id===convHeader.chat_id){
   console.log(msg_pusher)
+  const fechaFormateada=fechaFormatoPusher(msg_pusher.fecha_envio);
+  msg_pusher.fecha_envio=fechaFormateada;
   dispatchDataPusher({data:msg_pusher});
 }
 },[msg_pusher])
+
+const fechaFormatoPusher=(fecha_pusher)=>{
+  let fecha = new Date(fecha_pusher);
+  var dateStr =
+    ("00" + fecha.getDate()).slice(-2) + "/" +
+    ("00" + (fecha.getMonth() + 1)).slice(-2) + "/" +
+    fecha.getFullYear() + " " +
+    ("00" + fecha.getHours()).slice(-2) + ":" +
+    ("00" + fecha.getMinutes()).slice(-2);
+    return dateStr;
+}
 
 useEffect(() => {
  // listarMensajesDelChat();
@@ -72,7 +87,7 @@ useEffect(() => {
                 </div>
       </HeaderChat>          
     <div className="message-list sidebar  custom-scrollbar border">
-      <div  className="col-md-12 mb-3" ref={externalRef} onClick={handleClick}>
+      <div  className="col-md-12 mb-3" ref={externalRef} onClick={handleClick} css={estiloCursor}>
         <center>Cargar más mensajes</center>
       </div>
       

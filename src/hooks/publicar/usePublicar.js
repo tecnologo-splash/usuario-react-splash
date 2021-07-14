@@ -25,10 +25,7 @@ export function usePublicar(){
       setTipooPublicacion("texto");
     }
   
-    const pepe = (emoji, e) => {
-      console.log(emoji, e);
-    };
-  
+
     const handlePopoverClose = () => {
       setAnchorEl(null);
     };
@@ -41,28 +38,38 @@ export function usePublicar(){
             }else{
               publicarEnlaceExterno(url,textoPublicacion);
               setMensajeError('');
+              setTipooPublicacion('texto');
+              setTextoPublicacion('');
             }
            
           }else if(tipoPublicacion==="texto"){
             //publicar(textoPublicacion);
             publicarSoloTexto(textoPublicacion);
+            setTipooPublicacion('texto');
+            setTextoPublicacion('');
           }else if(tipoPublicacion==="multimedia"){
-            console.log(multimedia);
             if(cantFotos>4 && cantFotos<1){
               setMensajeError('Error, Debe ingresar al menos un elemento de multimedia');
             }else{
               upLoadMultimedia(multimedia,textoPublicacion,cantFotos);
               setMensajeError('');
+              setTipooPublicacion('texto');
+              setTextoPublicacion('');
             }
           }else if(tipoPublicacion==="encuesta"){
             validacionEncuesta();
+        
+
           }
+
         }else{
           setMensajeError('Error, Debe ingresar al menos un texto');
 
         }
     }
-
+    const handlePopoverOpen=(e)=>{
+      setAnchorEl(e.currentTarget)
+    }
 
     const validacionEncuesta=()=>{
       if(opcionesEncuesta['opcion_1']==='' || opcionesEncuesta['opcion_2']==='' || opcionesEncuesta['fecha_cierre_encuesta']===''){
@@ -92,6 +99,8 @@ export function usePublicar(){
         //  console.log(valorMinutoTotal);
           publicarEncuesta(textoPublicacion,opciones,valorMinutoTotal);
           setMensajeError('');
+          setTipooPublicacion('texto');
+          setTextoPublicacion("");
       }else{
         setMensajeError('Error, Fecha Hora de cierre anterior a la actual');
       }
@@ -107,10 +116,10 @@ export function usePublicar(){
         anchorEl,
         visible, 
         setVisible,
-        pepe,
         setTextoPublicacion,
         textoPublicacion,
         setUrl,
+        setAnchorEl,
         url,
         multimedia,
         setMultimedia,
@@ -118,7 +127,8 @@ export function usePublicar(){
         setCantFotos,
         opcionesEncuesta,
         setOpcionesEncuesta,
-        mensajeError
+        mensajeError,
+        handlePopoverOpen
     }
   
 }

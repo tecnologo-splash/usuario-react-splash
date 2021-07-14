@@ -4,11 +4,16 @@ import { css } from "@emotion/react";
 import TextField from '@material-ui/core/TextField';
 import NearMeIcon from '@material-ui/icons/NearMe';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import AttachFileIcon from '@material-ui/icons/AttachFile';
+import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
+import Popover from "@material-ui/core/Popover";
 
 export function InputMensaje({chatIdSelected,sendMensajeDesdeChat,setEnviado}){
   const estiloCursor=css`cursor:pointer; margin-right:20px`;
   const [texto,setTexto]=useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+
   const handleChange=(e)=>{
     setTexto(e.target.value);
   }
@@ -42,8 +47,8 @@ export function InputMensaje({chatIdSelected,sendMensajeDesdeChat,setEnviado}){
               onChange={handleChange}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start" css={estiloCursor}>
-                    <AttachFileIcon/>
+                  <InputAdornment position="start" css={estiloCursor} onClick={(e)=> setAnchorEl(e.currentTarget)}>
+                    <InsertEmoticonIcon />
                   </InputAdornment>
                 ),
                   endAdornment: (
@@ -53,6 +58,28 @@ export function InputMensaje({chatIdSelected,sendMensajeDesdeChat,setEnviado}){
                   )
                 }}
             />
+
+            
+          <Popover
+            open={ Boolean(anchorEl)}
+            anchorEl={anchorEl}
+            onClose={()=> setAnchorEl(null)}
+            disableScrollLock 
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+          >
+            <Picker
+              set="facebook"
+             onSelect={emoji => setTexto(texto + emoji.native)}
+            />
+          </Popover>
   
 </>
     )

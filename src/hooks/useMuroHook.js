@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect } from 'react';
 import { ListarPublicacionMisSegudiores,PublicarSoloTexto,EliminarPublicacion,EditarPublicacion,SubirMultimedia,PublicarEnlaceExterno,GetReacciones } from '../services/MuroApi';
 import {requestPrevieURL} from '../services/GeneralApi';
 import { INITIAL_PAGE } from '../config/api/settings';
@@ -53,7 +53,8 @@ const { getReacciones,
      publicarEnlaceExterno,getReacciones,publicarEncuesta }
   }
 
-//
+// funciones muro
+
 export function useFuncionesDelMuro(){
   const dispatch=useDispatch();
   const store=useStore();

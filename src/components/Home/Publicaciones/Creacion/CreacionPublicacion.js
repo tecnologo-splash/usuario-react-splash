@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { PerfilAvatar } from '../../Perfil/PerfilAvatar';
@@ -26,16 +26,17 @@ export default function CrearPublicacion({publicar,userInfo}) {
     anchorEl,
     setUrl,
     visible,
-    pepe,
     setTextoPublicacion,
     textoPublicacion,
     open,
+    setAnchorEl,
     cantFotos,
     setMultimedia,
     setCantFotos,
     opcionesEncuesta,
     setOpcionesEncuesta,
-    mensajeError
+    mensajeError,
+    handlePopoverOpen
   }=usePublicar();
   
   
@@ -51,20 +52,14 @@ export default function CrearPublicacion({publicar,userInfo}) {
           <div className="col-md-11 align-self-center pl-0 ">
           <InputPublicacion setTexto={setTextoPublicacion}
           textoPublicacion={textoPublicacion}
+          handlePopoverOpen={handlePopoverOpen}
           />
           </div>
         </div>
 
 
         <CardContent>
-          {visible ? (
-            <Picker
-              set="facebook"
-              onClick={(emoji, event) => pepe(emoji, event)}
-            />
-          ) : (
-            ""
-          )}
+             
           {/* <Emoji emoji=':santa:' size={32} />*/}
            
            <center>
@@ -110,21 +105,24 @@ export default function CrearPublicacion({publicar,userInfo}) {
 
 
           <Popover
-            open={open}
+            open={Boolean(anchorEl)}
             anchorEl={anchorEl}
             onClose={handlePopoverClose}
+            disableScrollLock 
             anchorOrigin={{
-              vertical: "top",
-              horizontal: "left",
+              vertical: 'top',
+              horizontal: 'left',
             }}
             transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
+              vertical: 'top',
+              horizontal: 'right',
             }}
+            keepMounted
           >
             <Picker
               set="facebook"
-              onClick={(emoji, event) => pepe(emoji, event)}
+              emoji="point_up"
+             onSelect={emoji => setTextoPublicacion(textoPublicacion + emoji.native)}
             />
           </Popover>
  

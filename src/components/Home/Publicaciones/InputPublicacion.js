@@ -7,7 +7,7 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 
 import {useStyles} from '../../StyleInputPublicacion';
 
-export function InputPublicacion({setTexto,textoPublicacion,placeH='¿Alguna idea interesante que publicar?'}){
+export function InputPublicacion({setTexto,textoPublicacion,placeH='¿Alguna idea interesante que publicar?',handlePopoverOpen}){
     const classes = useStyles();
 
     const handleChangeTexto=(e)=>{
@@ -39,7 +39,7 @@ export function InputPublicacion({setTexto,textoPublicacion,placeH='¿Alguna ide
             endAdornment={
               <Tooltip title="Agregar Emoji">
                 <IconButton aria-haspopup="true" 
-               //  onClick={handlePopoverOpen}
+                onClick={handlePopoverOpen}
                 >
                   <EmojiEmotionsIcon />
                 </IconButton>

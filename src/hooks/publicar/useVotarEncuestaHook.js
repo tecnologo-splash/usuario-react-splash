@@ -1,4 +1,4 @@
-import  {useState,useEffect,useReducer,useCallback} from 'react';
+import  {useState,useEffect,useReducer} from 'react';
 import {VotarEncuesta} from '../../services/MuroApi';
 import {ACTIONS,EncuestaVotacionReducer,initialState} from '../../contexts/EncuestaVotacionReducer';
 
@@ -6,7 +6,7 @@ export function useVotarEncuestaHook({encuestaPublicacion=[]}){
     const [store,dispatch]=useReducer(EncuestaVotacionReducer,initialState);
     const{encuestaActiva,votada,totalVotos,encuesta,mensajeError}=store;
     const [loading,setLoading]=useState(true);
-console.log("here")
+
     useEffect(() => {
       setLoading(true);
       const votosTotales=totalVotosEncuesta(encuestaPublicacion);
@@ -56,8 +56,8 @@ console.log("here")
         let today = new Date();
         let fechaCierre = new Date(fecha_cierre);
         var dateStr =
-          ("00" + (fechaCierre.getMonth() + 1)).slice(-2) + "/" +
           ("00" + fechaCierre.getDate()).slice(-2) + "/" +
+          ("00" + (fechaCierre.getMonth() + 1)).slice(-2) + "/" +
           fechaCierre.getFullYear() + " " +
           ("00" + fechaCierre.getHours()).slice(-2) + ":" +
           ("00" + fechaCierre.getMinutes()).slice(-2);
