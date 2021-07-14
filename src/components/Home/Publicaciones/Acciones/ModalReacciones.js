@@ -5,8 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { useMuroHook } from '../../../../hooks/useMuroHook';
+import { useFuncionesDelMuro } from '../../../../hooks/useMuroHook';
 import { Reaccion } from './Reaccion'
 
 export function ModalReacciones({pubId, openModal,setOpenModal}){
@@ -15,11 +14,11 @@ export function ModalReacciones({pubId, openModal,setOpenModal}){
       setOpenModal(false);
   }
 
-  const { reacciones, getReacciones } = useMuroHook({ tipo_filtro: '' });
+  const { reacciones, getReacciones } = useFuncionesDelMuro();
 
   useEffect(() => {
     getReacciones(pubId);
-    console.log(reacciones)
+    console.log("***",reacciones)
   }, [])
 
   //! aca meter el hook que traiga la data. ni me caliento

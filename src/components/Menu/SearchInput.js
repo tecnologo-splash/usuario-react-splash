@@ -13,7 +13,6 @@ export default function SearchInput() {
     let verMas = {verMas:true,usuario:"",nombre:"",apellido:"",url_perfil:"",id:0}
     
     const [users,setUsers] = useState([verMas])
-    const [inputValue,setInputValue] = useState("")
     const [textFieldValue,setTextFieldValue] = useState("")
     const [usuarios, setUsuarios] = useState([]);
     const location = useLocation();

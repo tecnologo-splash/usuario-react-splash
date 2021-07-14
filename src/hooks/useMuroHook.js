@@ -53,10 +53,11 @@ const { getReacciones,
      publicarEnlaceExterno,getReacciones,publicarEncuesta }
   }
 
+//
 export function useFuncionesDelMuro(){
   const dispatch=useDispatch();
   const store=useStore();
- const { datos } = store;
+ const { datos,reacciones } = store;
 
   const publicarSoloTexto=async(t)=>{
     console.log(t);
@@ -151,6 +152,7 @@ export function useFuncionesDelMuro(){
   }
 
   return {
+    reacciones,
     getReacciones,
     publicarEnlaceExterno,
     upLoadMultimedia,

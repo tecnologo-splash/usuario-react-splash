@@ -65,7 +65,6 @@ export function MenuHeader(){
   }));
   const classes = useStyles();
 
-  const [data,setData]=useState([""]);
 
   const estiloCursor=css`cursor:pointer; border-radius: 10px`;
 

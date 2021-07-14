@@ -28,7 +28,7 @@ export default function PerfilAmigo() {
   const { dejarDeSeguir, comensarASeguir,lo_sigo } = FuncionesAmigos();
   useEffect(() => {
       getDatosOtroUsuario(id);
-   }, [])
+   }, [id])
 
    useEffect(()=>{
      if(typeof  datos==="undefined" && lo_sigo){

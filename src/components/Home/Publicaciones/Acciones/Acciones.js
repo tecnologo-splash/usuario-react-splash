@@ -43,30 +43,26 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
   const { handleClick,
           handleExpandClick,
           handlePopoverClose,
-          setOpenReact,
+          setOpenModalReacciones,
           openReaccion,
           open,
           anchorEl,
           setAnchorEl,
           expanded,
-          openReact,setReacciones,reacciones,handleClickAgregarReaccion,
-          cantidadComentarios,setCantidadComentarios,setMiReaccion
+          opeReacciones,setReacciones,reacciones,handleClickAgregarReaccion,handleClickCompartir,
+          cantidadComentarios,setCantidadComentarios,setMiReaccion, openModalCompartir,setOpenModalCompartir
         }=useAccionesHook({resumen_reaccion, publicacionId,comentarios,userInfo,idOtroUsuario});
 
-const [openModal,setOpenModal]=useState(false);
 
-const handleClickCompartir=()=>{
-  setOpenModal(true);
-}
 
 return (
     <>
   {
-    openReact ? 
+    opeReacciones ? 
     <ModalReacciones
       pubId = {publicacionId}
-      openModal = {openReact}
-      setOpenModal = {setOpenReact}
+      openModal = {opeReacciones}
+      setOpenModal = {setOpenModalReacciones}
     />
     : null
   }
@@ -155,8 +151,8 @@ return (
        setCantidadComentarios={setCantidadComentarios}
        cantidadComentarios={cantidadComentarios}
      />  
-{openModal ?
-  <ModalCompartirPublicacion open={true} setOpen={setOpenModal} publicacionId={publicacionId}/>
+{openModalCompartir ?
+  <ModalCompartirPublicacion open={true} setOpen={setOpenModalCompartir} publicacionId={publicacionId}/>
 :null
 }
     </>

@@ -6,7 +6,7 @@ import NearMeIcon from '@material-ui/icons/NearMe';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 
-export function InputMensaje({chatIdSelected,sendMensajeDesdeChat}){
+export function InputMensaje({chatIdSelected,sendMensajeDesdeChat,setEnviado}){
   const estiloCursor=css`cursor:pointer; margin-right:20px`;
   const [texto,setTexto]=useState('');
   const handleChange=(e)=>{
@@ -17,6 +17,7 @@ export function InputMensaje({chatIdSelected,sendMensajeDesdeChat}){
     const dataToSend={mensaje:texto,tipo_mensaje:'TEXTO',chat_id:chatIdSelected};
     sendMensajeDesdeChat({dataToSend});
     setTexto('');
+    setEnviado(true);
   }
   
   const handleKeyPress=(e)=>{

@@ -10,8 +10,11 @@ import debounce from 'just-debounce-it';
 
 
 export function ListaMensajes({chatIdSelected,idMe,convHeader,msg_pusher}){
-  const messageRef = useRef(null)
-const {  lstMensajes,loading,setPage,
+
+  const messagesEndRef = useRef(null)
+  const [enviado,setEnviado]=useState(true);
+
+  const {  lstMensajes,loading,setPage,
   sendMensajeDesdeChat,listarMensajesDelChat,
   dispatchDataPusher}=useMensajesChat(chatIdSelected);
 
@@ -27,36 +30,36 @@ useEffect(() => {
   setPage(0);
   },[chatIdSelected])
   
-useEffect(() => {
-  if (messageRef.current) {
-    messageRef.current.scrollIntoView(
-      {
-        behavior: 'smooth',
-        block: 'end',
-        inline: 'nearest'
-      })
-  }
-})
-
-
 const externalRef = useRef();
-
-
 
 const debounceHandleNextPage = useCallback(debounce(
   () =>
     setPage(prevPage => prevPage + 1)
   , 200), [setPage])
-const handleClick=()=>{
-  debounceHandleNextPage();
-}
+
+
 /*
 useEffect(function () {
  // if (isNearScreen) debounceHandleNextPage()
 }, [debounceHandleNextPage, isNearScreen])
 
 */
+const handleClick=()=>{
+  setEnviado(false)
+  debounceHandleNextPage();
+}
 
+
+const scrollToBottom = () => {
+  messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+}
+useEffect(() => {
+  if(enviado){
+    scrollToBottom()
+
+  }
+
+}, [lstMensajes]);
 
   return(
         <>
@@ -86,6 +89,7 @@ useEffect(function () {
 
                 ))
             }
+      <div ref={messagesEndRef} />
 
      </div>
            
@@ -93,7 +97,7 @@ useEffect(function () {
 </div>
     
     <ButtonChatGrupal/>
-    <InputMensaje chatIdSelected={chatIdSelected} sendMensajeDesdeChat={sendMensajeDesdeChat}/>
+    <InputMensaje chatIdSelected={chatIdSelected} sendMensajeDesdeChat={sendMensajeDesdeChat} setEnviado={setEnviado}/>
 
 </>
     

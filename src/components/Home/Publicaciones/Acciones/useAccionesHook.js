@@ -6,12 +6,13 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
     const [expanded, setExpanded] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     //const [reacciones, setReacciones] = useState(resumen_reaccion);
-    const [openReact, setOpenReact] = useState(false);
+    const [openModalCompartir,setOpenModalCompartir]=useState(false);
+    const [opeReacciones, setOpenModalReacciones] = useState(false);
     const [cantidadComentarios,setCantidadComentarios]=useState(0);
     const [store,dispatch]=useReducer(AccionesReducer,initialStateCuenta);
     const {reacciones}=store;
+
     useEffect(()=>{
-        //setReacciones(prev=>prev=resumen_reaccion);
         setCantidadComentarios(comentarios.length);
         dispatch({ type: ACTIONS.REACCIONAR, payload: resumen_reaccion});
     },[resumen_reaccion,publicacionId])
@@ -27,7 +28,7 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
     };
 
       const handleClick = () => {
-        setOpenReact(true)
+        setOpenModalReacciones(true)
       }
 
       const openReaccion= async(e)=>{
@@ -49,12 +50,16 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
       setAnchorEl(null);
   }
 
+  const handleClickCompartir=()=>{
+    setOpenModalCompartir(true);
+  }
 
 return {
     handleClick,handleExpandClick,
     handlePopoverClose,openReaccion,
-    open,expanded,openReact,setOpenReact,anchorEl,setAnchorEl,reacciones,
-    cantidadComentarios,setCantidadComentarios,handleClickAgregarReaccion
+    open,expanded,opeReacciones,setOpenModalReacciones,anchorEl,setAnchorEl,reacciones,
+    cantidadComentarios,setCantidadComentarios,handleClickAgregarReaccion,
+    openModalCompartir,setOpenModalCompartir,handleClickCompartir
 
 }
 
