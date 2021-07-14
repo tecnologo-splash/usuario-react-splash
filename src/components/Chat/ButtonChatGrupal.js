@@ -9,14 +9,14 @@ export function ButtonChatGrupal({}){
         <>
         <div className="col-md-3 offset-md-2 border p-0 d-flex align-items-center justify-content-center">
     
-        <Button
+    {/*    <Button
           variant="outlined"
           color="primary"
           startIcon={<GroupAddIcon />}
         >
           Crear Chat Grupal
         </Button>
-  
+ */}
         </div>
   
 </>
