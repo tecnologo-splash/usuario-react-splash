@@ -17,12 +17,12 @@ export function UsuarioBadge({user}){
   const estilo = css`cursor:pointer;`
 
   return (
-    <>  
+    <>
     { user ? 
       <Grid item xs={6}>
         <Grid container>
           <Grid item xs className="mt-3" align="center">
-            <Avatar css={estilo} onClick={goToPerfil} src={URL_BASE_FILE_STORAGE + user.url_perfil}>{user.nombre.slice(0,1).toUpperCase()}</Avatar>
+            <Avatar css={estilo} onClick={goToPerfil} src={user.url_perfil ? URL_BASE_FILE_STORAGE + user.url_perfil : process.env.PUBLIC_URL + '/recursos/svg/perfil_sin_imagen.svg'}>{user.nombre.slice(0,1).toUpperCase()}</Avatar>
           </Grid>
           <Grid item xs={9} className="mt-3">
             <Grid item xs={12}>
