@@ -68,7 +68,7 @@ export function VisualizarPerfilOtroUsuario({ otroUsuarioInfo, loading,dejarDeSe
                         </div>
                         <hr />
                         <Typography variant="h6" className="d-flex justify-content-center mb-3">
-                            ¿Quien soy?
+                            ¿Quién soy?
                         </Typography>
                         <div>
                             {loading ?
