@@ -8,6 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {StyledMenu,StyledMenuItem} from '../../StyledMenus';
 import { useHistory } from "react-router-dom";
+import {EmojiPopover} from '../EmojiPopover';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -90,6 +91,7 @@ export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,
        Eliminar
       </StyledMenuItem>
     </StyledMenu>
+
     <ModalEditarTextoPublicacion 
     open={open} 
     setOpen={setOpen}
@@ -108,18 +110,21 @@ export function PublicacionHeader({nombre,apellido,usuario,url_perfil,id,
 
 export function ModalEditarTextoPublicacion({open,setOpen,textoPublicacion,editarPublicacion,publicacionId}){
  const [texto,setTexto]=useState(textoPublicacion);
+ const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClose = () => {
     setOpen(false);
   };
+  const handlePopoverOpen=(e)=>{
+    setAnchorEl(e.currentTarget)
 
+  }  
 
   const editar=()=>{
     editarPublicacion(publicacionId,texto);
-    handleClose();
-
-    
+    handleClose();    
   }
+
   return (
     <div>
 
@@ -130,7 +135,7 @@ export function ModalEditarTextoPublicacion({open,setOpen,textoPublicacion,edita
     <InputPublicacion
     setTexto={setTexto}
     textoPublicacion={texto}
-  // handlePopoverOpen={handlePopoverOpen}
+   handlePopoverOpen={handlePopoverOpen}
     />        
 
       </DialogContent>
@@ -143,6 +148,21 @@ export function ModalEditarTextoPublicacion({open,setOpen,textoPublicacion,edita
         </Button>
       </DialogActions>
     </Dialog>
+
+
+    {
+          anchorEl ?
+
+          <EmojiPopover 
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          seTexto={setTexto}
+          texto={texto}
+          />
+   
+          : null
+        }
+
   </div>
   )
 }
