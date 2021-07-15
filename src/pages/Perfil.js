@@ -22,7 +22,7 @@ export default function Perfil() {
  const classes = useStyles();
 const location = useLocation();
 const { userInfo, loading,getDatos } = useInfoUserHook();
-const {  datos, setPage,setTipoFiltro,editarPublicacion,eliminarPublicacion } 
+const {  datos, setPage,setTipoFiltro,editarPublicacion,eliminarPublicacion,tipoFiltro } 
   = usePublciacionesUsuario({usuarioId:userInfo.id,tipo:'yo'});
 
 useEffect(function () {
@@ -56,6 +56,7 @@ useEffect(function () {
                 eliminarPublicacion={eliminarPublicacion}
                 editarPublicacion={editarPublicacion}
                 setTipoFiltro={setTipoFiltro}
+                tipoFiltro={tipoFiltro}
                     />
                     : <div className="col-md-8 offset-md-2 mb-4">   <>
                     <CargandoPublicacion /><br/><CargandoPublicacion /></>

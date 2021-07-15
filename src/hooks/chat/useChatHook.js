@@ -37,7 +37,7 @@ const enviarMensajeChat=async(mensaje,usuarioIdDos)=>{
                 mensaje: mensaje,
                 tipo_mensaje: "TEXTO"
             }
-          const response= await CrearChatIndividuar({data});
+          await CrearChatIndividuar({data});
     //      console.log(response)
         }
 }

@@ -21,11 +21,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function ListarMuro({userInfo,loading, datos=[], setPage, 
-  eliminarPublicacion, editarPublicacion,setTipoFiltro }) {
+  eliminarPublicacion, editarPublicacion,setTipoFiltro,tipoFiltro }) {
   const externalRef = useRef();
 
-      console.log(datos);
-      console.log(loading);
   const { isNearScreen } = useNearScreen({
     externalRef: loading ? null : externalRef,
     once: false
@@ -42,7 +40,7 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
 
   return (
     <>
-        <FiltroPublicacion setTipoFiltro={setTipoFiltro}/>
+        <FiltroPublicacion setTipoFiltro={setTipoFiltro} tipoFiltro={tipoFiltro}/>
     
 
       {loading 

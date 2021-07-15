@@ -59,5 +59,5 @@ export function usePublciacionesUsuario({usuarioId,tipo='amigo' }) {
 
   }
 
-  return { cargando, loadingNextPage, datos, setPage,page,INITIAL_PAGE,setTipoFiltro,editarPublicacion,eliminarPublicacion,obtenerPublicacionesAmigo  }
+  return { cargando, loadingNextPage, datos, setPage,page,INITIAL_PAGE,setTipoFiltro,editarPublicacion,eliminarPublicacion,obtenerPublicacionesAmigo,tipoFiltro  }
 }

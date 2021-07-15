@@ -25,11 +25,8 @@ export default function CrearPublicacion({publicar,userInfo}) {
     setTipooPublicacion,
     anchorEl,
     setUrl,
-    visible,
     setTextoPublicacion,
     textoPublicacion,
-    open,
-    setAnchorEl,
     cantFotos,
     setMultimedia,
     setCantFotos,
@@ -97,7 +94,7 @@ export default function CrearPublicacion({publicar,userInfo}) {
            setUrl={setUrl}
            />
            {tipoPublicacion==='multimedia'?
-           cantFotos:null}
+          "Cantidad multimedia: "+ cantFotos:null}
           {tipoPublicacion==='encuesta'?
             <OpcionesEncuesta  opcionesEncuesta={opcionesEncuesta}  setOpcionesEncuesta={setOpcionesEncuesta}/>:null
           }

@@ -1,16 +1,8 @@
-import React,{useEffect,useState} from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
 import RightMenuItems from './RightMenuItems';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
-import TextField from '@material-ui/core/TextField';
-import IconButton from '@material-ui/core/IconButton';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import {BuscadorAmigos} from '../../services/SearchAmigos';
-import Avatar from '@material-ui/core/Avatar';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import { useHistory } from "react-router-dom";
 import SearchInput from './SearchInput';
 /** @jsxImportSource @emotion/react */

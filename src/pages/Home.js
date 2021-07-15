@@ -24,7 +24,7 @@ export default function Home() {
   const { userInfo, getDatos } = useInfoUserHook();
 
   const { loading, datos, setPage, 
-    eliminarPublicacion, editarPublicacion,setTipoFiltro }   = useMuroHook();
+    eliminarPublicacion, editarPublicacion,setTipoFiltro,tipoFiltro }   = useMuroHook();
 
   useEffect(function () {
    getDatos();
@@ -56,7 +56,6 @@ console.log("muro")
 
           <ListAmigosSugeridos />
 
-
           <div className="col-md-9">
             <CrearPublicacion userInfo={userInfo}/>
     {
@@ -69,6 +68,7 @@ console.log("muro")
       eliminarPublicacion={eliminarPublicacion}
       editarPublicacion={editarPublicacion}
       setTipoFiltro={setTipoFiltro}
+      tipoFiltro={tipoFiltro}
      />
 
       : <div className="col-md-8 offset-md-2 mb-4">   <>

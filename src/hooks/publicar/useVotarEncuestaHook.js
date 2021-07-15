@@ -30,10 +30,7 @@ export function useVotarEncuestaHook({encuestaPublicacion=[]}){
  
     const votarPublicacion= async(opcionIdEncuesta,publicacionId)=>{
 
-      console.log(opcionIdEncuesta,publicacionId);
        const response=await VotarEncuesta({publicacionId,opcionIdEncuesta});
-      console.log(response);
-      console.log(encuesta);
     if(typeof response.status==="undefined"){//ok
       encuesta.opcion_id_votada=opcionIdEncuesta;
       encuesta.opciones.map((i)=>{
@@ -41,7 +38,6 @@ export function useVotarEncuestaHook({encuestaPublicacion=[]}){
             i.cantidad_votos++;
         }
       })
-      console.log(encuesta);
       encuesta.totalVotos=encuesta.totalVotos+1;
      dispatch({ type: ACTIONS.DATOS_ENCUESTA, payload:encuesta });
     }else{

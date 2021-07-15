@@ -40,6 +40,7 @@ export function usePublicar(){
               setMensajeError('');
               setTipooPublicacion('texto');
               setTextoPublicacion('');
+              setUrl('');
             }
            
           }else if(tipoPublicacion==="texto"){
@@ -55,11 +56,16 @@ export function usePublicar(){
               setMensajeError('');
               setTipooPublicacion('texto');
               setTextoPublicacion('');
+              setCantFotos(0);
             }
           }else if(tipoPublicacion==="encuesta"){
-            validacionEncuesta();
-        
+            if(opcionesEncuesta!==null){
+              validacionEncuesta();
+            }else{
+              setMensajeError('Error, Debe ingresar opciones');
 
+            }
+         
           }
 
         }else{
@@ -101,6 +107,7 @@ export function usePublicar(){
           setMensajeError('');
           setTipooPublicacion('texto');
           setTextoPublicacion("");
+          setOpcionesEncuesta(null);
       }else{
         setMensajeError('Error, Fecha Hora de cierre anterior a la actual');
       }

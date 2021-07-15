@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { ListarPublicacionMisSegudiores,PublicarSoloTexto,EliminarPublicacion,EditarPublicacion,SubirMultimedia,PublicarEnlaceExterno,GetReacciones } from '../services/MuroApi';
 import {requestPrevieURL} from '../services/GeneralApi';
 import { INITIAL_PAGE } from '../config/api/settings';
@@ -48,13 +48,12 @@ const { getReacciones,
   }, [page,tipoFiltro])
 
 
-  return { loading:cargando, loadingNextPage, datos, reacciones,setTipoFiltro,
+  return { loading:cargando, loadingNextPage, datos, reacciones,setTipoFiltro,tipoFiltro,
      setPage,publicarSoloTexto,eliminarPublicacion,editarPublicacion,SubirMultimedia:upLoadMultimedia,
      publicarEnlaceExterno,getReacciones,publicarEncuesta }
   }
 
-// funciones muro
-
+//
 export function useFuncionesDelMuro(){
   const dispatch=useDispatch();
   const store=useStore();

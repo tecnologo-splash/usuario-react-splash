@@ -1,26 +1,28 @@
-import React, { useEffect } from 'react';
+import React,{useState} from 'react';
 import CardContent from "@material-ui/core/CardContent";
 import Collapse from "@material-ui/core/Collapse";
 import { Comentario } from './Comentario';
-import{PerfilAvatar} from '../../Perfil/PerfilAvatar';
+import {useComentarioHook} from '../../../../hooks/comentarios/useComentarioHook';
+import { Divider } from "@material-ui/core";
+import {InputComentario} from './ImputComentario';
 import TextField from '@material-ui/core/TextField';
 import NearMeIcon from '@material-ui/icons/NearMe';
 import InputAdornment from '@material-ui/core/InputAdornment';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import {useComentarioHook} from '../../../../hooks/comentarios/useComentarioHook';
-import { Divider } from "@material-ui/core";
+import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import {EmojiPopover} from '../../EmojiPopover';
 
 export function ListComentarios({expanded, publicacionId,comentarios,userInfo,idOtroUsuario,setCantidadComentarios,cantidadComentarios}) {
-
   const estilo=css`input:focus {
-        background-color: white;
-        }`;
-    const estiloCursor=css`cursor:pointer;`;
-    const {ingresarComentario,eliminarComentario,
+    background-color: white;
+    }`;
+const estiloCursor=css`cursor:pointer;`;
+
+    const {ingresarComentario,eliminarComentario,handleKeyPressComentario,setTexto,
         handleChangeTextComentario,coments,ingresarRespuesta,texto,eliminarRespuestaAComentario}=useComentarioHook({comentarios,publicacionId,setCantidadComentarios,cantidadComentarios});
         //useMemo here
-
+        const [anchorEl, setAnchorEl] = useState(null);
 return (
 <>
       <div className="col-md-12"><Divider /></div>
@@ -32,6 +34,7 @@ return (
                 data={item}
                 idOtroUsuario={idOtroUsuario} 
                 idMe={userInfo.id}
+                urlPerfil={userInfo.url_perfil}
                 eliminarComentario={eliminarComentario}
                 ingresarRespuesta={ingresarRespuesta}
                 eliminarRespuestaAComentario={eliminarRespuestaAComentario}
@@ -40,16 +43,10 @@ return (
         </CardContent>
       </Collapse>
 
-
-
-      <div className="col-md-12 row mb-3">
-    <div className='col-md-1 align-self-center'>
-  
-    <PerfilAvatar img={userInfo.url_perfil} size='small'/>
-    </div>
-    <div className='col-md-11'>
-
-    <TextField
+      <InputComentario
+      urlPerfil={userInfo.url_perfil}
+      >
+      <TextField
             style={{ margin: 8, backgroundColor:'#F1F2F6', border:'10px' }}
             placeholder="Ingrese su comentario"
             fullWidth
@@ -59,17 +56,26 @@ return (
             css={estilo}
             value={texto}
             onChange={(e)=>handleChangeTextComentario(e)}
+            onKeyDown={(e)=>handleKeyPressComentario(e)}
             InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end" css={estiloCursor} onClick={ingresarComentario}>
+                    <>
+                    <InsertEmoticonIcon  css={estiloCursor} onClick={(e)=> setAnchorEl(e.currentTarget)}/>
+                    <InputAdornment position="end" css={estiloCursor} onClick={ingresarComentario}>
                     <NearMeIcon />
-                  </InputAdornment>
+                    </InputAdornment>
+                    </>
                 )
-              }}
-          />
-        </div>      
-</div>
+                }}
+            />
+        </InputComentario>
 
+        <EmojiPopover
+        anchorEl={anchorEl}
+        setAnchorEl={setAnchorEl}
+        seTexto={setTexto}
+        texto={texto}
+        />
 </>
 )
 

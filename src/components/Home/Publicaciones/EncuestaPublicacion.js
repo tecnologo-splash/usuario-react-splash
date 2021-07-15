@@ -18,7 +18,7 @@ export default function EncuestaPublicacion({ encuestaPublicacion= [],textoPubli
     votarPublicacion,votar,
     enc,loading,mensajeError
   }=useVotarEncuestaHook({encuestaPublicacion});
-console.log(enc);
+
   return (
 
         <CardContent>

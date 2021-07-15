@@ -1,4 +1,4 @@
-import {useState,useEffect,useReducer} from 'react';
+import {useEffect,useReducer} from 'react';
 import {SegurenciasDeSeguidores,ComenzarASeguir,DejarDeSeguir} from '../services/SeguidoresApi';
 import { ACTIONS, SugerenciasAmigosReducer, initialStateAmigos } from '../contexts/SugerenciasAmigosReducer';
 export function useAmigosSugeridosHook(){
@@ -29,10 +29,10 @@ export function FuncionesAmigos(){
     
     const [store, dispatch] = useReducer(SugerenciasAmigosReducer, initialStateAmigos);
     const {amigos,paginacion,lo_sigo}=store;
-    console.log(lo_sigo);
+
     const obtenerAmigosSugeridos= async()=>{
         const response=await SegurenciasDeSeguidores({page:paginacion});
-        console.log(response);
+        //console.log(response);
         dispatch({ type: ACTIONS.AMIGOS, payload:  amigos.concat(response) });
     }
 

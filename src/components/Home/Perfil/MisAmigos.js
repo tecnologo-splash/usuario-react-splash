@@ -3,19 +3,14 @@ import "emoji-mart/css/emoji-mart.css";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import Link from "@material-ui/core/Link";
 import {PerfilAvatar} from './PerfilAvatar';
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import {useAmigosSugeridosHook} from '../../../hooks/useAmigosSugeridosHook';
-import {SIZE_SUGERENCIAS_AMIGOS_MURO} from '../../../config/api/settings';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core/styles';
 
 
-export function MisAmigos({}){
+export function MisAmigos(){
 
     const [value, setValue] = useState(0);
     const useStyles = makeStyles({

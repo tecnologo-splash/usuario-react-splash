@@ -18,7 +18,6 @@ export function ModalReacciones({pubId, openModal,setOpenModal}){
 
   useEffect(() => {
     getReacciones(pubId);
-    console.log("***",reacciones)
   }, [])
 
   //! aca meter el hook que traiga la data. ni me caliento

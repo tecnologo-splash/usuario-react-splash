@@ -16,8 +16,8 @@ export function ListaMensajes({chatIdSelected,idMe,convHeader,msg_pusher}){
   const messagesEndRef = useRef(null)
   const [enviado,setEnviado]=useState(true);
 
-  const {  lstMensajes,loading,setPage,
-  sendMensajeDesdeChat,listarMensajesDelChat,
+  const {  lstMensajes,setPage,
+  sendMensajeDesdeChat,
   dispatchDataPusher}=useMensajesChat(chatIdSelected);
 
 useEffect(() => {

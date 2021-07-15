@@ -30,6 +30,7 @@ export function InputMensaje({chatIdSelected,sendMensajeDesdeChat,setEnviado}){
       onClickSendMensaje();
     }
   }
+
   return (
         <>
       <TextField
@@ -76,7 +77,7 @@ export function InputMensaje({chatIdSelected,sendMensajeDesdeChat,setEnviado}){
             keepMounted
           >
             <Picker
-              set="facebook"
+              set="apple"
              onSelect={emoji => setTexto(texto + emoji.native)}
             />
           </Popover>

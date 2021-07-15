@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Chip from '@material-ui/core/Chip';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHandMiddleFinger } from '@fortawesome/free-solid-svg-icons';
 import { faMehRollingEyes } from '@fortawesome/free-solid-svg-icons';
 
-export function FiltroPublicacion({setTipoFiltro}){
+export function FiltroPublicacion({setTipoFiltro,tipoFiltro=''}){
   const [show,setShow]=useState(false);
   const [selected,setSelected]=useState('');
 
@@ -22,7 +22,18 @@ export function FiltroPublicacion({setTipoFiltro}){
   const handleClickReaccopmes=(tipo)=>{
     setTipoFiltro(tipo);
     setSelected(tipo);
+    setShow(true);
+
   }
+
+  useEffect(()=>{
+   //console.log(tipoFiltro);
+    if(tipoFiltro!=='fechaCreado'){
+      setShow(true);
+      setSelected(tipoFiltro);
+
+    }
+  },[tipoFiltro])
 
   return (
         <div className="col-md-8 offset-md-2 mb-4 ">
