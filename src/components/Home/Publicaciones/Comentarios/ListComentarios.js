@@ -23,11 +23,12 @@ const estiloCursor=css`cursor:pointer;`;
         handleChangeTextComentario,coments,ingresarRespuesta,texto,eliminarRespuestaAComentario}=useComentarioHook({comentarios,publicacionId,setCantidadComentarios,cantidadComentarios});
         //useMemo here
         const [anchorEl, setAnchorEl] = useState(null);
+        console.log("here")
 return (
 <>
       <div className="col-md-12"><Divider /></div>
 
-        <Collapse in={expanded} timeout="auto" unmountOnExit >
+       <Collapse in={expanded} timeout="auto" unmountOnExit >
         <CardContent>
             {coments.map((item,index)=>(
                 <Comentario key={index} 
@@ -70,13 +71,19 @@ return (
             />
         </InputComentario>
 
-        <EmojiPopover
+{anchorEl!==null ?
+    <EmojiPopover
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}
         seTexto={setTexto}
         texto={texto}
-        />
-</>
+     />
+: null
+
+}
+        
+
+        </>
 )
 
 }

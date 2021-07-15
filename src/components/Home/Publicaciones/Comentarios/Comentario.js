@@ -11,7 +11,8 @@ import NearMeIcon from '@material-ui/icons/NearMe';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import {EmojiPopover} from '../../EmojiPopover';
-
+const estilo=css`input:focus {background-color: white;}`;
+const estiloCursor=css`cursor:pointer;`;
 const useStyles = makeStyles((theme) => ({
   inputPublicacion: {
     borderRadius: "25px",
@@ -57,10 +58,10 @@ return (
 
 export function Coment({data,size='', tipo='comentario',idOtroUsuario,idMe,eliminarComentario,ingresarRespuesta,
 eliminarRespuestaAComentario,idRespuesta,comentarioId,urlPerfil}){
-  const estilo=css`input:focus {background-color: white;}`;
-  const estiloCursor=css`cursor:pointer;`;
+
   const [textoResp,setTextoResp]=useState('');
   const [anchorEl, setAnchorEl] = useState(null);
+
   const handleClickRespuesta = () => {
     if(textoResp!==''){
       ingresarRespuesta(data.id,textoResp);
@@ -164,13 +165,16 @@ const handleKeyPressComentario=(e)=> {
 :null
     }
 
-
-<EmojiPopover
+{anchorEl!==null ?
+  <EmojiPopover
 anchorEl={anchorEl}
 setAnchorEl={setAnchorEl}
 seTexto={setTextoResp}
 texto={textoResp}
 />
+: null
+}
+
 
 
     </div>
