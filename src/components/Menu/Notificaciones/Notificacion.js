@@ -19,17 +19,18 @@ const estiloColor=css`color:white !important;`;
 
 export  function Notificacion() {
   const [anchorEl, setAnchorEl] = useState(null);
-    const {data,verMasNotis,cantNotis}=useNotificacionHook();
+    const {data,verMasNotis,cantNotis,setCantNotis}=useNotificacionHook();
     let history = useHistory();
 
   const handleClick = (event) => {
+    setCantNotis(0);
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
-//console.log("-->",cantNotis);
+console.log("-->",cantNotis);
 
 const handleGoToNoti=(item)=>{
     if(item.tipo_notificacion==='REACCION_EN_PUBLICACION'){

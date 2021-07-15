@@ -21,9 +21,8 @@ const estiloCursor=css`cursor:pointer;`;
 
     const {ingresarComentario,eliminarComentario,handleKeyPressComentario,setTexto,
         handleChangeTextComentario,coments,ingresarRespuesta,texto,eliminarRespuestaAComentario}=useComentarioHook({comentarios,publicacionId,setCantidadComentarios,cantidadComentarios});
-        //useMemo here
-        const [anchorEl, setAnchorEl] = useState(null);
-        console.log("here")
+    const [anchorEl, setAnchorEl] = useState(null);
+
 return (
 <>
       <div className="col-md-12"><Divider /></div>

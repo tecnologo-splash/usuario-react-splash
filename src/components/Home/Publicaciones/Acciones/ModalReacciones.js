@@ -35,8 +35,9 @@ export function ModalReacciones({pubId, openModal,setOpenModal}){
 
           <Grid container spacing={2}>
             {
-              reacciones?.content?.map((r) => (
+              reacciones?.content?.map((r,index) => (
                 <Reaccion
+                  key={index}
                   reaccion={r.emoji}
                   user={r.usuario_comun}
                 />
