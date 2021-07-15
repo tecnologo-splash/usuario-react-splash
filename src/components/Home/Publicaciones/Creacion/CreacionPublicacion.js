@@ -15,6 +15,7 @@ import {Multimedia,Encuesta} from './ButtonsPublicacion';
 import{OpcionesEncuesta} from './OpcionesEncuesta';
 import {InputPublicacion} from '../InputPublicacion';
 import {usePublicar} from '../../../../hooks/publicar/usePublicar';
+import {EmojiPopover} from '../../EmojiPopover';
 
 export default function CrearPublicacion({publicar,userInfo}) {
 
@@ -33,7 +34,8 @@ export default function CrearPublicacion({publicar,userInfo}) {
     opcionesEncuesta,
     setOpcionesEncuesta,
     mensajeError,
-    handlePopoverOpen
+    handlePopoverOpen,
+    setAnchorEl
   }=usePublicar();
   
   
@@ -99,29 +101,20 @@ export default function CrearPublicacion({publicar,userInfo}) {
             <OpcionesEncuesta  opcionesEncuesta={opcionesEncuesta}  setOpcionesEncuesta={setOpcionesEncuesta}/>:null
           }
 
+        {
+          anchorEl ?
 
-
-          <Popover
-            open={Boolean(anchorEl)}
-            anchorEl={anchorEl}
-            onClose={handlePopoverClose}
-            disableScrollLock 
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
-          >
-            <Picker
-              set="facebook"
-              emoji="point_up"
-             onSelect={emoji => setTextoPublicacion(textoPublicacion + emoji.native)}
-            />
-          </Popover>
+          <EmojiPopover 
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          seTexto={setTextoPublicacion}
+          texto={textoPublicacion}
+          />
+   
+          : null
+        }
+          
+        
  
         </CardContent>
       </Card>
