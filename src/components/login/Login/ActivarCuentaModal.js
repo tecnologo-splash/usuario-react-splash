@@ -73,7 +73,7 @@ export function ActivarCuentaModal({open}){
 
       <div>
       <Button onClick={handleCloseActivarCuenta} color="primary" variant="outlined">
-        Candelar
+        Cancelar
       </Button>
       {" "}
       <Button onClick={handleActivarCuenta} color="primary" variant="contained" disabled={codigo_activacion===''? true : false}>

@@ -66,7 +66,7 @@ export function ListarMuro({userInfo,loading, datos=[], setPage,
                   eliminarPublicacion={eliminarPublicacion}
                   editarPublicacion={editarPublicacion}
                   textoEdicion={item.texto}
-                  publicacionCompartida={item.publicacion_compartida!==null ? " - Publicacion compartida":""}
+                  publicacionCompartida={item.publicacion_compartida!==null ? " - Publicación compartida":""}
                 />
                    <Publicaciones item={item} id={item.usuario_comun.id}  idMe={userInfo.id}/>
                  {item.publicacion_compartida!==null ?
