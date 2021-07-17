@@ -24,7 +24,8 @@ export default function NotificacionPublicacion() {
   const classes = useStyles();
   const { userInfo, loading,getDatos } = useInfoUserHook();
   const [item,setPublicacionData]=useState([]);
-  
+  const [error,setError]=useState(false);
+
   useEffect(()=>{
     getDatos();
     getDatosPublicacion();
@@ -34,11 +35,23 @@ export default function NotificacionPublicacion() {
         console.log("--->",id);
         const response=await  Publicacion({publicacionId:id});
         console.log(response);
-         setPublicacionData(response);
       
+        if(response.status===404){
+          setError(true)
+        }else{
+          setPublicacionData(response);
+       
+        }
+       
      
     }
   
+    const eliminarPublicacion=()=>{
+
+    }
+    const editarPublicacion=()=>{
+
+    }
   
     return (
       <>
@@ -52,7 +65,7 @@ export default function NotificacionPublicacion() {
       
           <div className="col-md-9">
           <div className="col-md-8 offset-md-2 mb-4">
-              {!loading ?
+              {!loading && !error?
                <Card >
                <PublicacionHeader
                  nombre={item.usuario_comun.nombre}
@@ -62,9 +75,9 @@ export default function NotificacionPublicacion() {
                  id={item.usuario_comun.id}
                  fecha_publicacion={item.fecha_creado}
                  meId={userInfo.id}
-                 publicacionId={item.id}
-            //     eliminarPublicacion={eliminarPublicacion}
-              //   editarPublicacion={editarPublicacion}
+               publicacionId={item.id}
+                 eliminarPublicacion={eliminarPublicacion}
+                editarPublicacion={editarPublicacion}
                  textoEdicion={item.texto}
                />
                <Publicaciones item={item} />
@@ -75,7 +88,9 @@ export default function NotificacionPublicacion() {
                />
 
              </Card>
-             :null
+             :
+             error ?"Error publicación no existe" :
+             null
             
             }
              
