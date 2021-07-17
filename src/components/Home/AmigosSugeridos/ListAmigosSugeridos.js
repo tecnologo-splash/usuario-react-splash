@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
@@ -9,6 +9,7 @@ import { css } from "@emotion/react";
 import {useAmigosSugeridosHook} from '../../../hooks/useAmigosSugeridosHook';
 import {SIZE_SUGERENCIAS_AMIGOS_MURO} from '../../../config/api/settings';
 import { useHistory } from "react-router-dom";
+//import Skeleton from '@material-ui/lab/Skeleton';
 
 export function ListAmigosSugeridos() {
 const divStyle=css`
@@ -51,6 +52,10 @@ const handleClickGoToPerfil=(userId)=>{
        <CardAmigos userData={item} seguirUsuario={seguirUsuario}  clickPerfil={handleClickGoToPerfil}/>
       </div>
     ))}
+{/*    <div className="col-md-8">
+          <Skeleton height={150 }width={220} />
+    </div>
+    */}
 
         {                         
             cantidad===SIZE_SUGERENCIAS_AMIGOS_MURO

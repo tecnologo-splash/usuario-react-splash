@@ -10,7 +10,6 @@ import Grid from "@material-ui/core/Grid";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import EmailIcon from "@material-ui/icons/Email";
 
 export function ModalEditarMisDatos({userData,openModal,setOpenModal,actualizarDatosUsuario,mensajeActualizarDatos, setUpdate,getDatos}){
     const mensajeError=css`

@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { URL_BASE_FILE_STORAGE } from "../../config/api/settings";
 import { createFilterOptions } from '@material-ui/lab/Autocomplete';
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export default function SearchInput() {
     let history = useHistory();
@@ -15,7 +15,7 @@ export default function SearchInput() {
     const [users,setUsers] = useState([verMas])
     const [textFieldValue,setTextFieldValue] = useState("")
     const [usuarios, setUsuarios] = useState([]);
-    const location = useLocation();
+//    const location = useLocation();
 
     useEffect(() => {
         setUsuarios(users)
@@ -62,7 +62,6 @@ export default function SearchInput() {
 
     return (
         <>
-        {console.log(location.pathname.includes("/home/usuarios/"))}
             <Autocomplete
                 id="combo-box-demo"
                 

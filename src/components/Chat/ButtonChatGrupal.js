@@ -1,9 +1,9 @@
 import React from 'react';
 
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import Button from '@material-ui/core/Button';
+//import GroupAddIcon from '@material-ui/icons/GroupAdd';
+//import Button from '@material-ui/core/Button';
 
-export function ButtonChatGrupal({}){
+export function ButtonChatGrupal(){
 
     return (
         <>

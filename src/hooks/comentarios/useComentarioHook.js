@@ -57,12 +57,21 @@ export function useComentarioHook({comentarios,publicacionId,setCantidadComentar
         
     }
 
+    const handleKeyPressComentario=(e)=> {
+        if (e.key === 'Enter') {
+            ingresarComentario();
+        }
+      }
+
+
     return {
         ingresarComentario,
         handleChangeTextComentario,
         eliminarComentario,
         ingresarRespuesta,
         eliminarRespuestaAComentario,
+        handleKeyPressComentario,
+        setTexto,
         coments,
         texto
     }

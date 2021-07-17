@@ -23,8 +23,7 @@ export default function PerfilAmigo() {
 
    const { id } = useParams();
    const { getDatosOtroUsuario, otroUsuarioInfo, loading,userInfo } = useInfoUserHook();
-  const { cargando, datos,setTipoFiltro,setPage,obtenerPublicacionesAmigo } = usePublciacionesUsuario({ usuarioId:id,tipo:'amigo' });
-  console.log("---userInfo",userInfo)
+  const { cargando, datos,setTipoFiltro,setPage,obtenerPublicacionesAmigo,tipoFiltro } = usePublciacionesUsuario({ usuarioId:id,tipo:'amigo' });
   const { dejarDeSeguir, comensarASeguir,lo_sigo } = FuncionesAmigos();
   useEffect(() => {
       getDatosOtroUsuario(id);
@@ -55,7 +54,9 @@ export default function PerfilAmigo() {
         datos={datos}
         cargando={cargando}
         userInfo={userInfo}
-        setPage={setPage} />
+        setPage={setPage}
+        tipoFiltro={tipoFiltro}
+        />
 
           </div>
  
@@ -68,7 +69,7 @@ export default function PerfilAmigo() {
 
 }
 
-export function DevolucionMuro({loading,lo_sigo,otroUsuarioInfo,setTipoFiltro,datos,cargando,userInfo,setPage}){
+export function DevolucionMuro({loading,lo_sigo,otroUsuarioInfo,setTipoFiltro,datos,cargando,userInfo,setPage,tipoFiltro}){
   console.log("-->",lo_sigo);
   if(loading ){
   return   <div className="col-md-8 offset-md-2 mb-4"> 
@@ -82,6 +83,7 @@ export function DevolucionMuro({loading,lo_sigo,otroUsuarioInfo,setTipoFiltro,da
     loading={cargando} 
      userInfo={userInfo} 
      setPage={setPage}
+     tipoFiltro={tipoFiltro}
      />
   }else if(lo_sigo===true && !loading && typeof  datos!=="undefined"){
     return    <ListarMuro 
@@ -90,6 +92,7 @@ export function DevolucionMuro({loading,lo_sigo,otroUsuarioInfo,setTipoFiltro,da
     loading={cargando} 
      userInfo={userInfo} 
      setPage={setPage}
+     tipoFiltro={tipoFiltro}
      />
   }else if(lo_sigo===false || lo_sigo===null){
     return    <div className="col-md-8 offset-md-2 mb-4"> 

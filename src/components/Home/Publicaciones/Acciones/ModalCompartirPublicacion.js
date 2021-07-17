@@ -9,6 +9,7 @@ import { useStore, useDispatch } from '../../../../contexts/MuroContext';
 import { ACTIONS_MURO } from '../../../../contexts/StoreMuroReducer';
 import {CompartirPublicacion} from '../../../../services/MuroApi';
 import Typography from "@material-ui/core/Typography";
+import {EmojiPopover} from '../../EmojiPopover';
 
 export function ModalCompartirPublicacion({open,setOpen,title='Compartir Publicación',publicacionId}){
     const [texto,setTexto]=useState("");
@@ -16,7 +17,13 @@ export function ModalCompartirPublicacion({open,setOpen,title='Compartir Publica
     const dispatch=useDispatch();
     const store=useStore();
    const { datos } = store;
+   const [anchorEl, setAnchorEl] = useState(null);
+   //EmojiPopover({anchorEl,setAnchorEl,seTexto,texto})
+  const handlePopoverOpen=(e)=>{
+    setAnchorEl(e.currentTarget)
 
+  }  
+  
   const handleClose = () => {
     setOpen(false);
   };
@@ -55,6 +62,7 @@ export function ModalCompartirPublicacion({open,setOpen,title='Compartir Publica
          setTexto={setTexto}
          textoPublicacion={texto}
          placeH='Texto de la Publicacion*'
+         handlePopoverOpen={handlePopoverOpen}
         />        
         
           <center>
@@ -69,10 +77,25 @@ export function ModalCompartirPublicacion({open,setOpen,title='Compartir Publica
               Cancelar
             </Button>
             <Button onClick={enviar} color="primary">
-              compartir
+              Compartir
             </Button>
           </DialogActions>
         </Dialog>
+
+        {
+          anchorEl ?
+
+          <EmojiPopover 
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          seTexto={setTexto}
+          texto={texto}
+          />
+   
+          : null
+        }
+
+
       </div>
     )
 }

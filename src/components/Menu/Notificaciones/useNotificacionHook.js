@@ -15,14 +15,13 @@ export function useNotificacionHook(){
         const response=await ObtenerNotificaciones({page});
         const {cant_notifiaciones_sin_leer}=response;
         const {notis}=response;
-        console.log(response);
+    //    console.log(response);
         setData(data.concat(notis));
         setCantNotis(cant_notifiaciones_sin_leer);
-
     }
     const verMasNotis=()=>{
         setPage(prev=>prev+1);
     }
 
-    return {getDatos,data,verMasNotis,cantNotis}
+    return {getDatos,data,verMasNotis,cantNotis,setCantNotis}
 }

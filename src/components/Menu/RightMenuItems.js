@@ -4,8 +4,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import EmailIcon from "@material-ui/icons/Email";
-import Badge from "@material-ui/core/Badge";
 import {logoutSplash} from '../../config/api/tokenLogin';
 import { useHistory } from "react-router-dom";
 

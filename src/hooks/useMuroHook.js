@@ -48,7 +48,7 @@ const { getReacciones,
   }, [page,tipoFiltro])
 
 
-  return { loading:cargando, loadingNextPage, datos, reacciones,setTipoFiltro,
+  return { loading:cargando, loadingNextPage, datos, reacciones,setTipoFiltro,tipoFiltro,
      setPage,publicarSoloTexto,eliminarPublicacion,editarPublicacion,SubirMultimedia:upLoadMultimedia,
      publicarEnlaceExterno,getReacciones,publicarEncuesta }
   }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { PerfilAvatar } from '../../Perfil/PerfilAvatar';
@@ -15,6 +15,7 @@ import {Multimedia,Encuesta} from './ButtonsPublicacion';
 import{OpcionesEncuesta} from './OpcionesEncuesta';
 import {InputPublicacion} from '../InputPublicacion';
 import {usePublicar} from '../../../../hooks/publicar/usePublicar';
+import {EmojiPopover} from '../../EmojiPopover';
 
 export default function CrearPublicacion({publicar,userInfo}) {
 
@@ -25,17 +26,16 @@ export default function CrearPublicacion({publicar,userInfo}) {
     setTipooPublicacion,
     anchorEl,
     setUrl,
-    visible,
-    pepe,
     setTextoPublicacion,
     textoPublicacion,
-    open,
     cantFotos,
     setMultimedia,
     setCantFotos,
     opcionesEncuesta,
     setOpcionesEncuesta,
-    mensajeError
+    mensajeError,
+    handlePopoverOpen,
+    setAnchorEl
   }=usePublicar();
   
   
@@ -51,20 +51,14 @@ export default function CrearPublicacion({publicar,userInfo}) {
           <div className="col-md-11 align-self-center pl-0 ">
           <InputPublicacion setTexto={setTextoPublicacion}
           textoPublicacion={textoPublicacion}
+          handlePopoverOpen={handlePopoverOpen}
           />
           </div>
         </div>
 
 
         <CardContent>
-          {visible ? (
-            <Picker
-              set="facebook"
-              onClick={(emoji, event) => pepe(emoji, event)}
-            />
-          ) : (
-            ""
-          )}
+             
           {/* <Emoji emoji=':santa:' size={32} />*/}
            
            <center>
@@ -102,31 +96,25 @@ export default function CrearPublicacion({publicar,userInfo}) {
            setUrl={setUrl}
            />
            {tipoPublicacion==='multimedia'?
-           cantFotos:null}
+          "Cantidad multimedia: "+ cantFotos:null}
           {tipoPublicacion==='encuesta'?
             <OpcionesEncuesta  opcionesEncuesta={opcionesEncuesta}  setOpcionesEncuesta={setOpcionesEncuesta}/>:null
           }
 
+        {
+          anchorEl ?
 
-
-          <Popover
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handlePopoverClose}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-          >
-            <Picker
-              set="facebook"
-              onClick={(emoji, event) => pepe(emoji, event)}
-            />
-          </Popover>
+          <EmojiPopover 
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          seTexto={setTextoPublicacion}
+          texto={textoPublicacion}
+          />
+   
+          : null
+        }
+          
+        
  
         </CardContent>
       </Card>
