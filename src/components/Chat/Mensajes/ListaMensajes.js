@@ -8,10 +8,12 @@ import {PerfilAvatar} from '../../Home/Perfil/PerfilAvatar';
 import {Mensaje} from './Mensaje';
 import {useMensajesChat} from '../../../hooks/chat/useMensajesChat';
 import debounce from 'just-debounce-it';
+import { useHistory } from "react-router-dom";
 
 
 export function ListaMensajes({chatIdSelected,idMe,convHeader,msg_pusher}){
   const estiloCursor=css`cursor:pointer; margin-right:20px`;
+  let history = useHistory();
 
   const messagesEndRef = useRef(null)
   const [enviado,setEnviado]=useState(true);
@@ -76,12 +78,18 @@ useEffect(() => {
 
 }, [lstMensajes]);
 
+const handleClickPerfil=()=>{
+  console.log(convHeader);
+  //history.push('/home/perfil/'+convHeader.id);
+
+}
+
   return(
         <>
     <div className="col-md-6 border p-0 ">
     <HeaderChat>
                <div className="d-flex align-items-center">
-                <PerfilAvatar img={convHeader.url_perfil}/>
+                <PerfilAvatar img={convHeader.url_perfil} onClick={handleClickPerfil}/>
 
                     <b> {convHeader.nombre_chat} </b>
                 </div>

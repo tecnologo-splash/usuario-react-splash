@@ -76,8 +76,13 @@ const handleGoToNoti=(item)=>{
         data.map((item,i)=>(
     <StyledMenuItem key={i} onClick={()=>handleGoToNoti(item)}>
           <ListItemIcon>
-        
-          <PerfilAvatar size='small' img={item.referencia_notificacion.url_perfil || ''}/>
+        {
+          item.referencia_notificacion==='' ||item.referencia_notificacion===null
+          ?          <PerfilAvatar size='small'/>
+          :
+          <PerfilAvatar size='small' img={item.referencia_notificacion.url_perfil}/>
+
+        }
 
           </ListItemIcon>
           <ListItemText>

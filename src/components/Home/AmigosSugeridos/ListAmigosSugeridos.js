@@ -10,8 +10,6 @@ import {useAmigosSugeridosHook} from '../../../hooks/useAmigosSugeridosHook';
 import {SIZE_SUGERENCIAS_AMIGOS_MURO} from '../../../config/api/settings';
 import { useHistory } from "react-router-dom";
 //import Skeleton from '@material-ui/lab/Skeleton';
-
-export function ListAmigosSugeridos() {
 const divStyle=css`
 background-color: white;
 border-radius: 20px;
@@ -21,6 +19,8 @@ border-radius: 20px;
   transition: transform .1s;
 }
 `;
+export function ListAmigosSugeridos() {
+
   const {amigos,seguirUsuario}=useAmigosSugeridosHook();
   const cantidad=Object.keys(amigos).length;
 
