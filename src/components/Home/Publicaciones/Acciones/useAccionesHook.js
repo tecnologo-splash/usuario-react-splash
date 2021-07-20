@@ -34,10 +34,13 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
       const openReaccion= async(e)=>{
         console.log(reacciones.mi_reaccion);
         if(reacciones.mi_reaccion!==null){
-         await BorrarReaccionarAPublicacion({ publicacionId });
-         reacciones.mi_reaccion=null
-         console.log(reacciones);
-         dispatch({ type: ACTIONS.REACCIONAR, payload: resumen_reaccion});
+       const response=  await BorrarReaccionarAPublicacion({ publicacionId });
+       if(response.status===200){
+        reacciones.mi_reaccion=null
+        console.log(reacciones);
+        dispatch({ type: ACTIONS.REACCIONAR, payload: resumen_reaccion});
+       }
+  
         }else{
           setAnchorEl(e.currentTarget) 
         }
@@ -46,8 +49,12 @@ export function useAccionesHook({resumen_reaccion = [], publicacionId,comentario
     const data = { emoji: enumEmoji };
     const response=  await ReaccionarAPublicacion({ publicacionId, data })
       console.log(response);
-      dispatch({ type: ACTIONS.REACCIONAR, payload: response.resumen_reaccion});
-      setAnchorEl(null);
+     
+      if(!response.hasOwnProperty("status")){
+        dispatch({ type: ACTIONS.REACCIONAR, payload: response.resumen_reaccion});
+        setAnchorEl(null);
+      }
+    
   }
 
   const handleClickCompartir=()=>{

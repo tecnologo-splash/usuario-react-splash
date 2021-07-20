@@ -53,7 +53,7 @@ export function Acciones({ resumen_reaccion = [], publicacionId,comentarios,user
           cantidadComentarios,setCantidadComentarios,setMiReaccion, openModalCompartir,setOpenModalCompartir
         }=useAccionesHook({resumen_reaccion, publicacionId,comentarios,userInfo,idOtroUsuario});
 
-
+console.log("**",reacciones);
 
 return (
     <>
