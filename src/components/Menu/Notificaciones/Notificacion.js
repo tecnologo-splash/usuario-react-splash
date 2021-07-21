@@ -30,10 +30,9 @@ export  function Notificacion() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-console.log("-->",cantNotis);
 
 const handleGoToNoti=(item)=>{
-    if(item.tipo_notificacion==='REACCION_EN_PUBLICACION'){
+    if(item.tipo_notificacion==='REACCION_EN_PUBLICACION' || item.tipo_notificacion==='COMENTARIO_EN_PUBLICACION'){
         history.push('/home/mi-perfil/publicacion/'+item.referencia_notificacion.publicacion_id);
     }else if(item.tipo_notificacion==='CHAT_MENSAJE_NUEVO'){
         history.push('/home/chat');
