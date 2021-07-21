@@ -58,7 +58,7 @@ export function Register() {
           <Grid container spacing={2}  >
           <CampoTexto Label="Nombre" Icon={<AccountCircle />}  nombre="nombre" handleChangeRegister={handleChangeRegister}/>
           <CampoTexto Label="Apellido" Icon={<AccountCircle />} nombre="apellido" handleChangeRegister={handleChangeRegister} />
-          <CampoTexto Label="Usauario" Icon={<AccountCircle />} nombre="usuario" handleChangeRegister={handleChangeRegister}/>
+          <CampoTexto Label="Usuario" Icon={<AccountCircle />} nombre="usuario" handleChangeRegister={handleChangeRegister}/>
           <CampoTexto Label="Contraseña" Icon={<VpnKeyIcon />} Type="password" nombre="clave" handleChangeRegister={handleChangeRegister}/>
           <CampoTexto Label="Email" Icon={<EmailIcon />} Type="email" nombre="correo" handleChangeRegister={handleChangeRegister}/>
           
