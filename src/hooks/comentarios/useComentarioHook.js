@@ -37,7 +37,8 @@ export function useComentarioHook({comentarios,publicacionId,setCantidadComentar
     const eliminarComentario= async(comentarioId)=>{
 
        const response=await EliminarComentario({publicacionId,comentarioId});
-       const resp= coments.find(x => x.id === comentarioId).respuestas;
+       if(!response.hasOwnProperty("status")){
+        const resp= coments.find(x => x.id === comentarioId).respuestas;
        if(resp.length>0){//tiene respuestas
         const {comentarios}=response;
         dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios });
@@ -50,10 +51,15 @@ export function useComentarioHook({comentarios,publicacionId,setCantidadComentar
        }
        setCantidadComentarios(cantidadComentarios=>cantidadComentarios-1)
     }
+      
+    }
     const eliminarRespuestaAComentario= async(comentarioId,respuestaId)=>{
         const response=await EliminarRespuestaAComentario({publicacionId,comentarioId,respuestaId});
-        const {comentarios}=response;
-         dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios });
+        if(!response.hasOwnProperty("status")){
+            const {comentarios}=response;
+            dispatch({ type: ACTIONS.COMENTARIOS, payload: comentarios });
+        } 
+       
         
     }
 
